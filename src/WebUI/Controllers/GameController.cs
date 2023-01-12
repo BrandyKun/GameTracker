@@ -17,9 +17,9 @@ public class GameController : ControllerBase
         _client = new IGDBClient(_config["IGDB_CLIENT_ID"],_config["IGDB_CLIENT_SECRET"]);
     }
 
-    [HttpPost]
     public async Task<IEnumerable<Game>> GetGames()
     {
-        return await _client.QueryAsync<Game>(IGDBClient.Endpoints.Games, query: "fields name;");
+        var games = await _client.QueryAsync<Game>(IGDBClient.Endpoints.Games, query: "fields name; limit 50;");
+        return games.ToList();
     }
 }
