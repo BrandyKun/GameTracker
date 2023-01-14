@@ -1,4 +1,4 @@
-namespace Domain.Common;
+namespace Gaming.Domain.Common;
 public abstract class BaseAuditableEntity : BaseEntity
 {
     public DateTime Created { get; set; }
