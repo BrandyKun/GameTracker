@@ -1,3 +1,4 @@
+using Application;
 using IGDB;
 using IGDB.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,19 @@ public class GameController : ControllerBase
     public GameController(IConfiguration config)
     {
         _config = config;
-        _client = new IGDBClient(_config["IGDB_CLIENT_ID"],_config["IGDB_CLIENT_SECRET"]);
+        _client = new IGDBClient(_config["IGDB_CLIENT_ID"], _config["IGDB_CLIENT_SECRET"]);
     }
 
-    public async Task<IEnumerable<Game>> GetGames()
+    private async Task<List<T>> GetAsync<T>(string endpoint, string query = "", int limit = 20)
     {
-        var games = await _client.QueryAsync<Game>(IGDBClient.Endpoints.Games, query: "fields name; limit 50;");
-        return games.ToList();
+        var builtQuery = string.IsNullOrEmpty(query) ? $"fields *; limit {limit};" : $"{query} limit {limit};";
+        var model = await _client.QueryAsync<T>(endpoint, builtQuery);
+        return model.ToList();
+    }
+
+    [HttpPost, Route("games")]
+    public async Task<IEnumerable<Game>> GetGames([FromBody] RequestBodyDto request)
+    {
+        return await GetAsync<Game>(request.EndPoint, request.Query, request.Limit);
     }
 }
