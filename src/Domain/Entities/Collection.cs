@@ -1,3 +1,4 @@
+using Domain.Entities.Identity;
 using Gaming.Domain.Common;
 
 namespace Gaming.Domain.Entities;
