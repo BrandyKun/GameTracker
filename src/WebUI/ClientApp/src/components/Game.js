@@ -4,17 +4,31 @@ import { dateToMilliseconds } from "./Service";
 const Game = () => {
   const [games, setGames] = useState();
 
+  // const getGames = async () => {
+  //   const res = await fetch("game/games", 
+  //   { method: "POST", 
+  //     headers: {
+  //       'Accept': 'application/json, text/plain',
+  //       'Content-Type': 'application/json;charset=UTF-8'
+  //     },
+  //     body:JSON.stringify( {
+  //       query: "fields name,cover.*;",
+  //       limit: 20
+  //     })
+  //   }).then((response) =>
+  //     response.json()
+  //   );
+  //   return res;
+  // };
   const getGames = async () => {
-    var mils = dateToMilliseconds("28/09/2018")
-    console.log(mils);
-    const res = await fetch("game/games", 
+    const res = await fetch("game/newRelease", 
     { method: "POST", 
       headers: {
         'Accept': 'application/json, text/plain',
         'Content-Type': 'application/json;charset=UTF-8'
       },
       body:JSON.stringify( {
-        query: "fields name,cover.*;",
+        query: "fields date, created_at,game.*, human,platform, y;",
         limit: 20
       })
     }).then((response) =>
@@ -32,7 +46,7 @@ const Game = () => {
     }
     fetchData();
     // console.log(games, "this are the game");
-  }, [games]);
+  }, []);
 
   return (
     <>
