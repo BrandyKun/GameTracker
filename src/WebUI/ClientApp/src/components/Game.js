@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { dateToMilliseconds } from "./Service";
 
 const Game = () => {
   const [games, setGames] = useState();
 
   const getGames = async () => {
-    const res = await fetch("game/games", { method: "Post", body: {
-      "endpoint": "IGDBClient.Endpoints.Games",
-      "query": "fields name,cover.*;",
-      "limit": 20ææ
-   } }).then((response) =>
+    var mils = dateToMilliseconds("28/09/2018")
+    console.log(mils);
+    const res = await fetch("game/games", 
+    { method: "POST", 
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      body:JSON.stringify( {
+        query: "fields name,cover.*;",
+        limit: 20
+      })
+    }).then((response) =>
       response.json()
     );
     return res;
@@ -23,7 +31,7 @@ const Game = () => {
       setGames(response);
     }
     fetchData();
-    console.log(games, "this are the game");
+    // console.log(games, "this are the game");
   }, [games]);
 
   return (
