@@ -1,51 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { dateToMilliseconds } from "./Service";
+import { dateToMilliseconds, getAsync } from "./Service";
 
 const Game = () => {
   const [games, setGames] = useState();
 
-  // const getGames = async () => {
-  //   const res = await fetch("game/games", 
-  //   { method: "POST", 
-  //     headers: {
-  //       'Accept': 'application/json, text/plain',
-  //       'Content-Type': 'application/json;charset=UTF-8'
-  //     },
-  //     body:JSON.stringify( {
-  //       query: "fields name,cover.*;",
-  //       limit: 20
-  //     })
-  //   }).then((response) =>
-  //     response.json()
-  //   );
-  //   return res;
-  // };
-  const getGames = async () => {
-    const res = await fetch("game/newRelease", 
-    { method: "POST", 
-      headers: {
-        'Accept': 'application/json, text/plain',
-        'Content-Type': 'application/json;charset=UTF-8'
-      },
-      body:JSON.stringify( {
-        query: "fields date, created_at,game.*, human,platform, y;",
-        limit: 20
-      })
-    }).then((response) =>
-      response.json()
-    );
-    return res;
-  };
 
   useEffect(() => {
     async function fetchData() {
+      // console.log(games, "this are the game");
+      const endpoint = "game/newRelease";
+      const query = "fields date, created_at,game.*, human,platform, y;";
       // You can await here
-      const response = await getGames();
+      const response = await getAsync(endpoint, query, 20);
       // ...
       setGames(response);
     }
     fetchData();
-    // console.log(games, "this are the game");
   }, []);
 
   return (
