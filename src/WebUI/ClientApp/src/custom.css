@@ -1,7 +1,11 @@
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+  color: inherit;
+  text-decoration: none;
+
 }
+a:hover{text-decoration: none;
+color: inherit;}
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
@@ -33,10 +37,38 @@ code {
 
 .games-container{
   width: 100%;
+  padding: 1.2rem;
+  background-color: rgb(98, 77, 140);
+  position: relative;
+  display: block;
+
+}
+.game-box a{
+  width: 90%;
   height: 100%;
-  margin-bottom: 20px;
+  display: block;
+}
+.slider{
+  transform: translate3d(0, 0, 0);
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  justify-content: space-between;
 }
 
+.game-box{
+  width:100%;
+  height: 100%;
+  min-height: 1px;
+  max-height: 380px;
+  border: 1px solid black;
+}
+
+.game-cover{
+  object-fit: cover;
+  width: 100%;
+  /* min-height: ; */
+}
 .dropdown-container {
   text-align: left;
   border: 1px solid #ccc;
