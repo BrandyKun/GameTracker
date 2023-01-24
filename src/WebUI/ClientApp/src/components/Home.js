@@ -184,12 +184,54 @@ const Home = () => {
               </SwiperSlide>
             </Swiper>
           </div>
-          <div className="game-page">
-            <img src="" alt="" />
-            <div className="game_title"></div>
-            <span className="game_release"></span>
+        </div>
+        <section class="section-about">
+        <div class="u-center-text u-margin-bottom-big">
+          <h2 class="heading-secondary">
+            Create a list 
+          </h2>
+        </div>
+        <div class="row">
+          <div class="col-1-of-2">
+            <h3 class="heading-tertiary u-margin-bottom-small">
+              save ytour favourite games
+            </h3>
+            <p class="paragraph">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate
+              eius eveniet, sit perferendis possimus iure laudantium obcaecati
+              quisquam quos optio!
+            </p>
+            <h3 class="heading-tertiary u-margin-bottom-small">
+             leave reviews
+            </h3>
+            <p class="paragraph">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti
+              odit quis nihil, minus asperiores, dolorum omnis ad nisi quod ex
+              recusandae suscipit rerum quia facere.
+            </p>
+
+            <a href="#" class="btn-text">Learn more &rarr;</a>
+          </div>
+          <div class="col-1-of-2">
+            <div class="composition">
+              <img
+                src="https://blog.playstation.com/uploads/2022/12/a90bb22a521f0155b762c59d63e618829ea26cd2.jpeg"
+                alt="photo 1"
+                class="composition__photo composition__photo--p1"
+              /><img
+                src="https://assets-prd.ignimgs.com/2022/01/21/spiderman2ps-sq-1642799668042.jpg"
+                alt="photo 2"
+                class="composition__photo composition__photo--p2"
+              /><img
+                src="https://cdn-hogwartslegacy.warnerbrosgames.com/retail/standard/en/pack.jpg"
+                alt="photo 3"
+                class="composition__photo composition__photo--p3"
+              />
+            </div>
           </div>
         </div>
+      </section>
+
       </div>
     </>
   );
