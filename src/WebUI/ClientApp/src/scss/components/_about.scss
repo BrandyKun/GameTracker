@@ -1,18 +1,22 @@
 .section-about {
   background: transparent;
   padding: 10rem 0;
+  color: $color-tertiary;
 //   margin-top: -10vh;
 }
 
 .composition {
     position: relative;
+    top: -5rem;
     &__photo{
-        width: 55%;
+        width: 45%;
         box-shadow: 0 1.5rem 4rem rgba(#000, .4);
         position: absolute;
         z-index: 10;
         transition: all .2s;
         outline-offset: 2rem;
+        max-height: 400px;
+        object-fit: cover;
 
         &--p1 {
             left: 0;
