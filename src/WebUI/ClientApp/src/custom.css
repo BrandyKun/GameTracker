@@ -48,73 +48,21 @@ code {
 }
 
 .games-container {
-  width: 100%;
+  width: 85%;
+    margin: 0 auto;
   padding: 1.2rem;
   background-color: rgba(98, 77, 140, 0);
   position: relative;
   display: block;
-  height: auto;
+  height: 500px;
 }
-.game-box a {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
+.game-box 
 .slider {
   transform: translate3d(0, 0, 0);
   display: flex;
   flex-direction: row;
   height: 100%;
   justify-content: space-between;
-}
-
-.game-box {
-  width: 100%;
-  height: 100%;
-  min-height: 1px;
-  max-height: 380px;
-}
-
-.game-cover {
-  object-fit: cover;
-  width: 100%;
-  /* min-height: ; */
-}
-.dropdown-container {
-  text-align: left;
-  border: 1px solid #ccc;
-  position: relative;
-  border-radius: 5px;
-}
-
-.dropdown-input {
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  user-select: none;
-}
-
-.dropdown-menu {
-  position: absolute;
-  transform: translateY(4px);
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: auto;
-  max-height: 150px;
-  background-color: rgb(0, 0, 0);
-  z-index: 99;
-  top: 0px;
-}
-
-.dropdown-item {
-  padding: 5px;
-  cursor: pointer;
-}
-
-.dropdown-item:hover {
-  background-color: #9fc3f870;
 }
 
 /* .game_page */
@@ -125,9 +73,6 @@ code {
   height: 100vh;
 }
 
-.swiper-slide-shadow-left,
-.swiper-slide-shadow-right{
-}
 
 .swiper-3d .swiper-slide-shadow-right,
 .swiper-3d .swiper-slide-shadow-left{
