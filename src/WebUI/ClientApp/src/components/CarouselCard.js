@@ -1,15 +1,13 @@
 import React from "react";
+import { changeImageSize } from "./Service";
 
 const CarouselCard = ({ game }) => {
 
-  const changeImageSize =(url) => {
-    let newURL = url.replace(/t_thumb/, "t_720p");
-    return newURL;
-  }
+  
   return (
     <div className="game-box">
       <a href="#">
-        <img className="game-cover" src={changeImageSize(game.cover?.value.url)} alt="" />
+        <img className="game-cover" src={changeImageSize(game.cover?.value.url, 't_720p')} alt="" />
         <div className="game-name">
           <span>{game.name}</span>
         </div>

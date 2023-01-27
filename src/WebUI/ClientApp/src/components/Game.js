@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { dateToMilliseconds, getAsync, getAsyncNoParams} from "./Service";
+import { getAsync, getAsyncNoParams} from "./Service";
 
 const Game = () => {
   const [games, setGames] = useState();

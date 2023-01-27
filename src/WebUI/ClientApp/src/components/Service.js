@@ -1,13 +1,5 @@
 import moment from "moment";
 moment.locale(document.documentElement.lang);
-export const dateToMilliseconds = (date) => {
-  var newdate = new Date();
-  debugger;
-  let ISODate = moment(date).toISOString();
-  return ISODate.getTime();
-};
-
-moment("23-6-2019").format();
 
 export const getAsync = async (endpoint, query, date, limit) => {
   const res = await fetch(endpoint, {
@@ -35,3 +27,9 @@ export const getAsyncNoParams = async (endpoint) => {
   }).then((response) => response.json());
   return res;
 };
+
+
+export const changeImageSize =(url, size) => {
+  let newURL = url.replace(/t_thumb/, size);
+  return newURL;
+}

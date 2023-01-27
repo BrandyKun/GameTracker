@@ -65,7 +65,6 @@ const HomeCarousell = () => {
         modules={[EffectCoverflow, Pagination]}
         className="mySwiper"
         loop={true}
-        loopFillGroupWithBlank={true}
       >
         {games?.map((game) => (
           <SwiperSlide>
