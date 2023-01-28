@@ -17,7 +17,7 @@ const HomeColumns = () => {
     }, []);
     useEffect(() => {
         async function fetchRecent() {
-            const response = await getAsyncNoParams('game/awaiting'); //change endpoint
+            const response = await getAsyncNoParams('game/justReleased'); //change endpoint
             setRecent(response);
             console.log(response);
         }
