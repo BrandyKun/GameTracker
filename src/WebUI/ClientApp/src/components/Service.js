@@ -23,13 +23,17 @@ export const getAsyncNoParams = async (endpoint) => {
       Accept: "application/json, text/plain",
       "Content-Type": "application/json;charset=UTF-8",
     },
-    body: '',
+    body: "",
   }).then((response) => response.json());
   return res;
 };
 
-
-export const changeImageSize =(url, size) => {
-  let newURL = url.replace(/t_thumb/, size);
+export const changeImageSize = (url, size) => {
+  let newURL = "";
+  if (url != null) {
+   newURL = url.replace(/t_thumb/, size);
+  } else {
+    newURL = "https://publications.iarc.fr/uploads/media/default/0001/02/thumb_1240_default_publication.jpeg"
+  }
   return newURL;
-}
+};

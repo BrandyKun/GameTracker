@@ -78,15 +78,15 @@ public class GameController : ControllerBase
         var dateInMilliseconds = currentDate.ToUnixTimeSeconds();
 
         //1st calling games from ps4/ps5
-        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category = 0 & release_dates.date < {dateInMilliseconds} & platforms= (167,48); sort release_dates.date desc;";
+        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category = 0 & release_dates.date < {dateInMilliseconds} & platforms= (167,48); sort first_release_date desc;";
         IEnumerable<Game> psGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, psQuery, 5);
         upcomingGames = upcomingGames.Concat(psGames);
 
-        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category= 0 & release_dates.date < {dateInMilliseconds} & platforms= (45,165); sort release_dates.date desc;";
+        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category= 0 & release_dates.date < {dateInMilliseconds} & platforms= (45,165); sort first_release_date desc;";
         IEnumerable<Game> xboxGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, xboxQuery, 5);
         upcomingGames = upcomingGames.Concat(xboxGames);
 
-        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category =0 & release_dates.date < {dateInMilliseconds} & platforms= (130); sort release_dates.date desc;";
+        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category =0 & release_dates.date < {dateInMilliseconds} & platforms= (130); sort first_release_date desc;";
         IEnumerable<Game> nintendoGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, nintendoQuery, 5);
         upcomingGames = upcomingGames.Concat(nintendoGames);
 
