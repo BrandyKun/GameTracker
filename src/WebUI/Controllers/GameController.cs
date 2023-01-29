@@ -28,7 +28,7 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Get games with specific 
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -36,6 +36,18 @@ public class GameController : ControllerBase
     public async Task<IEnumerable<Game>> GetGames([FromBody] RequestBodyDto request)
     {
         return await GetAsync<Game>(IGDBClient.Endpoints.Games, request.Query, request.Limit);
+    }
+
+    /// <summary>
+    /// get a single game from id
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns> single game</returns>
+    [HttpPost, Route("games/{id}")]
+    public async Task<Game> GetGameById([FromBody] RequestBodyDto request)
+    {
+        var games = await GetAsync<Game>(IGDBClient.Endpoints.Games, request.Query, request.Limit);
+        return games.First();
     }
 
     /// <summary>
@@ -90,7 +102,7 @@ public class GameController : ControllerBase
         IEnumerable<Game> nintendoGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, nintendoQuery, 5);
         upcomingGames = upcomingGames.Concat(nintendoGames);
 
-        return upcomingGames.GroupBy(x => x.Id).Select(y => y.FirstOrDefault());
+        return upcomingGames.GroupBy(x => x.Id).Select(y => y.FirstOrDefault()).OrderByDescending(item => item.FirstReleaseDate);
     }
 
     /// <summary>

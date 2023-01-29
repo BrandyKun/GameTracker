@@ -19,7 +19,6 @@ const HomeColumns = () => {
         async function fetchRecent() {
             const response = await getAsyncNoParams('game/justReleased'); //change endpoint
             setRecent(response);
-            console.log(response);
         }
         fetchRecent();
     }, []);

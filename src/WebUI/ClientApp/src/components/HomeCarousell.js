@@ -67,8 +67,8 @@ const HomeCarousell = () => {
         loop={true}
       >
         {games?.map((game) => (
-          <SwiperSlide>
-            <CarouselCard key={game.id}game ={game}/>
+          <SwiperSlide key={game.id}>
+            <CarouselCard key={game.id} game ={game}/>
           </SwiperSlide>
         ))}
       </Swiper> 

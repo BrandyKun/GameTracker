@@ -6,7 +6,6 @@ const Column = ({ games, title }) => {
     const getDate = (dates)=> {
         const lastDate = dates.at(-1);
         let newDate = new Date(lastDate.date).toDateString();
-        console.log(newDate)
         return newDate;
     }
   return (
