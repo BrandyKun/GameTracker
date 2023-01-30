@@ -46,12 +46,19 @@ public class GameController : ControllerBase
     [HttpPost, Route("games/{id}")]
     public async Task<Game> GetGameById([FromBody] RequestBodyDto request)
     {
-        var games = await GetAsync<Game>(IGDBClient.Endpoints.Games, request.Query, request.Limit);
-        return games.First();
+       var games = await GetAsync<Game>(IGDBClient.Endpoints.Games, request.Query, request.Limit);
+        return games.FirstOrDefault();
+    }
+
+    [HttpPost, Route("screenshots/{id}")]
+    public async Task<IEnumerable<Screenshot>> GetScreenshotsById([FromBody] RequestBodyDto request)
+    {
+       var screenshots = await GetAsync<Screenshot>(IGDBClient.Endpoints.Screenshots, request.Query, request.Limit);
+        return screenshots;
     }
 
     /// <summary>
-    /// 
+    /// get games that will be realesed int eh next year counting from toy
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>

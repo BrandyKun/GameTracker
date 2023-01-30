@@ -1,25 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "photoswipe/dist/photoswipe.css";
 
 import { Gallery, Item } from "react-photoswipe-gallery";
 import { changeImageSize } from "./Service";
 
-const MansoryGallery = ({ game }) => {
+const MansoryGallery = ({ screenshots }) => {
   let [count, setCount] = useState(0);
+  const [firstImage, setFirstImage] = useState();
+  const [images, setImages] = useState();
+
+  // useEffect(() => {
+  //   const getImg = () => {
+  //     if (game != undefined) {
+  //       const arrayOfImg = game?.screenshots?.values;
+  //       const image = arrayOfImg[arrayOfImg.length - (arrayOfImg - 1)];
+  //       const otherImages = arrayOfImg.splice(0, 1);
+
+  //       setFirstImage(image);
+
+  //       setImages(otherImages);
+  //       console.log(otherImages);
+  //       console.log(arrayOfImg);
+  //       console.log(image);
+  //     }
+  //   }
+  //   getImg();
+  // }, [game]);
+
+  // const getFirstImage = (images) => {
+  //   const image = images[images.length - (images.length - 1)];
+  //   console.log(image);
+  // };
   return (
     <div className="gallery">
-      {game ? (
+      {/* {game ? (
         <Gallery>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(5, 1fr)",
-              gridTemplateRows: "repeat(5, 1fr)",
-              gap: "10px 10px",
-            }}
-          >
+          <div className="mansory-container">
             {game?.screenshots?.values.map((scrs) => (
-              <div id={"mans-"+count++}>
+              <div id={"mans-" + count++}>
                 <Item
                   original={changeImageSize(scrs.url, "t_1080p")}
                   thumbnail={changeImageSize(scrs.url, "t_screenshot_med")}
@@ -67,7 +85,7 @@ const MansoryGallery = ({ game }) => {
             </Item>
           </div>
         </Gallery>
-      )}
+      )} */}
     </div>
   );
 };

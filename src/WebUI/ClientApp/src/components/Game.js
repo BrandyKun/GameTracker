@@ -5,6 +5,7 @@ import { changeImageSize, getAsync, getAsyncNoParams } from "./Service";
 
 const Game = () => {
   const [game, setGame] = useState();
+  const [screenshots, setScreenshots] = useState();
   const [showMore, setShowMore] = useState(false);
 
   const smallItemStyles = {
@@ -55,8 +56,23 @@ const Game = () => {
       const date = "";
       const response = await getAsync(endpoint, query, date, limit);
       // ...
-      console.log(response.screenshots);
       setGame(response);
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      // console.log(games, "this are the game");
+      const endpoint = "game/screenshots/112875";
+      const query =
+        "fields url; where game.id = 112875;"
+      const limit = "20";
+      const date = "";
+      const response = await getAsync(endpoint, query, date, limit);
+      // ...
+      console.log(response);
+      setScreenshots(response);
     }
     fetchData();
   }, []);
@@ -92,7 +108,7 @@ const Game = () => {
               </button>
             </div>
             <div className="main-bo">
-            <MansoryGallery game={game}/>
+            <MansoryGallery screenshots={screenshots}/>
             </div>
             <div className="main-bo"></div>
           </div>

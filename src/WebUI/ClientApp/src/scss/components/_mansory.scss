@@ -1,0 +1,28 @@
+.mansory-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-column-gap: 3px;
+  grid-row-gap: 3px;
+  width: 100%;
+  height: auto;
+    .box{
+        width: 100%;
+        height: 100%;
+    }
+  #mans-0 {
+    grid-area: 1 / 1 / 3 / 2;
+    width: 50%;
+  }
+  #mans-1 {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+  #mans-2 {
+    grid-area: 1 / 3 / 2 / 4;
+  }
+  #mans-3 {
+    grid-area: 2 / 2 / 3 / 3;
+  }
+  #mans-4 {
+    grid-area: 2 / 3 / 3 / 4;
+  }
+}
