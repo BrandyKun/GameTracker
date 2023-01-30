@@ -2,18 +2,10 @@ import React, { useEffect, useState } from "react";
 import MansoryGallery from "./MansoryGallery";
 import { changeImageSize, getAsync, getAsyncNoParams } from "./Service";
 
-
 const Game = () => {
   const [game, setGame] = useState();
   const [screenshots, setScreenshots] = useState();
   const [showMore, setShowMore] = useState(false);
-
-  const smallItemStyles = {
-    cursor: "pointer",
-    objectFit: "cover",
-    width: "100%",
-    maxHeight: "100%",
-  };
 
   const text = `Embark on an epic and heartfelt journey as Kratos and Atreus
   struggle with holding on and letting go. Against a backdrop of
@@ -65,13 +57,11 @@ const Game = () => {
     async function fetchData() {
       // console.log(games, "this are the game");
       const endpoint = "game/screenshots/112875";
-      const query =
-        "fields url; where game.id = 112875;"
+      const query = "fields url; where game = 112875;";
       const limit = "20";
       const date = "";
       const response = await getAsync(endpoint, query, date, limit);
       // ...
-      console.log(response);
       setScreenshots(response);
     }
     fetchData();
@@ -108,7 +98,11 @@ const Game = () => {
               </button>
             </div>
             <div className="main-bo">
-            <MansoryGallery screenshots={screenshots}/>
+              {screenshots ? (
+                <MansoryGallery screenshots={screenshots} />
+              ) : (
+                <></>
+              )}
             </div>
             <div className="main-bo"></div>
           </div>

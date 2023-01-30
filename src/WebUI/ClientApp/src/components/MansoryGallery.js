@@ -1,92 +1,58 @@
 import React, { useEffect, useState } from "react";
-import "photoswipe/dist/photoswipe.css";
 
-import { Gallery, Item } from "react-photoswipe-gallery";
 import { changeImageSize } from "./Service";
+import Modal from "./Modal";
 
 const MansoryGallery = ({ screenshots }) => {
   let [count, setCount] = useState(0);
   const [firstImage, setFirstImage] = useState();
   const [images, setImages] = useState();
+  const [selectedImage, setImageClicked] = useState();
+  const [showModal, setModal] = useState(false);
 
-  // useEffect(() => {
-  //   const getImg = () => {
-  //     if (game != undefined) {
-  //       const arrayOfImg = game?.screenshots?.values;
-  //       const image = arrayOfImg[arrayOfImg.length - (arrayOfImg - 1)];
-  //       const otherImages = arrayOfImg.splice(0, 1);
+  const toggleModal = (image) => {
+    setImageClicked(image);
+    setModal(!showModal);
+  };
 
-  //       setFirstImage(image);
+  useEffect(() => {
+    const getImg = () => {
+        const arrayOfImg = screenshots;
+        const image = arrayOfImg[arrayOfImg.length - (arrayOfImg.length - 1)];
+        debugger;
+        const otherImages = arrayOfImg.splice(0, 1);
 
-  //       setImages(otherImages);
-  //       console.log(otherImages);
-  //       console.log(arrayOfImg);
-  //       console.log(image);
-  //     }
-  //   }
-  //   getImg();
-  // }, [game]);
+        setFirstImage(image);
 
-  // const getFirstImage = (images) => {
-  //   const image = images[images.length - (images.length - 1)];
-  //   console.log(image);
-  // };
+        setImages(otherImages);
+        console.log(otherImages, "array");
+        console.log(image, "first image");
+    };
+    getImg();
+  }, []);
+
   return (
-    <div className="gallery">
-      {/* {game ? (
-        <Gallery>
-          <div className="mansory-container">
-            {game?.screenshots?.values.map((scrs) => (
-              <div id={"mans-" + count++}>
-                <Item
-                  original={changeImageSize(scrs.url, "t_1080p")}
-                  thumbnail={changeImageSize(scrs.url, "t_screenshot_med")}
-                  width="1600"
-                  height="1068"
-                  alt="Photo of seashore by Folkert Gorter"
-                >
-                  {({ ref, open }) => (
-                    <img
-                      style={{ cursor: "pointer" }}
-                      // src={scrs.url}
-                      src={changeImageSize(scrs.url, "t_logo_med")}
-                      onClick={open}
-                    />
-                  )}
-                </Item>
-              </div>
-            ))}
+    <>
+      {firstImage ? (
+        <div className="gallery">
+          <div className="gallery--1">
+            <img src={changeImageSize(firstImage.url, "t_720p")} alt="" />
           </div>
-        </Gallery>
+          <div className="gallery--2">
+            <div className="img-thumbnail"></div>
+            <div className="img-thumbnail"></div>
+            <div className="img-thumbnail"></div>
+            <div className="img-thumbnail"></div>
+          </div>
+         
+        </div>
       ) : (
-        <Gallery>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "240px 171px 171px",
-              gridTemplateRows: "114px 114px",
-              gridGap: 12,
-            }}
-          >
-            <Item
-              original="https://farm4.staticflickr.com/3894/15008518202_c265dfa55f_h.jpg"
-              thumbnail="https://farm4.staticflickr.com/3894/15008518202_b016d7d289_m.jpg"
-              width="1600"
-              height="1600"
-              alt="Photo of seashore by Folkert Gorter"
-            >
-              {({ ref, open }) => (
-                <img
-                  style={{ cursor: "pointer" }}
-                  src="https://farm4.staticflickr.com/3894/15008518202_b016d7d289_m.jpg"
-                  onClick={open}
-                />
-              )}
-            </Item>
-          </div>
-        </Gallery>
-      )} */}
-    </div>
+        <></>
+      )}
+      {showModal && (
+            <Modal toggleModal={toggleModal} selectedImage={selectedImage} />
+          )}
+    </>
   );
 };
 
