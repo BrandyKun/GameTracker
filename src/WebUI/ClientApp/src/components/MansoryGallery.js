@@ -4,7 +4,6 @@ import { changeImageSize } from "./Service";
 import Modal from "./Modal";
 
 const MansoryGallery = ({ screenshots }) => {
-  let [count, setCount] = useState(0);
   const [firstImage, setFirstImage] = useState();
   const [images, setImages] = useState();
   const [selectedImage, setImageClicked] = useState();
@@ -17,41 +16,53 @@ const MansoryGallery = ({ screenshots }) => {
 
   useEffect(() => {
     const getImg = () => {
+      if (screenshots != null && screenshots != undefined) {
         const arrayOfImg = screenshots;
         const image = arrayOfImg[arrayOfImg.length - (arrayOfImg.length - 1)];
-        debugger;
-        const otherImages = arrayOfImg.splice(0, 1);
-
         setFirstImage(image);
-
-        setImages(otherImages);
-        console.log(otherImages, "array");
-        console.log(image, "first image");
+      }
     };
     getImg();
   }, []);
 
+  useEffect(() => {
+    const getOtherImg = () => {
+      let galleryImg = [];
+      for (let i = 1; i < 5; i++) {
+        galleryImg.push(screenshots[i]);
+      }
+      console.log(galleryImg);
+      setImages(galleryImg);
+    };
+    getOtherImg();
+  }, []);
+
   return (
     <>
-      {firstImage ? (
+      {screenshots.length > 0 && (
         <div className="gallery">
-          <div className="gallery--1">
-            <img src={changeImageSize(firstImage.url, "t_720p")} alt="" />
-          </div>
-          <div className="gallery--2">
-            <div className="img-thumbnail"></div>
-            <div className="img-thumbnail"></div>
-            <div className="img-thumbnail"></div>
-            <div className="img-thumbnail"></div>
-          </div>
-         
+          {firstImage && (
+            <div className="gallery--1">
+              {/* {console.log(firstImage.url, "something")} */}
+              <img src={changeImageSize(firstImage.url, "t_720p")} alt="" />
+            </div>
+          )}
+          {images && 
+            <div className="gallery--2">
+              {/* {images.map((imgSource) => {
+                <div className="img-thumbnail">
+                  {console.log(imgSource.url)};
+                  <img src={changeImageSize(imgSource.url, "t_720p")} alt="" /> something
+                </div>;
+              })} */}
+              <div className="img-thumbnail"></div>
+            </div>
+          }
         </div>
-      ) : (
-        <></>
       )}
       {showModal && (
-            <Modal toggleModal={toggleModal} selectedImage={selectedImage} />
-          )}
+        <Modal toggleModal={toggleModal} selectedImage={selectedImage} />
+      )}
     </>
   );
 };

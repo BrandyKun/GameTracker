@@ -17,10 +17,10 @@
     display: flex;
     flex-flow: row wrap;
     margin: -4px;
-    width: 50%;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-    .img-thumbnail {
+    
+    div {
       padding: 4px;
       position: relative;
       width: 50%;
