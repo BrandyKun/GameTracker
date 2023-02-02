@@ -6,9 +6,11 @@
 
   &--1 {
     width: 50%;
-    img{
-        object-fit: contain;
-        width: 100%;
+    padding-right: 8px;
+    padding: 4px;
+    img {
+      object-fit: contain;
+      width: 100%;
     }
   }
 
@@ -19,8 +21,8 @@
     margin: -4px;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-    
-    div {
+
+    .img-thumbnail-new {
       padding: 4px;
       position: relative;
       width: 50%;
@@ -37,6 +39,25 @@
       margin: 0px;
       min-height: 0px;
       min-width: 0px;
+
+      img {
+        width: 100%;
+        &:nth-child(4) {
+          &::before {
+            filter: blur(10px);
+          }
+        }
+      }
+      
+      &:nth-child(4) {
+        &::before {
+          content: "more";
+          position: absolute;
+          right: 0;
+          left: 0;
+          text-align: center;
+        }
+      }
     }
   }
 }

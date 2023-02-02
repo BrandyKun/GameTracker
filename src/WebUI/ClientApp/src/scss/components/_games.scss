@@ -2,7 +2,13 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  background-color: rgba(152, 119, 217, 0.8);
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.113)0,
+    rgb(24, 26, 36)40%,
+    rgba(98, 77, 140, 0.962)80%,
+    rgba(152, 119, 217, 0.8) 100%
+  );
   .contenitore {
     align-items: stretch;
     border: 0px solid black;
@@ -19,17 +25,12 @@
     width: 100%;
 
     .pagescreen {
-      background-image: linear-gradient(
-          0deg,
-          rgba(152, 119, 217, 0.8) 20%,
-          rgba(98, 77, 140, 0.8),
-          rgba(24, 26, 36, 0.916)
-        ),
-        url(https://d2d2z3qzqjizpf.cloudfront.net/eyJidWNrZXQiOiJnZ2FwcCIsImtleSI6Im1lZGlhL2dhbWVzL1VqQ1plZy9jYWJkMTNhNC1lOWE5LTRiZTEtODIwMS1kZjQzODlkMGJkYjEuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGciLCJqcGVnIjp7InF1YWxpdHkiOjgwLCJjaHJvbWFTdWJzYW1wbGluZyI6IjQ6NDo0In19fQ==);
+      background-image: url(https://d2d2z3qzqjizpf.cloudfront.net/eyJidWNrZXQiOiJnZ2FwcCIsImtleSI6Im1lZGlhL2dhbWVzL1VqQ1plZy9jYWJkMTNhNC1lOWE5LTRiZTEtODIwMS1kZjQzODlkMGJkYjEuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGciLCJqcGVnIjp7InF1YWxpdHkiOjgwLCJjaHJvbWFTdWJzYW1wbGluZyI6IjQ6NDo0In19fQ==);
       background-position: center center;
       background-size: cover;
-      height: 450px;
+      height: 55.5rem;
       width: 100%;
+      z-index: -1;
     }
   }
   .info-contenitore {
@@ -112,12 +113,12 @@
         background-color: red;
         height: 100%;
 
-        .main-bo{
-            width: 100%;
-            border: 1px solid black;
-            background-image: linear-gradient( to bottom, blue, cyan);
-            height: auto ;
-            z-index: 2;
+        .main-bo {
+          width: 100%;
+          border: 1px solid black;
+          background-image: linear-gradient(to bottom, blue, cyan);
+          height: auto;
+          z-index: 2;
         }
       }
     }
@@ -131,7 +132,7 @@
 //     grid-column-gap: 3px;
 //     grid-row-gap: 3px;
 //     }
-    
+
 //     .div1 { grid-area: 1 / 1 / 3 / 2; }
 //     .div2 { grid-area: 1 / 2 / 2 / 3; }
 //     .div3 { grid-area: 1 / 3 / 2 / 4; }

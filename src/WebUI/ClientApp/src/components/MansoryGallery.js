@@ -18,7 +18,8 @@ const MansoryGallery = ({ screenshots }) => {
     const getImg = () => {
       if (screenshots != null && screenshots != undefined) {
         const arrayOfImg = screenshots;
-        const image = arrayOfImg[arrayOfImg.length - (arrayOfImg.length - 1)];
+        const image = arrayOfImg[arrayOfImg.length - (arrayOfImg.length)];
+        console.log(image)
         setFirstImage(image);
       }
     };
@@ -31,11 +32,22 @@ const MansoryGallery = ({ screenshots }) => {
       for (let i = 1; i < 5; i++) {
         galleryImg.push(screenshots[i]);
       }
+      console.log(screenshots)
       console.log(galleryImg);
       setImages(galleryImg);
     };
     getOtherImg();
   }, []);
+
+  const renderImages = () => {
+    return images.map((imgSource) => {
+      return (
+        <div className="img-thumbnail-new">
+          <img src={changeImageSize(imgSource.url, "t_720p")} alt="" />{" "}
+        </div>
+      );
+    });
+  };
 
   return (
     <>
@@ -47,17 +59,11 @@ const MansoryGallery = ({ screenshots }) => {
               <img src={changeImageSize(firstImage.url, "t_720p")} alt="" />
             </div>
           )}
-          {images && 
+          {images && (
             <div className="gallery--2">
-              {/* {images.map((imgSource) => {
-                <div className="img-thumbnail">
-                  {console.log(imgSource.url)};
-                  <img src={changeImageSize(imgSource.url, "t_720p")} alt="" /> something
-                </div>;
-              })} */}
-              <div className="img-thumbnail"></div>
+              {renderImages()}
             </div>
-          }
+          )}
         </div>
       )}
       {showModal && (
