@@ -39,16 +39,6 @@
       margin: 0px;
       min-height: 0px;
       min-width: 0px;
-
-      img {
-        width: 100%;
-        &:nth-child(4) {
-          &::before {
-            filter: blur(10px);
-          }
-        }
-      }
-      
       &:nth-child(4) {
         &::before {
           content: "more";
@@ -56,6 +46,17 @@
           right: 0;
           left: 0;
           text-align: center;
+          z-index: 10;
+        }
+        img{
+          filter:brightness(0.5);
+        }
+      }
+
+      img {
+        width: 100%;
+        &:nth-child(4) {
+          filter:brightness(0.5);
         }
       }
     }

@@ -42,7 +42,7 @@ const MansoryGallery = ({ screenshots }) => {
   const renderImages = () => {
     return images.map((imgSource) => {
       return (
-        <div className="img-thumbnail-new">
+        <div key={imgSource.id} className="img-thumbnail-new" onClick={toggleModal}>
           <img src={changeImageSize(imgSource.url, "t_720p")} alt="" />{" "}
         </div>
       );
@@ -64,11 +64,12 @@ const MansoryGallery = ({ screenshots }) => {
               {renderImages()}
             </div>
           )}
-        </div>
-      )}
-      {showModal && (
+          {showModal && (
         <Modal toggleModal={toggleModal} selectedImage={selectedImage} />
       )}
+        </div>
+      )}
+      
     </>
   );
 };
