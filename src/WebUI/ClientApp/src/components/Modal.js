@@ -6,7 +6,7 @@ const Modal = ({ toggleModal, selectedImage }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <img src={changeImageSize(selectedImage?.url, 't_screenshot_huge')} />
+        <img src={changeImageSize(selectedImage?.url, 't_1080p')} />
         <button onClick={toggleModal}>X</button>
       </div>
     </div>

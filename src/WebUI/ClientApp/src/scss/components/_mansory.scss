@@ -30,7 +30,6 @@
       -webkit-box-direction: normal;
       -webkit-box-orient: vertical;
       align-items: stretch;
-      border: 0px solid black;
       box-sizing: border-box;
       display: flex;
       flex-basis: auto;
@@ -57,6 +56,13 @@
         width: 100%;
         &:nth-child(4) {
           filter:brightness(0.5);
+        }
+
+        &:hover{
+          cursor: pointer;
+          transform: scale(1.2);
+          z-index: 10;
+          transition: all .2s;
         }
       }
     }
