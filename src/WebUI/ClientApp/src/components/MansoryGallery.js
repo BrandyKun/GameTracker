@@ -9,7 +9,7 @@ const MansoryGallery = ({ screenshots }) => {
   const [selectedImage, setImageClicked] = useState();
   const [showModal, setModal] = useState(false);
 
-  const toggleModal = (image) => {
+  const toggleModal = (image, index) => {
     setImageClicked(image);
     setModal(!showModal);
   };
@@ -18,8 +18,7 @@ const MansoryGallery = ({ screenshots }) => {
     const getImg = () => {
       if (screenshots != null && screenshots != undefined) {
         const arrayOfImg = screenshots;
-        const image = arrayOfImg[arrayOfImg.length - (arrayOfImg.length)];
-        console.log(image)
+        const image = arrayOfImg[arrayOfImg.length - arrayOfImg.length];
         setFirstImage(image);
       }
     };
@@ -32,17 +31,29 @@ const MansoryGallery = ({ screenshots }) => {
       for (let i = 1; i < 5; i++) {
         galleryImg.push(screenshots[i]);
       }
-      console.log(screenshots)
-      console.log(galleryImg);
       setImages(galleryImg);
     };
     getOtherImg();
   }, []);
 
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+    }
+    else{
+      document.body.style.overflow = "auto";
+    }
+  }, [showModal]);
+
+
   const renderImages = () => {
-    return images.map((imgSource) => {
+    return images.map((imgSource, index) => {
       return (
-        <div key={imgSource.id} className="img-thumbnail-new" onClick={toggleModal}>
+        <div
+          key={imgSource.id}
+          className="img-thumbnail-new"
+          onClick={() => toggleModal(imgSource, index)}
+        >
           <img src={changeImageSize(imgSource.url, "t_720p")} alt="" />{" "}
         </div>
       );
@@ -54,22 +65,16 @@ const MansoryGallery = ({ screenshots }) => {
       {screenshots.length > 0 && (
         <div className="gallery">
           {firstImage && (
-            <div className="gallery--1">
-              {/* {console.log(firstImage.url, "something")} */}
+            <div className="gallery--1" onClick={() => toggleModal(firstImage)}>
               <img src={changeImageSize(firstImage.url, "t_720p")} alt="" />
             </div>
           )}
-          {images && (
-            <div className="gallery--2">
-              {renderImages()}
-            </div>
-          )}
+          {images && <div className="gallery--2">{renderImages()}</div>}
           {showModal && (
-        <Modal toggleModal={toggleModal} selectedImage={selectedImage} />
-      )}
+            <Modal toggleModal={toggleModal} selectedImage={selectedImage} />
+          )}
         </div>
       )}
-      
     </>
   );
 };
