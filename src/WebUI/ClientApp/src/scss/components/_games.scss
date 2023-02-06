@@ -4,9 +4,9 @@
   min-height: 100%;
   background-image: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.113)0,
-    rgb(24, 26, 36)40%,
-    rgba(98, 77, 140, 0.962)80%,
+    rgba(255, 255, 255, 0.113) 0,
+    rgb(24, 26, 36) 40%,
+    rgba(98, 77, 140, 0.962) 80%,
     rgba(152, 119, 217, 0.8) 100%
   );
   .contenitore {
@@ -70,6 +70,13 @@
       padding: 0px;
       position: relative;
 
+      &__videos {
+        max-width: 1280px;
+      }
+
+      &__random{
+        display:block;
+      }
       .first-col {
         display: flex;
         flex-direction: column;
@@ -111,19 +118,17 @@
           height: auto;
           z-index: 2;
           margin-bottom: 2rem;
-
-
         }
 
-        .desc{
-          p{
+        .desc {
+          p {
             margin-bottom: 0;
           }
-          span{
+          span {
             color: $color-tertiary-dark;
             text-decoration: underline;
 
-            &:hover{
+            &:hover {
               color: $color-secondary-dark;
               cursor: pointer;
             }

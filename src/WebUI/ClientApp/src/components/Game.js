@@ -5,9 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 // import required modules
-import { Pagination } from "swiper";
+import { Navigation, Pagination } from "swiper";
 
 const Game = () => {
   const [game, setGame] = useState();
@@ -19,7 +20,7 @@ const Game = () => {
       // console.log(games, "this are the game");
       const endpoint = "game/games/112875";
       const query =
-        "fields name,cover.*, rating,release_dates.*, aggregated_rating, hypes, artworks.url,platforms.*, screenshots.url, similar_games.*, storyline,summary, url, videos.*, websites.*,collection,franchises.*,genres.*,language_supports.*; where id = 112875;";
+        "fields name,cover.*, bundles,dlcs.*,rating,first_release_date,franchise, release_dates.*, aggregated_rating, involved_companies.*, multiplayer_modes.*,hypes,parent_game.*, artworks.url,platforms.*, screenshots.url, similar_games.*, storyline,summary, url, videos.*, websites.*,collection,franchises.*,franchise,genres.*,language_supports.*; where id = 112875;";
       const limit = "1";
       const date = "";
       const response = await getAsync(endpoint, query, date, limit);
@@ -62,8 +63,16 @@ const Game = () => {
                       className="card-info"
                     />
                   </div>
-                  <div className="info-box"></div>
-                  <div className="info-box"></div>
+                  <div className="info-box__random">
+                    <p>releaseDate: <span>{new Date(game.firstReleaseDate).toDateString()}</span></p>
+                    <p>genres: <span>{game.genres?.values.map((item)=> ( 
+                      <span> {item.name}</span>
+                    ))}</span></p>
+                      <p>platforms: </p>
+                  </div>
+                  <div className="info-box">
+
+                  </div>
                 </div>
               </div>
               <div className="second-col">
@@ -90,21 +99,22 @@ const Game = () => {
                 <div className="main-bo"></div>
               </div>
             </div>
-            <div className="info-box">
+            <div className="info-box__videos">
               <div className="videos">
                 <Swiper
-                  slidesPerView={"auto"}
-                  spaceBetween={30}
+                  slidesPerView={2}
                   pagination={{
                     clickable: true,
                   }}
-                  modules={[Pagination]}
+                  loop={true}
+                  navigation={true}
+                  modules={[Navigation, Pagination]}
                   className="mySwiper"
                 >
                   {game.videos?.values?.map((vr) => {
                     return (
                       <SwiperSlide>
-                        <iframe width="420" height="315"
+                        <iframe width="100%" height="500"
                           src={`https://www.youtube.com/embed/${vr.videoId}`}
                         ></iframe>
                       </SwiperSlide>
