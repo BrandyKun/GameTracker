@@ -10,7 +10,7 @@ const Column = ({ games, title }) => {
     }
   return (
     <div className="others-box recently-released">
-      <h3 className="third-title">{title}</h3>
+      <h3 className="third-title"><span>{title}</span></h3>
       {games?.map((game) => (
         <div  key= {game.id} className="game-card">
           <img
