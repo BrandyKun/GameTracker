@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gaming.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230115173955_AddIdentity")]
-    partial class AddIdentity
+    [Migration("20230303101603_InitialMigrationWithIdentity")]
+    partial class InitialMigrationWithIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -378,4 +378,3 @@ namespace Gaming.Infrastructure.Persistence.Migrations
         }
     }
 }
-

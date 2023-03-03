@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Infrastructure.Services;
+using Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,14 +18,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>().AddSignInManager<SignInManager<User>>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(opt => 
+    .AddJwtBearer(opt =>
     {
-        opt.TokenValidationParameters = new TokenValidationParameters{
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF7.GetBytes(builder.Configuration["Token:Key"])),
             ValidIssuer = builder.Configuration["Token:Issuer"],
-            ValidateIssuer = true
+            ValidateIssuer = true,
+            ValidateAudience = false
         };
     });
 
