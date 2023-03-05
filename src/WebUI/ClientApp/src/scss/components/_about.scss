@@ -2,42 +2,64 @@
   background: transparent;
   padding: 10rem 0;
   color: $color-tertiary;
-
-  .composition {
-    position: relative;
-    top: -5rem;
-    &__photo {
-      width: 45%;
-      box-shadow: 0 1.5rem 4rem rgba(#000, 0.4);
-      position: absolute;
-      z-index: 10;
-      transition: all 0.2s;
-      outline-offset: 2rem;
-      max-height: 400px;
-      object-fit: cover;
-
-      &--p1 {
-        left: 0;
-        top: -2rem;
-      }
-      &--p2 {
-        right: 0;
-        top: 2rem;
-      }
-      &--p3 {
-        left: 20%;
-        top: 10rem;
-      }
-
-      &:hover {
-        transform: scale(1.05) translateY(-0.5rem);
-        box-shadow: 0 2.5rem 4rem rgba(#000, 0.5);
-        z-index: 20;
-      }
+  @media (max-width: 768px) {
+    margin-bottom: 300px;
+  }
+  .about-row {
+    @media (max-width: 768px) {
+      flex-direction: column;
     }
+    .col-1-of-2 {
 
-    &:hover &__photo:not(:hover) {
-      transform: scale(0.95);
+      @media (max-width: 768px) {
+        width: 90%;
+      }
+      
+
+      .composition {
+        position: relative;
+        top: -5rem;
+
+        @media (max-width: 768px) {
+          top: 6.5rem;
+        }
+        &__photo {
+          width: 45%;
+          box-shadow: 0 1.5rem 4rem rgba(#000, 0.4);
+          position: absolute;
+          z-index: 10;
+          transition: all 0.2s;
+          outline-offset: 2rem;
+          max-height: 400px;
+          object-fit: cover;
+          @media (max-width: 768px) {
+            width: 60%;
+          }
+
+          &--p1 {
+            left: 0;
+            top: -2rem;
+          }
+          &--p2 {
+            right: 0;
+            top: 2rem;
+          }
+          &--p3 {
+            left: 20%;
+            top: 10rem;
+          }
+
+          &:hover {
+            transform: scale(1.05) translateY(-0.5rem);
+            box-shadow: 0 2.5rem 4rem rgba(#000, 0.5);
+            z-index: 20;
+          }
+        }
+
+        &:hover &__photo:not(:hover) {
+          transform: scale(0.95);
+        }
+      }
     }
   }
 }

@@ -1,0 +1,35 @@
+.main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  color: #fff;
+  flex-direction: column;
+  background-image: linear-gradient(
+      180deg,
+      rgba(24, 26, 36, 0.916),
+      rgba(98, 77, 140, 0.8) 90%,
+      rgba(152, 119, 217, 0.8) 100%
+    ),
+    url("https://assets.reedpopcdn.com/ragnarok_photo_mode_001.jpg/BROK/resize/1200x1200%3E/format/jpg/quality/70/ragnarok_photo_mode_001.jpg");
+  background-size: cover;
+
+  .filters {
+    width: 100%;
+    height: 100px;
+  }
+  .games-container {
+    width: 85%;
+    margin: 0 auto;
+    padding: 1.2rem;
+    background-color: rgba(98, 77, 140, 0);
+    position: relative;
+    display: block;
+    height: 500px;
+    h2 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+  }
+}

@@ -6,7 +6,7 @@ const HomeInfo = () => {
           <div className="u-center-text u-margin-bottom-big">
             <h2 className="heading-secondary">Create a list</h2>
           </div>
-          <div className="row">
+          <div className="row about-row">
             <div className="col-1-of-2">
               <h3 className="heading-tertiary u-margin-bottom-small">
                 save ytour favourite games
