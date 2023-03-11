@@ -17,3 +17,30 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  transition: 0.4s ease;
+}
+
+nav{
+  width: 100%;
+}
+
+.scrolled-down {
+  height: 80px;
+  background-color: black;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.14);
+  z-index: 99;
+}
+
+.scrolled-down img {
+  scale: 1.25;
+}
