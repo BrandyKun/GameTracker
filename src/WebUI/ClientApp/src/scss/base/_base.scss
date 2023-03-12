@@ -8,10 +8,20 @@
 }
 html {
   color: $color-tertiary;
+
+  a:hover{
+    cursor: pointer;
+    
+  }
 }
 
 body {
   
   box-sizing: border-box;
   color: $color-tertiary;
+
+  li{
+    list-style: none;
+    text-align: -webkit-match-parent;
+  }
 }

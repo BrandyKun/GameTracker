@@ -4,25 +4,25 @@ const Login = () => {
   return (
     <>
       <div className="form-container">
-        <div class="login-card">
+        <div className="login-card">
           <img src="https://i.pinimg.com/originals/0a/5f/ea/0a5feae400fc816c4ca2aca8bd67a168.jpg" />
           <h2>Sign Up</h2>
           <h3>Enter your credentials</h3>
-          <form class="login-form">
-            <div class="username">
+          <form className="login-form">
+            <div className="username">
               <input
                 autocomplete="off"
                 spellcheck="false"
-                class="control"
+                className="control"
                 type="email"
                 placeholder="Email"
                 value="joe@gmail.com"
               />
-              <div id="spinner" class="spinner"></div>
+              <div id="spinner" className="spinner"></div>
             </div>
             <input
               spellcheck="false"
-              class="control"
+              className="control"
               id="password"
               type="password"
               placeholder="Password"
@@ -31,8 +31,8 @@ const Login = () => {
             <div id="bars">
               <div></div>
             </div>
-            {/* <div class="strength" id="strength"></div> */}
-            <button class="control" type="button">
+            {/* <div className="strength" id="strength"></div> */}
+            <button className="control" type="button">
               JOIN NOW
             </button>
           </form>

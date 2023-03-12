@@ -23,6 +23,7 @@
     img {
       width: 80%;
       animation: fromCenter 0.75s ease;
+      z-index: 99;
     }
 
     button {
