@@ -4,7 +4,7 @@ import MenuIcon from "./ReUsable/MenuIcon";
 import UserIcon from "./ReUsable/UserIcon";
 
 const MobileNav = () => {
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
@@ -12,9 +12,31 @@ const MobileNav = () => {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
+
+  useEffect(() => {
+    const getNewStyle = () => {
+      const nav = document.querySelector("nav");
+            let scroll = nav.scrollTop;
+            console.log(scroll);
+      if (toggle) {
+        if (!nav.classList.contains("scrolled-down")) {
+           let scroll2 = nav.scrollTop;
+            console.log('open',scroll);
+          nav.classList.add("scrolled-down");
+        }
+      } else {
+        if (nav.classList.contains("scrolled-down")) {
+            let scroll1 = nav.scrollTop;
+            console.log('closed', scroll);
+          nav.classList.remove("scrolled-down");
+        }
+      }
+    };
+    getNewStyle();
+  }, [toggle]);
+
   const toggleMenu = () => {
     setToggle(!toggle);
-    console.log('open');
   };
 
   const onScroll = (event) => {
@@ -43,31 +65,33 @@ const MobileNav = () => {
         <span className="menu-icon" onClick={toggleMenu}>
           <MenuIcon />
         </span>
-        <div className={`navbar-container navbar-container-mob-menu${toggle? "-open":""}` }>
-        <ul>
-              <li>
-                {" "}
-                <Link to="/"> Home </Link>
-              </li>
-              <li>
-                {" "}
-                <Link to="/counter"> Counter </Link>
-              </li>
-              <li>
-                {" "}
-                <Link to="/fetch-data"> Fetch Data </Link>
-              </li>
-              <li>
-                {" "}
-                <Link to="/games"> Games </Link>
-              </li>
-              <li>
-                {" "}
-                <Link to="/login"> Login </Link>
-              </li>
-            </ul>
-        </div>
       </div>
+      {toggle && (
+        <div className="navbar-container navbar-container-mob-menu">
+          <ul>
+            <li>
+              {" "}
+              <Link to="/"> Home </Link>
+            </li>
+            <li>
+              {" "}
+              <Link to="/counter"> Counter </Link>
+            </li>
+            <li>
+              {" "}
+              <Link to="/fetch-data"> Fetch Data </Link>
+            </li>
+            <li>
+              {" "}
+              <Link to="/games"> Games </Link>
+            </li>
+            <li>
+              {" "}
+              <Link to="/login"> Login </Link>
+            </li>
+          </ul>
+        </div>
+      )}
     </>
   );
 };
