@@ -2,7 +2,7 @@ header {
   display: block;
   background: inherit;
   nav {
-    position: relative;
+    position: absolute;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -13,20 +13,35 @@ header {
     left: 0;
 
     &.scrolled-down {
-      position: fixed;
+      position: fixed !important;
       height: 80px;
       background-color: black;
       //   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.14);
       z-index: 98;
 
-      .navbar-logo, .menu-icon{
+      .navbar-logo,
+      .menu-icon {
         transform: translateY(30px);
+        transition: all 1s ease-in-out;
+      }
+
+      .navbar-logo {
+        scale: 1.25;
         transition: all 1s ease-in-out;
       }
     }
 
-    &.scrolled-down img {
-      scale: 1.25;
+    // &.scrolled-down img {
+    //   scale: 1.25;
+    // }
+
+    &.closed {
+      z-index: 98;
+      .navbar-logo,
+      .menu-icon {
+        transform: translateY(0);
+        transition: all 1s ease-in-out;
+      }
     }
 
     .navbar {
@@ -41,7 +56,10 @@ header {
         margin-right: auto;
         margin-left: auto;
         &-mob {
-          display: none;
+          visibility: hidden;
+          &-menu-close {
+            transform: translateY(-250px);
+          }
         }
         @media (min-width: 1400px) {
           max-width: 1320px;
@@ -55,6 +73,7 @@ header {
         @media (max-width: 768px) {
           &-mob {
             @media (max-width: 768px) {
+              visibility: visible;
               display: flex;
               flex-wrap: inherit;
               align-items: center;
@@ -65,18 +84,45 @@ header {
               margin-right: auto;
               margin-left: auto;
               max-width: 540px;
-              
+              z-index: 98;
 
               &-menu {
-                display: flex;
-                justify-content: space-around;
-                align-items: center;
-                flex-direction: column;
-                height:calc( 100vh - 100px);
-                margin-top:80px;
-                
-                animation: Entrance 1s ease-in-out 0s 1 normal forwards;
-                background-color: yellow;
+                display: block;
+                margin-top: calc($nav-height);
+
+                &-open {
+                  transition: height 1s ease-in;
+                  display: flex;
+                  justify-content: space-around;
+                  align-items: center;
+                  flex-direction: column;
+                  height: 100vh;
+                  background-color: yellow;
+                  //animation: Entrance 1s ease-in;
+                  ul {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    height: 80%;
+                  }
+                }
+                &-close {
+                  transition: height 1s ease-out;
+                  display: flex;
+                  justify-content: space-around;
+                  align-items: center;
+                  flex-direction: column;
+                  height: 0;
+                  transform: translateY((0));
+                  background-color: yellow;
+                  z-index: 97;
+                  //animation: exit 1s ease-out 0s;
+                  ul {
+                    display: none;
+                  }
+                }
               }
             }
 

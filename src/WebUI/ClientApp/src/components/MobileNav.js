@@ -13,36 +13,43 @@ const MobileNav = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const getNewStyle = () => {
-      const nav = document.querySelector("nav");
-            let scroll = nav.scrollTop;
-            console.log(scroll);
-      if (toggle) {
-        if (!nav.classList.contains("scrolled-down")) {
-           let scroll2 = nav.scrollTop;
-            console.log('open',scroll);
-          nav.classList.add("scrolled-down");
-        }
-      } else {
-        if (nav.classList.contains("scrolled-down")) {
-            let scroll1 = nav.scrollTop;
-            console.log('closed', scroll);
-          nav.classList.remove("scrolled-down");
-        }
-      }
-    };
-    getNewStyle();
-  }, [toggle]);
-
-  const toggleMenu = () => {
+  const toggleMenu = (e) => {
     setToggle(!toggle);
   };
 
-  const onScroll = (event) => {
+  useEffect(() => {
+    window.addEventListener("click", onToggleMenu);
+    return () => {
+      window.removeEventListener("click", onToggleMenu);
+    };
+  }, []);
+
+  const onToggleMenu = (event) => {
+    const nav = document.querySelector("nav");
+
+    const navPosition = event.clientY;
+    if (toggle) {
+      if (!nav.classList.contains("scrolled-down")) {
+        nav.classList.remove("closed");
+        nav.classList.add("scrolled-down");
+      }
+    } else {
+      nav.classList.remove("scrolled-down");
+
+      nav.classList.add("closed");
+
+    //   if (!(nav.classList.contains("open")) &&  navPosition < 50) {
+    //     nav.classList.remove("scrolled-down");
+    //   }
+    }
+  };
+
+  //gets called on scroll to check where teh user in and change the menu to position fixed
+  const onScroll = (event, e) => {
     const nav = document.querySelector("nav");
 
     const scrollPosition = event.target.scrollingElement.scrollTop;
+
     if (scrollPosition > 10) {
       if (!nav.classList.contains("scrolled-down")) {
         nav.classList.add("scrolled-down");
@@ -66,32 +73,35 @@ const MobileNav = () => {
           <MenuIcon />
         </span>
       </div>
-      {toggle && (
-        <div className="navbar-container navbar-container-mob-menu">
-          <ul>
-            <li>
-              {" "}
-              <Link to="/"> Home </Link>
-            </li>
-            <li>
-              {" "}
-              <Link to="/counter"> Counter </Link>
-            </li>
-            <li>
-              {" "}
-              <Link to="/fetch-data"> Fetch Data </Link>
-            </li>
-            <li>
-              {" "}
-              <Link to="/games"> Games </Link>
-            </li>
-            <li>
-              {" "}
-              <Link to="/login"> Login </Link>
-            </li>
-          </ul>
-        </div>
-      )}
+      <div
+        className={`navbar-container navbar-container-mob-menu${
+          toggle ? "-open" : "-close"
+        }`}
+        style={{}}
+      >
+        <ul>
+          <li>
+            {" "}
+            <Link to="/"> Home </Link>
+          </li>
+          <li>
+            {" "}
+            <Link to="/counter"> Counter </Link>
+          </li>
+          <li>
+            {" "}
+            <Link to="/fetch-data"> Fetch Data </Link>
+          </li>
+          <li>
+            {" "}
+            <Link to="/games"> Games </Link>
+          </li>
+          <li>
+            {" "}
+            <Link to="/login"> Login </Link>
+          </li>
+        </ul>
+      </div>
     </>
   );
 };

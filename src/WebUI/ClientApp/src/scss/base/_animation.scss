@@ -22,7 +22,24 @@
 	}
 }
 
-@keyframes myAnim {
+@keyframes exit {
+	0% {
+		opacity: 1;
+		transform: translateY(-250px);
+	}
+
+    10%{
+        opacity: 1;
+		transform: translateY(0);
+    }
+
+	100% {
+		opacity: 0;
+		transform: translateY(-100px);
+        display: none;
+	}
+}
+@keyframes repositionNavBar {
 	0% {
 		opacity: 1;
 		transform: translateY(0);
