@@ -14,20 +14,19 @@ header {
 
     &.scrolled-down {
       position: fixed !important;
-      height: 80px;
-      background-color: black;
-      //   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.14);
+      height: $nav-height;
       z-index: 98;
+      animation: change 1s ease-in-out forwards;
 
-      .navbar-logo,
       .menu-icon {
         transform: translateY(30px);
-        transition: all 1s ease-in-out;
+        transition: all 1s ease-in-out forwards;
       }
 
       .navbar-logo {
-        scale: 1.25;
-        transition: all 1s ease-in-out;
+        @extend .menu-icon;
+        scale: 1;
+        transition: all 1s ease-in;
       }
     }
 
@@ -40,7 +39,7 @@ header {
       .navbar-logo,
       .menu-icon {
         transform: translateY(0);
-        transition: all 1s ease-in-out;
+        transition: all 1s ease-out;
       }
     }
 
@@ -97,8 +96,10 @@ header {
                   align-items: center;
                   flex-direction: column;
                   height: 100vh;
-                  background-color: yellow;
-                  //animation: Entrance 1s ease-in;
+                  animation: menuchange 1s ease-in forwards;
+                  animation-delay: 1s;
+                  position:relative;
+                  top:$nav-height /2;
                   ul {
                     width: 100%;
                     display: flex;
@@ -116,7 +117,7 @@ header {
                   flex-direction: column;
                   height: 0;
                   transform: translateY((0));
-                  background-color: yellow;
+                  animation: menuchange 1s ease-in forwards;
                   z-index: 97;
                   //animation: exit 1s ease-out 0s;
                   ul {

@@ -22,25 +22,26 @@ const MobileNav = () => {
     return () => {
       window.removeEventListener("click", onToggleMenu);
     };
-  }, []);
+  }, [toggle]);
 
   const onToggleMenu = (event) => {
     const nav = document.querySelector("nav");
+    const menu = document.querySelector("mobileMenu");
 
     const navPosition = event.clientY;
+
     if (toggle) {
       if (!nav.classList.contains("scrolled-down")) {
         nav.classList.remove("closed");
         nav.classList.add("scrolled-down");
+        document.body.style.overflow = "hidden";
       }
     } else {
-      nav.classList.remove("scrolled-down");
-
       nav.classList.add("closed");
-
-    //   if (!(nav.classList.contains("open")) &&  navPosition < 50) {
-    //     nav.classList.remove("scrolled-down");
-    //   }
+      document.body.style.overflow = "scroll";
+      if (menu.classList.contains("close") && navPosition < 50) {
+        nav.classList.remove("scrolled-down");
+      }
     }
   };
 
@@ -74,6 +75,7 @@ const MobileNav = () => {
         </span>
       </div>
       <div
+        id="mobileMenu"
         className={`navbar-container navbar-container-mob-menu${
           toggle ? "-open" : "-close"
         }`}

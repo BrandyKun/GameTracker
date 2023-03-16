@@ -1,52 +1,59 @@
-@keyframes fromCenter{
-    0%{
-        opacity: 0;
-        transform: scale(0);
-    }
+@keyframes fromCenter {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
 
-    100%{
-        opacity: 1;
-        transform: scale(1);
-    }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-@keyframes Entrance {
-	0% {
-		opacity: 0;
-		transform: translateY(-250px);
-	}
+@keyframes change {
+  0% {
+    background-color: $color-secondary-light;
+  }
 
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  100% {
+    background-color: $color-secondary-dark;
+  }
+}
+@keyframes menuchange {
+  0% {
+    background-color: $color-secondary-light;
+  }
+
+  100% {
+    background-color: $color-primary-dark;
+  }
 }
 
 @keyframes exit {
-	0% {
-		opacity: 1;
-		transform: translateY(-250px);
-	}
+  0% {
+    opacity: 1;
+    transform: translateY(-250px);
+  }
 
-    10%{
-        opacity: 1;
-		transform: translateY(0);
-    }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-	100% {
-		opacity: 0;
-		transform: translateY(-100px);
-        display: none;
-	}
+  100% {
+    opacity: 0;
+    transform: translateY(-100px);
+    display: none;
+  }
 }
 @keyframes repositionNavBar {
-	0% {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-	100% {
-		opacity: 0;
-		transform: translateY(-80px);
-	}
+  100% {
+    opacity: 0;
+    transform: translateY(-80px);
+  }
 }
