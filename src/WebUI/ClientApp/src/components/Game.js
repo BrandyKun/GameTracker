@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 // import required modules
 import { Navigation, Pagination } from "swiper";
 
-const Game = () => {
+const Game = ({gameId}) => {
   const [game, setGame] = useState();
   const [screenshots, setScreenshots] = useState();
   const [showMore, setShowMore] = useState(false);
@@ -18,9 +18,9 @@ const Game = () => {
   useEffect(() => {
     async function fetchData() {
       // console.log(games, "this are the game");
-      const endpoint = "game/games/112875";
+      const endpoint = `game/games/${gameId}`;
       const query =
-        "fields name,cover.*, bundles,dlcs.*,rating,first_release_date,franchise, release_dates.*, aggregated_rating, involved_companies.*, multiplayer_modes.*,hypes,parent_game.*, artworks.url,platforms.*, screenshots.url, similar_games.*, storyline,summary, url, videos.*, websites.*,collection,franchises.*,franchise,genres.*,language_supports.*; where id = 112875;";
+        `fields name,cover.*, bundles,dlcs.*,rating,first_release_date,franchise, release_dates.*, aggregated_rating, involved_companies.*, multiplayer_modes.*,hypes,parent_game.*, artworks.url,platforms.*, screenshots.url, similar_games.*, storyline,summary, url, videos.*, websites.*,collection,franchises.*,franchise,genres.*,language_supports.*; where id = ${gameId};`;
       const limit = "1";
       const date = "";
       const response = await getAsync(endpoint, query, date, limit);
@@ -34,8 +34,8 @@ const Game = () => {
   useEffect(() => {
     async function fetchData() {
       // console.log(games, "this are the game");
-      const endpoint = "game/screenshots/112875";
-      const query = "fields url; where game = 112875;";
+      const endpoint = `game/screenshots/${gameId}`;
+      const query = `fields url; where game = ${gameId};`;
       const limit = "20";
       const date = "";
       const response = await getAsync(endpoint, query, date, limit);

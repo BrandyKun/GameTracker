@@ -74,8 +74,8 @@
         max-width: 1280px;
       }
 
-      &__random{
-        display:block;
+      &__random {
+        display: block;
       }
       .first-col {
         display: flex;
@@ -133,6 +133,33 @@
               cursor: pointer;
             }
           }
+        }
+      }
+    }
+  }
+}
+
+// ===========Mobile Sizes =================
+@media (max-width: 768px) {
+  .initial {
+    .pagescreen {
+      height: 35rem !important;
+    }
+
+    .info-contenitore {
+      .info-box {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .first-col {
+          width: 80%;
+        }
+        .second-col {
+          display: flex;
+          flex-direction: column;
+          width: 90%;
+          height: 100%;
+          padding: 2rem 0;
         }
       }
     }

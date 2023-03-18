@@ -18,7 +18,7 @@ const AppRoutes = [
     element: <FetchData />
   },
   {
-    path: '/games',
+    path: '/games/:gameId',
     element: <Game />
   },
   {
