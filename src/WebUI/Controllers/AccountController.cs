@@ -41,7 +41,6 @@ public class AccountController : ControllerBase
             DisplayName = user.DisplayName
         };
     }
-    
 
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
