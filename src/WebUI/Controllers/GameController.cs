@@ -46,14 +46,14 @@ public class GameController : ControllerBase
     [HttpPost, Route("games/{id}")]
     public async Task<Game> GetGameById([FromBody] RequestBodyDto request)
     {
-       var games = await GetAsync<Game>(IGDBClient.Endpoints.Games, request.Query, request.Limit);
+        var games = await GetAsync<Game>(IGDBClient.Endpoints.Games, request.Query, request.Limit);
         return games.FirstOrDefault();
     }
 
     [HttpPost, Route("screenshots/{id}")]
     public async Task<IEnumerable<Screenshot>> GetScreenshotsById([FromBody] RequestBodyDto request)
     {
-       var screenshots = await GetAsync<Screenshot>(IGDBClient.Endpoints.Screenshots, request.Query, request.Limit);
+        var screenshots = await GetAsync<Screenshot>(IGDBClient.Endpoints.Screenshots, request.Query, request.Limit);
         return screenshots;
     }
 
@@ -113,7 +113,7 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    ///returns all teh platforms available to from the 
     /// </summary>
     /// <returns></returns>
     [HttpPost, Route("platform")]
@@ -124,7 +124,22 @@ public class GameController : ControllerBase
         return await GetAsync<Platform>(IGDBClient.Endpoints.Platforms, query, 500, sort);
     }
 
+    /// <summary>
+    ///return Platform family
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost, Route("platformFamily")]
+    public async Task<IEnumerable<PlatformFamily>> GetPlatformFamilyAsync()
+    {
+        string query = "fields name, slug;";
+        string sort = "sort id;";
+        return await GetAsync<PlatformFamily>(IGDBClient.Endpoints.Platforms, query, 500, sort);
+    }
 
+    /// <summary>
+    ///return and process the popular games
+    /// </summary>
+    /// <returns></returns>
     [HttpPost, Route("popular")]
     public async Task<IEnumerable<Game>> GetMostPopular()
     {

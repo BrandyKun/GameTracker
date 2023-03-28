@@ -32,22 +32,22 @@ const Login = () => {
           <form method="post" className="login-form" onSubmit={handleSubmit}>
             <div className="username">
               <input
-                autocomplete="off"
-                spellcheck="false"
+                autoComplete="off"
+                spellCheck="false"
                 className="control"
                 type="email"
-                placeholder="Email"
+                placeHolder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <div id="spinner" className="spinner"></div>
             </div>
             <input
-              spellcheck="false"
+              spellCheck="false"
               className="control"
               id="password"
               type="password"
-              placeholder="Password"
+              placeHolder="Password"
               onChange={(e)=> setPassword(e.target.value)}
             />
             <div id="bars">
