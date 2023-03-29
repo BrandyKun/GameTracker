@@ -2,6 +2,7 @@ import React from "react";
 import HomeCarousell from "./HomeCarousell";
 import HomeColumns from "./HomeColumns";
 import HomeInfo from "./HomeInfo";
+import Platforms from "./Platforms";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
           <HomeCarousell />
         </div>
         <HomeInfo />
+        <Platforms />
         <HomeColumns />
       </div>
     </>

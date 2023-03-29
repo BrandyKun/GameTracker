@@ -1,0 +1,47 @@
+.platform {
+  &-container {
+    width: 100%;
+    height: 500px;
+    background-color: aqua;
+    margin: 200px 0;
+    position: relative;
+
+    &--width {
+      max-width: 114rem;
+      margin: 0 auto;
+      .blob-container {
+        position: absolute;
+      }
+      .img-blob {
+        &--1 {
+          top: 0;
+          left: 0;
+        }
+        &--2 {
+          top: -5rem;
+          left: 46rem;
+        }
+        &--3 {
+            top:-3rem;
+            right: 40rem;
+        }
+      }
+    }
+    .blob-img-container {
+      width: 14.75rem;
+      height: 14.75rem;
+      position: relative;
+    }
+  }
+  &--blobs {
+    display: inline-block;
+    width: 30.5rem;
+    position: relative;
+  }
+  &-blob--image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
