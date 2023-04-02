@@ -81,6 +81,7 @@
       min-width: 0px;
       padding: 0px;
       position: relative;
+      margin-bottom: 20%;
 
       &__videos {
         max-width: 1280px;
@@ -113,12 +114,17 @@
         margin-top: -100px;
         -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
+        border-radius: 5%;
+       
         .info-col {
           display: flex;
           flex-direction: column;
           width: 100%;
+          height: auto;
           -webkit-box-orient: vertical;
-          -webkit-box-direction: normal;
+          -webkit-box-direction: normal; 
+          box-shadow: 6rem 1.5rem 7rem rgba(0, 0, 0, 0.4);
+
           .img-container {
             align-self: center;
             width: 100%;

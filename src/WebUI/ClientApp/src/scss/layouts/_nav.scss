@@ -99,7 +99,7 @@ header {
                   animation: menuchange 1s ease-in forwards;
                   animation-delay: 1s;
                   position:relative;
-                  top:$nav-height /2;
+                  top:calc($nav-height /2);
                   ul {
                     width: 100%;
                     display: flex;
