@@ -98,8 +98,8 @@ header {
                   height: 100vh;
                   animation: menuchange 1s ease-in forwards;
                   animation-delay: 1s;
-                  position:relative;
-                  top:calc($nav-height /2);
+                  position: relative;
+                  top: calc($nav-height / 2);
                   ul {
                     width: 100%;
                     display: flex;
@@ -145,12 +145,32 @@ header {
 
       &-links {
         display: flex;
-        flex-direction: row-reverse !important;
+        flex-direction: row;
         flex-basis: auto;
-        flex-grow: 1;
         align-items: center;
+
         @media (max-width: 768px) {
           display: none;
+        }
+
+        #search-box {
+          border-radius: 25px;
+          background-color: rgba($color: #fefefe01, $alpha: 0.1);
+          border: none;
+          transition: all 0.3s;
+          padding: 0.2rem 1rem;
+
+          &:focus {
+            outline: none;
+            box-shadow: 0 1rem 2rem rgba($color-primary-dark, 0.1);
+            background-color: rgba($color: #fefefe01, $alpha: 0.4);
+          }
+          &::-webkit-input-placeholder {
+            color: $color-primary-dark;
+          }
+          @media (max-width: 768px) {
+            display: none;
+          }
         }
         ul {
           display: flex;

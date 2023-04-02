@@ -12,19 +12,33 @@
       margin: 0 auto;
       .blob-container {
         position: absolute;
+        transition: all 1;
       }
       .img-blob {
         &--1 {
           top: 0;
           left: 10%;
+          animation-name: fromBottom;
+          animation-duration: 1s;
+          animation-timing-function: ease-out;
+          
         }
         &--2 {
           top: -5rem;
           left: 30%;
+          animation-name: fromBottom;
+          animation-duration: 1s;
+          animation-timing-function: ease-out;
+          animation-delay: .2s;
         }
         &--3 {
           top: -3rem;
           left: 55%;
+          animation-name: fromBottom;
+          animation-duration: 1s;
+          animation-timing-function: ease-out;
+          animation-delay: .3s;
+
         }
       }
     }

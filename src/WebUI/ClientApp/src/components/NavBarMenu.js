@@ -15,18 +15,12 @@ const NavBarMenu = () => {
           <span></span>
           <span></span> */}
           <div className="navbar-links">
+            <input type="text" name="search" id="search-box" />
+
             <ul>
               <li>
                 {" "}
                 <Link to="/"> Home </Link>
-              </li>
-              <li>
-                {" "}
-                <Link to="/counter"> Counter </Link>
-              </li>
-              <li>
-                {" "}
-                <Link to="/fetch-data"> Fetch Data </Link>
               </li>
               <li>
                 {" "}

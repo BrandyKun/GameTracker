@@ -20,7 +20,7 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>().AddSignInManager<SignInManager<User>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(opt =>
+    .AddJwtBearer(opt =>//what we want to do to validate this token
     {
         opt.TokenValidationParameters = new TokenValidationParameters
         {
@@ -55,6 +55,7 @@ app.UseSwaggerUi3(settings =>
 });
 app.UseRouting();
 
+//defines what type of auth we want to use
 app.UseAuthentication();
 app.UseAuthorization();
 
