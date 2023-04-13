@@ -37,3 +37,13 @@ export const changeImageSize = (url, size) => {
   }
   return newURL;
 };
+
+
+export const getGames =async () => {
+   // console.log(games, "this are the game");
+   const endpoint = "game/popular";
+   // You can await here
+   const response = await getAsyncNoParams(endpoint);
+
+   return response;
+}

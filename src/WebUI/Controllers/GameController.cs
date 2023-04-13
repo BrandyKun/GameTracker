@@ -1,4 +1,5 @@
 using Application;
+using Application.Dtos;
 using IGDB;
 using IGDB.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -72,15 +73,15 @@ public class GameController : ControllerBase
         var dateInMilliseconds = currentDate.ToUnixTimeSeconds();
 
         //1st calling games from ps4/ps5
-        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where hypes > 10 & category = 0 & release_dates.date > {dateInMilliseconds} & platforms= (167,48); sort hypes;";
+        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where hypes > 10 & category = 0 & first_release_date > {dateInMilliseconds} & platforms= (167,48); sort hypes;";
         IEnumerable<Game> psGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, psQuery, 5);
         upcomingGames = upcomingGames.Concat(psGames);
 
-        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where hypes > 10 &  category= 0 & release_dates.date > {dateInMilliseconds} & platforms= (45,165); sort hypes ;";
+        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where hypes > 10 &  category= 0 & first_release_date > {dateInMilliseconds} & platforms= (45,165); sort hypes ;";
         IEnumerable<Game> xboxGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, xboxQuery, 5);
         upcomingGames = upcomingGames.Concat(xboxGames);
 
-        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where hypes > 10 & category =0 & release_dates.date > {dateInMilliseconds} & platforms= (130); sort hypes;";
+        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where hypes > 10 & category =0 & first_release_date > {dateInMilliseconds} & platforms= (130); sort hypes;";
         IEnumerable<Game> nintendoGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, nintendoQuery, 5);
         upcomingGames = upcomingGames.Concat(nintendoGames);
 
@@ -97,15 +98,15 @@ public class GameController : ControllerBase
         var dateInMilliseconds = currentDate.ToUnixTimeSeconds();
 
         //1st calling games from ps4/ps5
-        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category = 0 & release_dates.date < {dateInMilliseconds} & platforms= (167,48); sort first_release_date desc;";
+        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category = 0 & first_release_date < {dateInMilliseconds} & platforms= (167,48); sort first_release_date desc;";
         IEnumerable<Game> psGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, psQuery, 5);
         upcomingGames = upcomingGames.Concat(psGames);
 
-        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category= 0 & release_dates.date < {dateInMilliseconds} & platforms= (45,165); sort first_release_date desc;";
+        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category= 0 & first_release_date < {dateInMilliseconds} & platforms= (45,165); sort first_release_date desc;";
         IEnumerable<Game> xboxGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, xboxQuery, 5);
         upcomingGames = upcomingGames.Concat(xboxGames);
 
-        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category =0 & release_dates.date < {dateInMilliseconds} & platforms= (130); sort first_release_date desc;";
+        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where category =0 & first_release_date < {dateInMilliseconds} & platforms= (130); sort first_release_date desc;";
         IEnumerable<Game> nintendoGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, nintendoQuery, 5);
         upcomingGames = upcomingGames.Concat(nintendoGames);
 
@@ -119,7 +120,7 @@ public class GameController : ControllerBase
     [HttpPost, Route("platform")]
     public async Task<IEnumerable<Platform>> GetPlatformsAsync()
     {
-        string query = "fields created_at, generation, name, platform_family.*, summary, versions, websites;";
+        string query = "fields created_at, generation, name, platform_family.*,platform_logo.* ,summary, versions, websites;";
         string sort = "sort name;";
         return await GetAsync<Platform>(IGDBClient.Endpoints.Platforms, query, 500, sort);
     }
@@ -139,7 +140,7 @@ public class GameController : ControllerBase
     /// <summary>
     ///return and process the popular games
     /// </summary>
-    /// <returns></returns>
+    /// <returns>IGBD games model</returns>
     [HttpPost, Route("popular")]
     public async Task<IEnumerable<Game>> GetMostPopular()
     {
@@ -151,18 +152,31 @@ public class GameController : ControllerBase
         var dateInMilliseconds = pastSixMonthsDate.ToUnixTimeMilliseconds();
 
         //1st calling games from ps4/ps5
-        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where rating > 75 & hypes > 8 & category =0  & release_dates.date > {dateInMilliseconds} & platforms= (167,48); sort rating desc;";
+        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where rating > 75 & hypes > 8 & category =0  & first_release_date > {dateInMilliseconds} & platforms= (167,48); sort rating desc;";
         IEnumerable<Game> psGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, psQuery, 5);
         popularGames = popularGames.Concat(psGames);
 
-        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where rating > 75 & hypes > 8 & category =0  & release_dates.date > {dateInMilliseconds} & platforms= (45,165); sort rating desc;";
+        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where rating > 75 & hypes > 8 & category =0  & first_release_date > {dateInMilliseconds} & platforms= (45,165); sort rating desc;";
         IEnumerable<Game> xboxGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, xboxQuery, 5);
         popularGames = popularGames.Concat(xboxGames);
 
-        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where rating > 75 & hypes > 8 & category =0  & release_dates.date > {dateInMilliseconds} & platforms= (130); sort rating desc;";
+        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where rating > 75 & hypes > 8 & category =0  & first_release_date > {dateInMilliseconds} & platforms= (130); sort rating desc;";
         IEnumerable<Game> nintendoGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, nintendoQuery, 5);
         popularGames = popularGames.Concat(nintendoGames);
 
         return popularGames.GroupBy(x => x.Id).Select(y => y.FirstOrDefault());
+    }
+
+    /// <summary>
+    /// search endpoint that return results for a search
+    /// </summary>
+    /// <param name="searchQuery"></param>
+    /// <returns>IGDB Search model</returns>
+    [HttpPost, Route("search")]
+    public async Task<IEnumerable<Search>> GetSearchesAsync([FromBody] SearchResultsDto searchQuery)
+    {
+        string query = string.IsNullOrEmpty(searchQuery.SearchQuery) ? "fields *;" : $"fields *; search \"{searchQuery.SearchQuery}\";";
+
+        return await GetAsync<Search>(IGDBClient.Endpoints.Search, query, 50);
     }
 }

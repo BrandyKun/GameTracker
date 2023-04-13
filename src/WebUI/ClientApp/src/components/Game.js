@@ -17,6 +17,7 @@ const Game = ({}) => {
   const [showMore, setShowMore] = useState(false);
   const [id, setGameId] = useState();
   const [backGroundImage, setBackGroundImage] = useState();
+  const [storyLine, setStory] = useState();
   const { gameId } = useParams();
 
   useEffect(() => {
@@ -50,7 +51,6 @@ const Game = ({}) => {
       const date = "";
       const response = await getAsync(endpoint, query, date, limit);
       // ...
-      console.log(screenshots);
       setScreenshots(response);
     }
     fetchScreenshoots();
@@ -75,6 +75,33 @@ const Game = ({}) => {
 
     getRandomImage();
   }, [game]);
+  
+  useEffect(() => {
+    const getDescription =() =>{
+      let story = '';
+      if(game?.storyline != null && game?.storyline != undefined)
+      {
+        story = game?.storyline;
+      }
+      else if( game?.summary != null && game?.summary != undefined)
+      {
+        story = game?.summary;
+      }
+      else{
+        story='no description available at the moment'
+      }
+      setStory(story);
+    };
+  
+    getDescription()
+    
+  }, [game]);
+
+  function getSlides() {
+    var slides = window.innerWidth <= 760 ? 1 : 2;
+    return slides;
+  }
+  
 
   return (
     <>
@@ -96,6 +123,7 @@ const Game = ({}) => {
                   </div>
                   <div className="info-box__random">
                     <table>
+                    <tbody>
                       <tr>
                         <td> Release Date: </td>
                         <td>
@@ -133,6 +161,7 @@ const Game = ({}) => {
                           </ul>
                         </td>
                       </tr>
+                      </tbody>
                     </table>
                     <a src={game.websites?.values[0].url}>
                       {" "}
@@ -149,8 +178,8 @@ const Game = ({}) => {
                 <div className="main-bo desc">
                   <p style={{ textOverflow: showMore ? "" : "ellipsis" }}>
                     {showMore
-                      ? game?.storyline
-                      : `${game.storyline?.substring(0, 500)}...`}
+                      ? storyLine
+                      : `${storyLine.substring(0, 500)}...`}
                   </p>
                   <span onClick={() => setShowMore(!showMore)}>
                     {showMore ? "Show less" : "Show More"}
@@ -169,7 +198,7 @@ const Game = ({}) => {
             <div className="info-box__videos">
               <div className="videos">
                 <Swiper
-                  slidesPerView={2}
+                  slidesPerView={getSlides()}
                   loop={true}
                   navigation={true}
                   modules={[Navigation]}
@@ -177,7 +206,7 @@ const Game = ({}) => {
                 >
                   {game.videos?.values?.map((vr) => {
                     return (
-                      <SwiperSlide>
+                      <SwiperSlide key={vr.id}>
                         <iframe
                           width="95%"
                           height="450"
