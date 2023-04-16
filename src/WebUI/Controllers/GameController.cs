@@ -1,5 +1,6 @@
 using Application;
 using Application.Dtos;
+using AutoMapper;
 using IGDB;
 using IGDB.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,11 @@ public class GameController : ControllerBase
 {
     private readonly IConfiguration _config;
     private readonly IGDBClient _client;
+    private readonly IMapper _mapper;
 
-    public GameController(IConfiguration config)
+    public GameController(IConfiguration config, IMapper mapper)
     {
+        _mapper = mapper;
         _config = config;
         _client = new IGDBClient(_config["IGDB_CLIENT_ID"], _config["IGDB_CLIENT_SECRET"]);
     }
@@ -173,10 +176,41 @@ public class GameController : ControllerBase
     /// <param name="searchQuery"></param>
     /// <returns>IGDB Search model</returns>
     [HttpPost, Route("search")]
-    public async Task<IEnumerable<Search>> GetSearchesAsync([FromBody] SearchResultsDto searchQuery)
+    public async Task<IEnumerable<SearchResultsToReturnDto>> GetSearchesAsync([FromBody] SearchResultsDto searchQuery)
     {
-        string query = string.IsNullOrEmpty(searchQuery.SearchQuery) ? "fields *;" : $"fields *; search \"{searchQuery.SearchQuery}\";";
+        string query = string.IsNullOrEmpty(searchQuery.SearchQuery) ? "fields game.*;" : $"fields *; search \"{searchQuery.SearchQuery}\";";
+        var searches = await GetAsync<Search>(IGDBClient.Endpoints.Search, query, 50);
 
-        return await GetAsync<Search>(IGDBClient.Endpoints.Search, query, 50);
+        var resultType = await SortAndFilterSearchResult(searches);
+
+        return resultType;
+    }
+
+    private async Task<IEnumerable<SearchResultsToReturnDto>> SortAndFilterSearchResult(IEnumerable<Search> results)
+    {
+        if (results == null)
+        {
+            throw new Exception("search yielded no results");
+        }
+
+        var convertedResults = _mapper.Map<IEnumerable<Search>, IEnumerable<SearchResultsToReturnDto>>(results);
+
+        foreach (var result in convertedResults)
+        {
+            if (result.IsGame)
+            {
+                string query = $"fields *; where game.id = {result.Game.Id};";
+                var gameCover = await GetAsync<Cover>(IGDBClient.Endpoints.Covers, query);
+                result.ImageUrl = gameCover?.FirstOrDefault().Url;
+            }
+
+            if (result.IsPlatform)
+            {
+                string query = $"fields *, platform_logo.*; where id = {result.Platform.Id};";
+                var platformLogo = await GetAsync<Platform>(IGDBClient.Endpoints.Platforms, query);
+                result.ImageUrl = platformLogo.FirstOrDefault()?.PlatformLogo.Value.Url;
+            }
+        }
+        return convertedResults;
     }
 }

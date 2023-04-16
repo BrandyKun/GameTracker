@@ -172,6 +172,20 @@ header {
             display: none;
           }
         }
+
+        .search-btn{
+          position: relative;
+          left: -30px;
+
+          .search-icon{
+            &:hover{
+              transform: scale(1.2);
+              transition: all 0.2s;
+              fill: darken($color: (#D1D0D3), $amount: 20%)
+            }
+            
+          }
+        }
         ul {
           display: flex;
           padding-left: 0;

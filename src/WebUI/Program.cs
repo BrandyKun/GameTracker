@@ -20,17 +20,19 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>().AddSignInManager<SignInManager<User>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(opt =>//what we want to do to validate this token
-    {
-        opt.TokenValidationParameters = new TokenValidationParameters
+        .AddJwtBearer(opt =>//what we want to do to validate this token
         {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF7.GetBytes(builder.Configuration["Token:Key"])),
-            ValidIssuer = builder.Configuration["Token:Issuer"],
-            ValidateIssuer = true,
-            ValidateAudience = false
-        };
-    });
+            opt.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF7.GetBytes(builder.Configuration["Token:Key"])),
+                ValidIssuer = builder.Configuration["Token:Issuer"],
+                ValidateIssuer = true,
+                ValidateAudience = false
+            };
+        });
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddAuthorization();
 

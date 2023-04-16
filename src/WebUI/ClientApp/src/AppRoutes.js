@@ -3,6 +3,7 @@ import { FetchData } from "./components/FetchData";
 import Home from "./components/Home";
 import Game  from "./components/Game";
 import Login from "./components/Login";
+import SearchResult from "./components/SearchResult";
 
 const AppRoutes = [
   {
@@ -24,6 +25,10 @@ const AppRoutes = [
   {
     path: '/login',
     element: <Login/>
+  },
+  {
+    path: '/search',
+    element: <SearchResult/>
   }
 ];
 
