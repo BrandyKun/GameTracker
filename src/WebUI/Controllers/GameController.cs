@@ -188,6 +188,10 @@ public class GameController : ControllerBase
 
     private async Task<IEnumerable<SearchResultsToReturnDto>> SortAndFilterSearchResult(IEnumerable<Search> results)
     {
+
+        IList<Cover> gameCover = new List<Cover>();
+        IList<Platform> platformLogo = new List<Platform>();
+
         if (results == null)
         {
             throw new Exception("search yielded no results");
@@ -195,20 +199,33 @@ public class GameController : ControllerBase
 
         var convertedResults = _mapper.Map<IEnumerable<Search>, IEnumerable<SearchResultsToReturnDto>>(results);
 
+        var gameIds = String.Join(",", convertedResults.Where(c => c.IsGame).Select(x => x.Game.Id));
+        var platformIds = String.Join(",", convertedResults.Where(c => c.IsPlatform).Select(x => x.Platform.Id));
+
+        if (!String.IsNullOrEmpty(gameIds))
+        {
+            string coverQuery = $"fields *; where game.id = ({gameIds});";
+            gameCover = await GetAsync<Cover>(IGDBClient.Endpoints.Covers, coverQuery);
+        }
+
+        if (!String.IsNullOrEmpty(platformIds))
+        {
+            string platfomrQuery = $"fields *, platform_logo.*; where id = ({platformIds});";
+            platformLogo = await GetAsync<Platform>(IGDBClient.Endpoints.Platforms, platfomrQuery);
+        }
+
         foreach (var result in convertedResults)
         {
             if (result.IsGame)
             {
-                string query = $"fields *; where game.id = {result.Game.Id};";
-                var gameCover = await GetAsync<Cover>(IGDBClient.Endpoints.Covers, query);
-                result.ImageUrl = gameCover?.FirstOrDefault().Url;
+                var cover = gameCover.FirstOrDefault(x => x.Game.Id == result.Game.Id);
+                result.ImageUrl = cover?.Url;
             }
 
             if (result.IsPlatform)
             {
-                string query = $"fields *, platform_logo.*; where id = {result.Platform.Id};";
-                var platformLogo = await GetAsync<Platform>(IGDBClient.Endpoints.Platforms, query);
-                result.ImageUrl = platformLogo.FirstOrDefault()?.PlatformLogo.Value.Url;
+                var logo = platformLogo.FirstOrDefault(c => c.Id == result.Platform.Id);
+                result.ImageUrl = logo?.PlatformLogo?.Value?.Url;
             }
         }
         return convertedResults;

@@ -1,13 +1,27 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const SearchResult = () => {
-    const {data} = useLocation();
-    console.log(data)
+  const [results, SetSearchResults] = useState();
 
-  return (
-    <div>SearchResult {data} </div>
-  )
-}
+  const { state } = useLocation();
 
-export default SearchResult
+  useEffect(() => {
+    const getResults =() => {
+      if(state !== null && state !== undefined)
+      {
+        console.log('Results back',state)
+        SetSearchResults(state);
+      }
+    }
+    getResults();
+  }, [])
+  
+
+  return <div>SearchResult: 
+  {results.map((search) => (
+    <p> {search.name}</p>
+  ))} </div>;
+};
+
+export default SearchResult;

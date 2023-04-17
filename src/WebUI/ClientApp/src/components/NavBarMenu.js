@@ -13,7 +13,7 @@ const navigate = useNavigate();
     const searchBox = document.querySelector('#search-box');
     const searchValue = searchBox.value;
     const results = await search(searchValue);
-    navigate('/search', {data : { results}})
+    navigate('/search', {state : { ...results}})
   }
   return (
     <header>

@@ -27,6 +27,8 @@ export const search = async (searchParam) => {
       searchQuery: searchParam,
     }),
   }).then((response) => response.json());
+  debugger
+  console.log(res);
   return res;
 };
 
