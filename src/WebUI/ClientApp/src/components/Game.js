@@ -24,7 +24,7 @@ const Game = ({}) => {
     if (gameId != null && gameId != undefined) {
       setGameId(gameId);
     }
-  }, []);
+  }, [gameId]);
 
   useEffect(() => {
     async function fetchData() {
@@ -46,23 +46,23 @@ const Game = ({}) => {
     async function fetchScreenshoots() {
       // console.log(games, "this are the game");
       const endpoint = `game/screenshots/${id}`;
-      const query = `fields url; where game = ${id};`;
+      const query = `fields *, game.*; where game=${id};`;
       const limit = "20";
       const date = "";
       const response = await getAsync(endpoint, query, date, limit);
-      // ...
       setScreenshots(response);
     }
     fetchScreenshoots();
-  }, [id]);
+  }, [game]);
 
   useEffect(() => {
     const getRandomImage = () => {
       let bckImageToDisplay  =  '';
       let randomNumberInArrayRange = 0;
-      if (screenshots != null && screenshots != undefined) {
+      if (screenshots) {
         randomNumberInArrayRange = Math.floor(Math.random() * (screenshots.length + 1));
-        bckImageToDisplay = screenshots[randomNumberInArrayRange].url;
+        bckImageToDisplay = screenshots[randomNumberInArrayRange];
+        bckImageToDisplay = bckImageToDisplay.url;
       }
       else if( game?.artworks?.values != null && game.artworks?.values != undefined )
       {

@@ -27,8 +27,6 @@ export const search = async (searchParam) => {
       searchQuery: searchParam,
     }),
   }).then((response) => response.json());
-  debugger
-  console.log(res);
   return res;
 };
 
@@ -46,7 +44,7 @@ export const getAsyncNoParams = async (endpoint) => {
 
 export const changeImageSize = (url, size) => {
   let newURL = "";
-  if (url != null) {
+  if (url) {
    newURL = url.replace(/t_thumb/, size);
   } else {
     newURL = "https://publications.iarc.fr/uploads/media/default/0001/02/thumb_1240_default_publication.jpeg"

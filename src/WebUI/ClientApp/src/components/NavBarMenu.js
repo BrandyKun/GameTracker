@@ -5,16 +5,20 @@ import { IconContext } from "react-icons/lib";
 import MobileNav from "./MobileNav";
 import { getAsync, search } from "./Service";
 
-
 const NavBarMenu = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const Search = async (e) => {
     e.preventDefault();
-    const searchBox = document.querySelector('#search-box');
+    const searchBox = document.querySelector("#search-box");
     const searchValue = searchBox.value;
     const results = await search(searchValue);
-    navigate('/search', {state : { ...results}})
-  }
+    navigate("/search", { state: { result :results, search: searchValue } });
+  };
+
+  const keyDownHandler = (e) => {
+    if(e.keyCode === 13)
+    Search(e);
+  };
   return (
     <header>
       <nav>
@@ -28,7 +32,12 @@ const navigate = useNavigate();
           <span></span> */}
           <div className="navbar-links">
             <div className="searchbox-container">
-              <input type="text" name="search" id="search-box" />
+              <input
+                type="text"
+                name="search"
+                id="search-box"
+                onKeyUp={keyDownHandler}
+              />
               <button type="submit" onClick={Search} className="search-btn">
                 <IconContext.Provider value={{ className: "search-icon" }}>
                   <BiSearchAlt />

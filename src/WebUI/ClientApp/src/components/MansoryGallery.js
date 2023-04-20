@@ -28,7 +28,12 @@ const MansoryGallery = ({ screenshots }) => {
   useEffect(() => {
     const getOtherImg = () => {
       let galleryImg = [];
-      for (let i = 1; i < 5; i++) {
+      let gallerySize = 5;
+      if (screenshots.length < 4) {
+        gallerySize = screenshots.length;
+      }
+
+      for (let i = 1; i < gallerySize; i++) {
         galleryImg.push(screenshots[i]);
       }
       setImages(galleryImg);
@@ -39,12 +44,10 @@ const MansoryGallery = ({ screenshots }) => {
   useEffect(() => {
     if (showModal) {
       document.body.style.overflow = "hidden";
-    }
-    else{
+    } else {
       document.body.style.overflow = "auto";
     }
   }, [showModal]);
-
 
   const renderImages = () => {
     return images.map((imgSource, index) => {

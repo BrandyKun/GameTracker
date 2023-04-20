@@ -22,9 +22,10 @@ public class GameController : ControllerBase
         _client = new IGDBClient(_config["IGDB_CLIENT_ID"], _config["IGDB_CLIENT_SECRET"]);
     }
     //change if limti is 0 we remove teh limit from quesry and return all teh results
-    private async Task<List<T>> GetAsync<T>(string endpoint, string query = "", int limit = 20, string sorts = "")
+    private async Task<List<T>> GetAsync<T>(string endpoint, string query = "", int limit = 150, string sorts = "")
     {
         var builtQuery = string.IsNullOrEmpty(query) ? $"fields *; limit {limit};" : $"{query} limit {limit};";
+
         string sort = string.IsNullOrEmpty(sorts) ? "" : sorts;
         builtQuery += sort;
         var model = await _client.QueryAsync<T>(endpoint, builtQuery);
@@ -179,7 +180,7 @@ public class GameController : ControllerBase
     public async Task<IEnumerable<SearchResultsToReturnDto>> GetSearchesAsync([FromBody] SearchResultsDto searchQuery)
     {
         string query = string.IsNullOrEmpty(searchQuery.SearchQuery) ? "fields game.*;" : $"fields *; search \"{searchQuery.SearchQuery}\";";
-        var searches = await GetAsync<Search>(IGDBClient.Endpoints.Search, query, 50);
+        var searches = await GetAsync<Search>(IGDBClient.Endpoints.Search, query);
 
         var resultType = await SortAndFilterSearchResult(searches);
 
@@ -189,8 +190,9 @@ public class GameController : ControllerBase
     private async Task<IEnumerable<SearchResultsToReturnDto>> SortAndFilterSearchResult(IEnumerable<Search> results)
     {
 
-        IList<Cover> gameCover = new List<Cover>();
+        IList<Game> gameCover = new List<Game>();
         IList<Platform> platformLogo = new List<Platform>();
+        IList<Character> characters = new List<Character>();
 
         if (results == null)
         {
@@ -199,13 +201,19 @@ public class GameController : ControllerBase
 
         var convertedResults = _mapper.Map<IEnumerable<Search>, IEnumerable<SearchResultsToReturnDto>>(results);
 
+        if (convertedResults == null)
+        {
+            throw new Exception("error while mapping");
+        }
+
         var gameIds = String.Join(",", convertedResults.Where(c => c.IsGame).Select(x => x.Game.Id));
         var platformIds = String.Join(",", convertedResults.Where(c => c.IsPlatform).Select(x => x.Platform.Id));
+        var characterIds = String.Join(",", convertedResults.Where(c => c.IsCharacter).Select(x => x.Character.Id));
 
         if (!String.IsNullOrEmpty(gameIds))
         {
-            string coverQuery = $"fields *; where game.id = ({gameIds});";
-            gameCover = await GetAsync<Cover>(IGDBClient.Endpoints.Covers, coverQuery);
+            string coverQuery = $"fields name, cover.*; where id = ({gameIds});";
+            gameCover = await GetAsync<Game>(IGDBClient.Endpoints.Games, coverQuery);
         }
 
         if (!String.IsNullOrEmpty(platformIds))
@@ -213,21 +221,44 @@ public class GameController : ControllerBase
             string platfomrQuery = $"fields *, platform_logo.*; where id = ({platformIds});";
             platformLogo = await GetAsync<Platform>(IGDBClient.Endpoints.Platforms, platfomrQuery);
         }
+        if (!String.IsNullOrEmpty(characterIds))
+        {
+            string platfomrQuery = $"fields *, mug_shot.*; where id = ({characterIds});";
+            characters = await GetAsync<Character>(IGDBClient.Endpoints.Characters, platfomrQuery);
+        }
 
         foreach (var result in convertedResults)
         {
             if (result.IsGame)
             {
-                var cover = gameCover.FirstOrDefault(x => x.Game.Id == result.Game.Id);
-                result.ImageUrl = cover?.Url;
+                var cover = gameCover.FirstOrDefault(x => x.Id == result.Game.Id);
+                result.Id = result.Game.Id ?? 0;
+                if ((cover != null) && (cover.Cover != null) )
+                {
+                    result.ImageUrl = cover?.Cover?.Value?.Url;
+                }
             }
 
             if (result.IsPlatform)
             {
                 var logo = platformLogo.FirstOrDefault(c => c.Id == result.Platform.Id);
-                result.ImageUrl = logo?.PlatformLogo?.Value?.Url;
+                result.Id = result.Platform.Id ?? 0;
+
+                if ((logo != null) && (logo.PlatformLogo != null))
+                {
+                    result.ImageUrl = logo?.PlatformLogo?.Value?.Url;
+                }
+            }
+            if (result.IsCharacter)
+            {
+                var character = characters.FirstOrDefault(c => c.Id == result.Character.Id);
+                result.Id = result.Character.Id ?? 0;
+                if ((character != null) && (character.MugShot != null))
+                {
+                    result.ImageUrl = $"//images.igdb.com/igdb/image/upload/t_thumb/{character?.MugShot?.Value?.ImageId}.jpeg";
+                }
             }
         }
-        return convertedResults;
+        return convertedResults.OrderByDescending(x => x.PublishedAt);
     }
 }

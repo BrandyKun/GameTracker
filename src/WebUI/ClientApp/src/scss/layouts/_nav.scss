@@ -55,7 +55,7 @@ header {
         margin-right: auto;
         margin-left: auto;
         &-mob {
-          visibility: hidden;
+          display: none;
           &-menu-close {
             transform: translateY(-250px);
           }
