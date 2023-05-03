@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { getAsyncNoParams} from "./Service";
+import { getAsyncNoParams } from "./Service";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper";
@@ -8,22 +8,15 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import CarouselCard from "./CarouselCard";
+import Loader from "./ReUsable/Loader";
 
-const HomeCarousell = () => {
+const HomeCarousell = ({ gameList }) => {
   const [size, setSize] = useState(475);
   const [games, setGames] = useState();
 
   useEffect(() => {
-    async function fetchData() {
-      // console.log(games, "this are the game");
-      const endpoint = "game/popular";
-      // You can await here
-      const response = await getAsyncNoParams(endpoint);
-      // ...
-      setGames(response);
-    }
-    fetchData();
-  }, []);
+    if (gameList) setGames(gameList);
+  }, [gameList]);
 
   useLayoutEffect(() => {
     function updateWidth() {
@@ -68,10 +61,10 @@ const HomeCarousell = () => {
       >
         {games?.map((game) => (
           <SwiperSlide key={game.id}>
-            <CarouselCard key={game.id} game ={game}/>
+            <CarouselCard key={game.id} game={game} />
           </SwiperSlide>
         ))}
-      </Swiper> 
+      </Swiper>
     </div>
   );
 };

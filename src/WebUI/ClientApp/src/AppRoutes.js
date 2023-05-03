@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import Game  from "./components/Game";
 import Login from "./components/Login";
 import SearchResult from "./components/SearchResult";
+import Platform from "./components/Platform";
 
 const AppRoutes = [
   {
@@ -21,6 +22,10 @@ const AppRoutes = [
   {
     path: '/games/:gameId',
     element: <Game />
+  },
+  {
+    path: '/platforms/:platformId',
+    element: <Platform />
   },
   {
     path: '/login',

@@ -35,7 +35,7 @@ header {
     // }
 
     &.closed {
-      z-index: 98;
+      z-index: 1;
       .navbar-logo,
       .menu-icon {
         transform: translateY(0);

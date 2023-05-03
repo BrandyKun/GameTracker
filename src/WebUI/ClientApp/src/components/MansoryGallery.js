@@ -5,6 +5,7 @@ import Modal from "./Modal";
 
 const MansoryGallery = ({ screenshots }) => {
   const [firstImage, setFirstImage] = useState();
+  const [loading, setLoading] = useState(false);
   const [images, setImages] = useState();
   const [selectedImage, setImageClicked] = useState();
   const [showModal, setModal] = useState(false);
@@ -17,6 +18,7 @@ const MansoryGallery = ({ screenshots }) => {
   useEffect(() => {
     const getImg = () => {
       if (screenshots != null && screenshots != undefined) {
+        setLoading(true)
         const arrayOfImg = screenshots;
         const image = arrayOfImg[arrayOfImg.length - arrayOfImg.length];
         setFirstImage(image);
@@ -27,16 +29,19 @@ const MansoryGallery = ({ screenshots }) => {
 
   useEffect(() => {
     const getOtherImg = () => {
-      let galleryImg = [];
-      let gallerySize = 5;
-      if (screenshots.length < 4) {
-        gallerySize = screenshots.length;
-      }
+      if (screenshots) {
+        let galleryImg = [];
+        let gallerySize = 5;
+        if (screenshots.length < 5) {
+          gallerySize = screenshots.length;
+        }
 
-      for (let i = 1; i < gallerySize; i++) {
-        galleryImg.push(screenshots[i]);
+        for (let i = 1; i < gallerySize; i++) {
+          galleryImg.push(screenshots[i]);
+        }
+        setImages(galleryImg);
       }
-      setImages(galleryImg);
+      setLoading(false);
     };
     getOtherImg();
   }, []);
