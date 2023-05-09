@@ -5,6 +5,9 @@ import HomeInfo from "./HomeInfo";
 import Platforms from "./Platforms";
 import { getAsyncNoParams } from "./Service";
 import Loader from "./ReUsable/Loader";
+import {AnimationOnScroll} from 'react-animation-on-scroll'
+import "animate.css/animate.min.css";
+
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -55,7 +58,9 @@ const Home = () => {
             </div>
             <HomeInfo />
             <Platforms />
-            <HomeColumns recentGames={recent} upcomingGames={upcoming} />
+            <AnimationOnScroll animateIn="animate__fadeInUp">
+              <HomeColumns recentGames={recent} upcomingGames={upcoming} />
+            </AnimationOnScroll>
           </div>
         </>
       )}

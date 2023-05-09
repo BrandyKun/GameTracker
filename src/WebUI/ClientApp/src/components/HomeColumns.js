@@ -8,11 +8,11 @@ const HomeColumns = ({ recentGames, upcomingGames }) => {
 
   useEffect(() => {
     if (recentGames) setRecent(recentGames);
-  }, [recent]);
+  }, [recentGames]);
 
   useEffect(() => {
     if (upcomingGames) setUpcoming(upcomingGames);
-  }, [upcoming]);
+  }, [upcomingGames]);
   return (
     <section className="recently_view">
       <div className="others">

@@ -19,7 +19,7 @@ public class GameController : ControllerBase
     {
         _mapper = mapper;
         _config = config;
-        _client = new IGDBClient(_config["IGDB_CLIENT_ID"], _config["IGDB_CLIENT_SECRET"]);
+        _client = new IGDBClient(_config.GetValue<string>("IGDB_CLIENT_ID"), _config.GetValue<string>("IGDB_CLIENT_SECRET"));
     }
     //change if limti is 0 we remove teh limit from quesry and return all teh results
     private async Task<List<T>> GetAsync<T>(string endpoint, string query = "", int limit = 150, string sorts = "")
@@ -167,7 +167,7 @@ public class GameController : ControllerBase
 
         //calculating date in milliseconds to get the popular games from th past 6 months
         DateTime currentDate = DateTime.UtcNow;
-        DateTimeOffset pastSixMonthsDate = currentDate.AddMonths(-3);
+        DateTimeOffset pastSixMonthsDate = currentDate.AddMonths(-2);
         var dateInMilliseconds = pastSixMonthsDate.ToUnixTimeMilliseconds();
 
         //1st calling games from ps4/ps5

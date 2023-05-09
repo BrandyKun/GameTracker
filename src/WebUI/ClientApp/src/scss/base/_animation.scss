@@ -69,3 +69,15 @@
     transform: translate(0);
   }
 }
+
+
+@keyframes bouge {
+  /*starting point and angle (same angle as choosen into .levitation)*/
+  from {
+    transform: translateY(20px);
+  }
+  /* ending point and angle */
+  to {
+    transform: translateY(50px);
+  }
+}

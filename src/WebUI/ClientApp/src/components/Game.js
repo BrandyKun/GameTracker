@@ -220,7 +220,7 @@ const Game = ({}) => {
                             <iframe
                               width="95%"
                               height="450"
-                              src={`https://www.youtube.com/embed/${vr.videoId}`}
+                              src={`https://www.youtube.com/embed/${vr.videoId}?modestbranding=1&color=white"`}
                             ></iframe>
                           </SwiperSlide>
                         );

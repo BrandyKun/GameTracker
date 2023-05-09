@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "./ReUsable/MenuIcon";
 import UserIcon from "./ReUsable/UserIcon";
+import SearchInput from "./ReUsable/SearchInput";
+import Loader from "./ReUsable/Loader";
+import { search } from "./Service";
 
 const MobileNav = () => {
   const [toggle, setToggle] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
@@ -31,14 +36,15 @@ const MobileNav = () => {
     const navPosition = event.clientY;
 
     if (toggle) {
+      document.body.style.overflow = "hidden";
+
       if (!nav.classList.contains("scrolled-down")) {
         nav.classList.remove("closed");
         nav.classList.add("scrolled-down");
-        document.body.style.overflow = "hidden";
       }
     } else {
       nav.classList.add("closed");
-      document.body.style.overflow = "scroll";
+      document.body.style.overflow = "unset";
       if (menu.classList.contains("close") && navPosition < 50) {
         nav.classList.remove("scrolled-down");
       }
@@ -61,49 +67,74 @@ const MobileNav = () => {
       }
     }
   };
+
+  const Search = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    const searchBox = document.querySelector("#search-box-mobile");
+    const searchValue = searchBox.value;
+    const results = await search(searchValue);
+    if (results) setLoading(false);
+    setToggle();
+    navigate("/search", { state: { result: results, search: searchValue } });
+  };
+  const keyDownHandler = (e) => {
+    if (e.keyCode === 13) Search(e);
+  };
+
   return (
     <>
-      <div className="navbar-container navbar-container-mob">
-        <span className="menu-icon">
-          <UserIcon />
-        </span>
-        <Link className="navbar-logo" to="/">
-          MobileLogo
-        </Link>
-        <span className="menu-icon" onClick={toggleMenu}>
-          <MenuIcon />
-        </span>
-      </div>
-      <div
-        id="mobileMenu"
-        className={`navbar-container navbar-container-mob-menu${
-          toggle ? "-open" : "-close"
-        }`}
-        style={{}}
-      >
-        <ul>
-          <li>
-            {" "}
-            <Link to="/"> Home </Link>
-          </li>
-          <li>
-            {" "}
-            <Link to="/counter"> Counter </Link>
-          </li>
-          <li>
-            {" "}
-            <Link to="/fetch-data"> Fetch Data </Link>
-          </li>
-          <li>
-            {" "}
-            <Link to="/games"> Games </Link>
-          </li>
-          <li>
-            {" "}
-            <Link to="/login"> Login </Link>
-          </li>
-        </ul>
-      </div>
+      {!loading ? (
+        <>
+          <div className="navbar-container navbar-container-mob">
+            <span className="menu-icon">
+              <UserIcon />
+            </span>
+            <Link className="navbar-logo" to="/">
+              MobileLogo
+            </Link>
+            <span className="menu-icon" onClick={toggleMenu}>
+              <MenuIcon />
+            </span>
+          </div>
+          <div
+            id="mobileMenu"
+            className={`navbar-container navbar-container-mob-menu${
+              toggle ? "-open" : "-close"
+            }`}
+          >
+            <div className="someclass">
+              <div className="search-container">
+                <SearchInput
+                  btnId={"mobile"}
+                  keyUp={keyDownHandler}
+                  onClick={Search}
+                  classes={"mobile-search"}
+                />
+              </div>
+              <ul>
+                <li>
+                  {" "}
+                  <Link to="/"> Home </Link>
+                </li>
+                <li>
+                  {" "}
+                  <Link to="/games"> Games </Link>
+                </li>
+                <li>
+                  {" "}
+                  <Link to="/login"> Login </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="menu-footer">
+              <p>footer text</p>
+            </div>
+          </div>
+        </>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };

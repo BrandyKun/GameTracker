@@ -91,7 +91,7 @@ const SearchResult = () => {
 
   return (
     <div className="searchContainer">
-      <h3> Results for: " {state.state.search.toUpperCase()} "</h3>
+      <h3 className="resultTitle"> Results for: " {state.state.search.toUpperCase()} "</h3>
 
       <div className="filters-container">
         <button

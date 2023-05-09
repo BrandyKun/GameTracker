@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BiSearchAlt } from "react-icons/bi";
-import { IconContext } from "react-icons/lib";
+
 import MobileNav from "./MobileNav";
-import { getAsync, search } from "./Service";
+import SearchInput from "./ReUsable/SearchInput";
+import { search } from "./Service";
 import Loader from "../components/ReUsable/Loader";
 
 const NavBarMenu = () => {
@@ -12,16 +12,16 @@ const NavBarMenu = () => {
   const Search = async (e) => {
     setLoading(true);
     e.preventDefault();
-    const searchBox = document.querySelector("#search-box");
+    const searchBox = document.querySelector("#search-box-desktop");
     const searchValue = searchBox.value;
     const results = await search(searchValue);
     if (results) setLoading(false);
     navigate("/search", { state: { result: results, search: searchValue } });
   };
-
   const keyDownHandler = (e) => {
     if (e.keyCode === 13) Search(e);
   };
+
   return (
     <>
       {!loading ? (
@@ -37,17 +37,12 @@ const NavBarMenu = () => {
           <span></span> */}
               <div className="navbar-links">
                 <div className="searchbox-container">
-                  <input
-                    type="text"
-                    name="search"
-                    id="search-box"
-                    onKeyUp={keyDownHandler}
+                  <SearchInput
+                  btnId = {"desktop"}
+                    classes={""}
+                    keyUp={keyDownHandler}
+                    onClick={Search}
                   />
-                  <button type="submit" onClick={Search} className="search-btn">
-                    <IconContext.Provider value={{ className: "search-icon" }}>
-                      <BiSearchAlt />
-                    </IconContext.Provider>
-                  </button>
                 </div>
                 <ul>
                   <li>
@@ -67,7 +62,7 @@ const NavBarMenu = () => {
         </header>
       ) : (
         <Loader />
-      )}{" "}
+      )}
     </>
   );
 };

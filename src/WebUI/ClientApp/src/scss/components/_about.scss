@@ -19,6 +19,7 @@
       .composition {
         position: relative;
         top: -5rem;
+        z-index: 1;
 
         @media (max-width: 768px) {
           top: 6.5rem;
