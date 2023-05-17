@@ -5,9 +5,8 @@ import HomeInfo from "./HomeInfo";
 import Platforms from "./Platforms";
 import { getAsyncNoParams } from "./Service";
 import Loader from "./ReUsable/Loader";
-import {AnimationOnScroll} from 'react-animation-on-scroll'
+import { AnimationOnScroll } from "react-animation-on-scroll";
 import "animate.css/animate.min.css";
-
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -52,12 +51,16 @@ const Home = () => {
         <>
           <div className="main">
             <nav className="filters"></nav>
-            <div className="games-container">
-              <h2> POPULAR GAMES</h2>
-              <HomeCarousell gameList={gameList} />
-            </div>
-            <HomeInfo />
-            <Platforms />
+              <div className="games-container">
+                <h2> POPULAR GAMES</h2>
+                <HomeCarousell gameList={gameList} />
+              </div>
+            <AnimationOnScroll animateIn="animate__fadeInUp">
+              <HomeInfo />
+            </AnimationOnScroll>
+            <AnimationOnScroll animateIn="animate__fadeInUp">
+              <Platforms />
+            </AnimationOnScroll>
             <AnimationOnScroll animateIn="animate__fadeInUp">
               <HomeColumns recentGames={recent} upcomingGames={upcoming} />
             </AnimationOnScroll>

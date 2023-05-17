@@ -9,7 +9,7 @@ const HomeInfo = () => {
           <div className="row about-row">
             <div className="col-1-of-2">
               <h3 className="heading-tertiary u-margin-bottom-small">
-                save ytour favourite games
+                save Your favourite games
               </h3>
               <p className="paragraph">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.

@@ -35,10 +35,11 @@ const NavBarMenu = () => {
           <span></span>
           <span></span>
           <span></span> */}
+              <div className="nav-icon">navigation</div>
               <div className="navbar-links">
                 <div className="searchbox-container">
                   <SearchInput
-                  btnId = {"desktop"}
+                    btnId={"desktop"}
                     classes={""}
                     keyUp={keyDownHandler}
                     onClick={Search}
@@ -55,9 +56,12 @@ const NavBarMenu = () => {
                     <Link to="/login"> Login </Link>
                   </li>
                 </ul>
+                <div className="menu-footer">
+                  <p>footer text</p>
+                </div>
               </div>
             </div>
-            <MobileNav />
+            {/* <MobileNav /> */}
           </nav>
         </header>
       ) : (
