@@ -51,16 +51,16 @@ const Home = () => {
         <>
           <div className="main">
             <nav className="filters"></nav>
-              <div className="games-container">
-                <h2> POPULAR GAMES</h2>
-                <HomeCarousell gameList={gameList} />
-              </div>
+            <div className="games-container">
+              <h2> POPULAR GAMES</h2>
+              <HomeCarousell gameList={gameList} />
+            </div>
             <AnimationOnScroll animateIn="animate__fadeInUp">
               <HomeInfo />
             </AnimationOnScroll>
-            <AnimationOnScroll animateIn="animate__fadeInUp">
+            {/* <AnimationOnScroll animateIn="animate__fadeInUp">
               <Platforms />
-            </AnimationOnScroll>
+            </AnimationOnScroll> */}
             <AnimationOnScroll animateIn="animate__fadeInUp">
               <HomeColumns recentGames={recent} upcomingGames={upcoming} />
             </AnimationOnScroll>

@@ -31,13 +31,13 @@ const MobileNav = () => {
 
   const onToggleMenu = (event) => {
     const nav = document.querySelector("nav");
-    const menu = document.querySelector("mobileMenu");
+    const menu = document.querySelector("navbar-links");
 
     const navPosition = event.clientY;
 
     if (toggle) {
       document.body.style.overflow = "hidden";
-
+      // menu.style.displ
       if (!nav.classList.contains("scrolled-down")) {
         nav.classList.remove("closed");
         nav.classList.add("scrolled-down");

@@ -3,12 +3,8 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="footerContainer">
-      <footer
-        style={{ width: "100%", height: "400px", backgroundColor: "#181A24" }}
-        className="top"
-      >
+      <footer className="top">
         {/* <img src="logo.svg" /> */}
-
         Some Logo
         <div class="links">
           <div>
