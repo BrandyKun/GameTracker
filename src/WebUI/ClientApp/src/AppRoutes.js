@@ -5,6 +5,7 @@ import Game  from "./components/Game";
 import Login from "./components/Login";
 import SearchResult from "./components/SearchResult";
 import Platform from "./components/Platform";
+import SearchFilter from "./components/SearchFilter";
 
 const AppRoutes = [
   {
@@ -30,6 +31,10 @@ const AppRoutes = [
   {
     path: '/login',
     element: <Login/>
+  },
+  {
+    path: '/filter',
+    element: <SearchFilter/>
   },
   {
     path: '/search',

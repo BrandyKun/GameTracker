@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import SearchInput from "./ReUsable/SearchInput";
@@ -8,6 +8,7 @@ import Loader from "../components/ReUsable/Loader";
 const NavBarMenu = () => {
   const [loading, setLoading] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [isMobile, SetIsMobile] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +22,18 @@ const NavBarMenu = () => {
     window.addEventListener("scroll", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    function checkSize() {
+      if (window.innerWidth < 768) SetIsMobile(true);
+    }
+    window.addEventListener("resize", checkSize);
+    checkSize();
+
+    return () => {
+      window.removeEventListener("resize", checkSize);
     };
   }, []);
 
@@ -43,7 +56,7 @@ const NavBarMenu = () => {
 
   const onToggleMenu = (event) => {
     const nav = document.querySelector("nav");
-    const menu = document.querySelector(".navbar-links");
+    const menu = document.querySelector("div#mobile.navbar-links");
 
     const navPosition = event.clientY;
 
@@ -98,7 +111,7 @@ const NavBarMenu = () => {
               <div className="nav-icon" onClick={toggleMenu}>
                 navigation
               </div>
-              <div className="navbar-links">
+              <div id={isMobile ? 'mobile': 'desktop'} className="navbar-links">
                 <div className="searchbox-container">
                   <SearchInput
                     btnId={"desktop"}
@@ -109,13 +122,22 @@ const NavBarMenu = () => {
                 </div>
                 <ul>
                   <li>
-                    <Link to="/" onClick={toggleMenu}> Home </Link>
+                    <Link to="/" onClick={toggleMenu}>
+                      {" "}
+                      Home{" "}
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/games" onClick={toggleMenu}> Games </Link>
+                    <Link to="/games" onClick={toggleMenu}>
+                      {" "}
+                      Games{" "}
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/login" onClick={toggleMenu}> Login </Link>
+                    <Link to="/login" onClick={toggleMenu}>
+                      {" "}
+                      Login{" "}
+                    </Link>
                   </li>
                 </ul>
                 <div className="menu-footer">
