@@ -7,5 +7,7 @@ namespace Application.Dtos
         public bool IsGame { get; set; }
         public bool IsCharacter { get; set; }
         public string ImageUrl { get; set; } = null!;
+        public ICollection<IGDB.Models.Platform> Platforms { get; set; }
+        public ICollection<IGDB.Models.Genre> Genres { get; set; }
     }
 }

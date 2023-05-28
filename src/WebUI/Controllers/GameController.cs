@@ -194,7 +194,7 @@ public class GameController : ControllerBase
     [HttpPost, Route("search")]
     public async Task<IEnumerable<SearchResultsToReturnDto>> GetSearchesAsync([FromBody] SearchResultsDto searchQuery)
     {
-        string query = string.IsNullOrEmpty(searchQuery.SearchQuery) ? "fields game.*;" : $"fields *; search \"{searchQuery.SearchQuery}\";";
+        string query = string.IsNullOrEmpty(searchQuery.SearchQuery) ? "fields game.*;" : $"fields *; search \"{searchQuery.SearchQuery}\"; sort = name";
         var searches = await GetAsync<Search>(IGDBClient.Endpoints.Search, query);
 
         var resultType = await SortAndFilterSearchResult(searches);
@@ -227,7 +227,7 @@ public class GameController : ControllerBase
 
         if (!String.IsNullOrEmpty(gameIds))
         {
-            string coverQuery = $"fields name, cover.*; where id = ({gameIds});";
+            string coverQuery = $"fields name, cover.*, platforms.*,genres.*; where id = ({gameIds});";
             gameCover = await GetAsync<Game>(IGDBClient.Endpoints.Games, coverQuery);
         }
 
@@ -251,6 +251,8 @@ public class GameController : ControllerBase
                 if ((cover != null) && (cover.Cover != null))
                 {
                     result.ImageUrl = cover?.Cover?.Value?.Url;
+                    result.Platforms = cover?.Platforms?.Values;
+                    result.Genres = cover?.Genres?.Values;
                 }
             }
 

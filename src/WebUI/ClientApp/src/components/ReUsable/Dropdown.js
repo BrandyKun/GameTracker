@@ -15,7 +15,7 @@ const Dropdown = ({ title, data }) => {
         className={`filter-type platforms ${isOpen ? "open" : ""}`}
       >
         <div className="text" onClick={() => setIsOpen(!isOpen)}>
-          <p>C- {title}</p>
+          <p>{title}</p>
           <p>
             {isOpen ? "Close" : "View All"}
             <span> {isOpen ? "" : ">"}</span>
@@ -29,7 +29,7 @@ const Dropdown = ({ title, data }) => {
                   <input
                     type="checkbox"
                     name={filter}
-                    id={index}
+                    id={index} 
                     value={filter}
                     // onChange={checkedInput}
                     className={`${title}-checkbox`}
