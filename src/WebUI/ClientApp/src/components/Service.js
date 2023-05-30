@@ -15,6 +15,19 @@ export const getAsync = async (endpoint, query, date, limit) => {
   }).then((response) => response.json());
   return res;
 };
+export const getByIdAsync = async (endpoint,id) => {
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      Accept: "application/json, text/plain",
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+    body: JSON.stringify({
+      id: id,
+    }),
+  }).then((response) => response.json());
+  return res;
+};
 
 export const search = async (searchParam) => {
   const res = await fetch('game/search', {

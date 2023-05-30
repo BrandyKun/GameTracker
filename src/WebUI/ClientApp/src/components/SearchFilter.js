@@ -6,8 +6,7 @@ const SearchFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { genreFilters, platformFilter,filterResults} = useContext(GameContext);
   const ref = useRef();
-
-  const somedata = ["isGame", "isPlatform", "isCharacter"];
+  
   return (
     <div className="filter-container">
       <div className="filter">
@@ -67,14 +66,14 @@ const SearchFilter = () => {
           </div>
           <Dropdown title={"Platform"} data={platformFilter} />
           <Dropdown title={"Genres"} data={genreFilters} />
-          <div className="filter-type sort">
+          {/* <div className="filter-type sort">
             <div className="text">
               <p>Category</p>
               <p>
                 View All <span> &gt; </span>
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
         <button> apply filter</button>
       </div>

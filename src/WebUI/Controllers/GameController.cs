@@ -49,9 +49,10 @@ public class GameController : ControllerBase
     /// <param name="request"></param>
     /// <returns> single game</returns>
     [HttpPost, Route("games/{id}")]
-    public async Task<Game> GetGameById([FromBody] RequestBodyDto request)
+    public async Task<Game> GetGameById(int id)
     {
-        var games = await GetAsync<Game>(IGDBClient.Endpoints.Games, request.Query, request.Limit);
+        string query = $"fields name,cover.*, bundles,dlcs.*,rating,first_release_date,franchise, release_dates.*, aggregated_rating, involved_companies.*, player_perspectives.*, multiplayer_modes.*,hypes,parent_game.*, artworks.url,platforms.*, screenshots.url, similar_games.*, storyline,summary, url, videos.*, websites.*,collection,franchises.*,franchise,genres.*,language_supports.*; where id = {id};";
+        var games = await GetAsync<Game>(IGDBClient.Endpoints.Games, query, 1);
         return games.FirstOrDefault();
     }
 
@@ -194,12 +195,12 @@ public class GameController : ControllerBase
     [HttpPost, Route("search")]
     public async Task<IEnumerable<SearchResultsToReturnDto>> GetSearchesAsync([FromBody] SearchResultsDto searchQuery)
     {
-        string query = string.IsNullOrEmpty(searchQuery.SearchQuery) ? "fields game.*;" : $"fields *; search \"{searchQuery.SearchQuery}\"; sort = name";
+        string query = string.IsNullOrEmpty(searchQuery.SearchQuery) ? "fields game.*;" : $"fields *; search \"{searchQuery.SearchQuery}\";";
         var searches = await GetAsync<Search>(IGDBClient.Endpoints.Search, query);
 
         var resultType = await SortAndFilterSearchResult(searches);
 
-        return resultType;
+        return resultType.OrderByDescending(x => x.PublishedAt).ThenBy(x => x.Name);
     }
 
     private async Task<IEnumerable<SearchResultsToReturnDto>> SortAndFilterSearchResult(IEnumerable<Search> results)

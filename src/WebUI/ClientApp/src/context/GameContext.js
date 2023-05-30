@@ -30,23 +30,7 @@ const getGenresFilters = (searches) => {
   }
   return genres;
 };
-// const filterResults = (e) => {
-//     //To Do
-//     let boolName = e.target.id;
-//     let filterToSet = [...filter];
-//     let classToToggle = document.querySelector(`#${boolName}`);
-//     //if filter has e.text = remove it if not add it. then filter the searchResults based if isgame etch and return that
-//     if (!filterToSet.includes(boolName)) {
-//       filterToSet.push(boolName);
-//       classToToggle.classList.add("active");
-//     } else {
-//       let foundIndex = filterToSet.indexOf(boolName);
-//       if (foundIndex > -1) filterToSet.splice(foundIndex, 1);
-//       classToToggle.classList.remove("active");
-//     }
-//     SetFilter(filterToSet);
-//     console.log(filter);
-//   };
+
 export const GameContext = createContext({
   searchResults: {},
   setSearchResults: () => {},
@@ -57,7 +41,10 @@ export const GameProvider = ({ children }) => {
   const [searchResults, setSearchResults] = useState();
   const [platformFilter, setPlatformFilters] = useState();
   const [filter, SetFilter] = useState([]);
+  const [screenshots, setScreenshots] = useState();
   const [genreFilters, setGenreFilters] = useState();
+  const [imageIndex, setImageIndex] = useState(false);
+
 
   useEffect(() => {
     if (searchResults) {
@@ -72,15 +59,32 @@ export const GameProvider = ({ children }) => {
     //To Do
     let boolName = e.target.id;
     let filterToSet = [...filter];
-    let classToToggle = document.querySelector(`#${boolName}`);
+    // let classToToggle = document.querySelector(`#${boolName}`);
     //if filter has e.text = remove it if not add it. then filter the searchResults based if isgame etch and return that
     if (!filterToSet.includes(boolName)) {
       filterToSet.push(boolName);
-      classToToggle.classList.add("active");
+    //   classToToggle.classList.add("active");
     } else {
       let foundIndex = filterToSet.indexOf(boolName);
       if (foundIndex > -1) filterToSet.splice(foundIndex, 1);
-      classToToggle.classList.remove("active");
+    //   classToToggle.classList.remove("active");
+    }
+    SetFilter(filterToSet);
+    console.log(filter);
+  };
+  const filterBy = (e) => {
+    //To Do
+    let boolName = e.target.value;
+    let filterToSet = [...filter];
+    // let classToToggle = document.querySelector(`#${boolName}`);
+    //if filter has e.text = remove it if not add it. then filter the searchResults based if isgame etch and return that
+    if (!filterToSet.includes(boolName)) {
+      filterToSet.push(boolName);
+    //   classToToggle.classList.add("active");
+    } else {
+      let foundIndex = filterToSet.indexOf(boolName);
+      if (foundIndex > -1) filterToSet.splice(foundIndex, 1);
+    //   classToToggle.classList.remove("active");
     }
     SetFilter(filterToSet);
     console.log(filter);
@@ -91,11 +95,15 @@ export const GameProvider = ({ children }) => {
     platformFilter,
     genreFilters,
     filter,
+    imageIndex,
+    screenshots,
     setSearchResults,
     setPlatformFilters,
     setGenreFilters,
     SetFilter,
     filterResults,
+    setImageIndex,
+    setScreenshots,
   };
   return <GameContext.Provider value={value}> {children}</GameContext.Provider>;
 };

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MansoryGallery from "./MansoryGallery";
-import { changeImageSize, getAsync, getAsyncNoParams } from "./Service";
+import { changeImageSize, getAsync, getByIdAsync } from "./Service";
+import { GameContext } from "../context/GameContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
@@ -14,13 +15,13 @@ import Loader from "./ReUsable/Loader";
 
 const Game = ({}) => {
   const [game, setGame] = useState();
-  const [screenshots, setScreenshots] = useState();
   const [showMore, setShowMore] = useState(false);
   const [loading, setLoading] = useState(false);
   const [id, setGameId] = useState();
   const [backGroundImage, setBackGroundImage] = useState();
   const [storyLine, setStory] = useState();
   const { gameId } = useParams();
+  const {screenshots, setScreenshots} = useContext(GameContext)
 
   useEffect(() => {
     if (gameId) {
@@ -33,10 +34,7 @@ const Game = ({}) => {
       setLoading(true);
       if (id) {
         const endpoint = `game/games/${id}`;
-        const query = `fields name,cover.*, bundles,dlcs.*,rating,first_release_date,franchise, release_dates.*, aggregated_rating, involved_companies.*, player_perspectives.*, multiplayer_modes.*,hypes,parent_game.*, artworks.url,platforms.*, screenshots.url, similar_games.*, storyline,summary, url, videos.*, websites.*,collection,franchises.*,franchise,genres.*,language_supports.*; where id = ${id};`;
-        const limit = "1";
-        const date = "";
-        const response = await getAsync(endpoint, query, date, limit);
+        const response = await getByIdAsync(endpoint,id);
         // ...
         setGame(response);
       }
@@ -133,14 +131,14 @@ const Game = ({}) => {
                         <table>
                           <tbody>
                             <tr>
-                              <td> Release Date: </td>
+                              <td className="info-title"> Release Date: </td>
                               <td>
                                 {" "}
                                 {new Date(game.firstReleaseDate).toDateString()}
                               </td>
                             </tr>
                             <tr>
-                              <td>Genres:</td>
+                              <td className="info-title">Genres:</td>
                               <td>
                                 <ul>
                                   {game.genres?.values.map((item) => (
@@ -150,7 +148,7 @@ const Game = ({}) => {
                               </td>
                             </tr>
                             <tr>
-                              <td>Platforms:</td>
+                              <td className="info-title">Platforms:</td>
                               <td>
                                 <ul>
                                   {game.platforms?.values.map((item) => (
@@ -160,7 +158,7 @@ const Game = ({}) => {
                               </td>
                             </tr>
                             <tr>
-                              <td>Perspectives:</td>
+                              <td className="info-title">Perspectives:</td>
                               <td>
                                 <ul>
                                   {game.playerPerspectives?.values.map(
@@ -173,9 +171,8 @@ const Game = ({}) => {
                             </tr>
                           </tbody>
                         </table>
-                        <a src={game.websites?.values[0].url}>
-                          {" "}
-                          website {game.name}{" "}
+                        <a className="website-link" src={game.websites?.values[0].url}>
+                          {game.name}
                         </a>
                       </div>
                       <div className="info-box"></div>
@@ -213,14 +210,13 @@ const Game = ({}) => {
                       navigation={true}
                       modules={[Navigation]}
                       className="mySwiper"
+                      spaceBetween={5}
                     >
                       {game.videos?.values?.map((vr) => {
                         return (
                           <SwiperSlide key={vr.id}>
-                            <iframe
-                              width="95%"
-                              height="450"
-                              src={`https://www.youtube.com/embed/${vr.videoId}?modestbranding=1&color=white"`}
+                            <iframe className="youtube-iframe"
+                              src={`https://www.youtube.com/embed/${vr.videoId}?color=white"`}
                             ></iframe>
                           </SwiperSlide>
                         );

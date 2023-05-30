@@ -31,6 +31,9 @@
           padding: 5px;
           align-items: flex-end;
           width: 100%;
+          p {
+            font-size: 1.25rem;
+          }
         }
         .dropdown-menu {
           position: relative;
@@ -44,6 +47,7 @@
           translate: 0 -20px;
           transition: 0.4s;
           background-color: transparent;
+          height: 0;
         }
         &.open {
           .dropdown-menu {
@@ -53,17 +57,28 @@
             display: block;
             border: none;
             height: auto;
-            transition: height 0.5s linear;
+            transition: height 0.3s ease-in-out;
+            transition-delay: 0.1s;
 
             .check-container {
               padding: 1rem 0.75rem;
 
-              input {
-                width: 20px;
-                height: 20px;
-                &:checked {
-                  fill: black;
-                  accent-color:$color-primary-dark;
+              .col-items {
+                white-space: break-spaces;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+
+                input {
+                  width: 20px;
+                  height: 20px;
+                  &:checked {
+                    fill: black;
+                    accent-color: $color-primary-dark;
+                  }
+                }
+                label {
+                  margin-left: 10px;
+                  font-size: 1rem;
                 }
               }
             }
@@ -81,7 +96,7 @@
     // position: absolute;
     // bottom: 20px;
     .filter {
-      background-color: blue;
+      background-color: $color-secondary-light;
       width: 100%;
       height: 80vh;
       position: absolute;
@@ -94,6 +109,7 @@
 
       .divider {
         width: 30%;
+        display: block;
         position: absolute;
         top: 1%;
         margin: 0 auto;
@@ -101,7 +117,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         border-radius: 25px;
-        border: 4px solid black;
+        border: 4px solid $color-secondary-dark;
       }
       .filters {
         max-height: 85%;
@@ -153,7 +169,7 @@
               visibility: visible;
               translate: 0;
               display: block;
-              height: 400px;
+              height: auto;
               transition: height 0.5s linear;
             }
           }

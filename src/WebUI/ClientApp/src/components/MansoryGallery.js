@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { changeImageSize } from "./Service";
 import Modal from "./Modal";
+import { GameContext } from "../context/GameContext";
 
 const MansoryGallery = ({ screenshots }) => {
   const [firstImage, setFirstImage] = useState();
@@ -9,10 +10,12 @@ const MansoryGallery = ({ screenshots }) => {
   const [images, setImages] = useState();
   const [selectedImage, setImageClicked] = useState();
   const [showModal, setModal] = useState(false);
+  const {imageIndex, setImageIndex} = useContext(GameContext)
 
   const toggleModal = (image, index) => {
     setImageClicked(image);
     setModal(!showModal);
+    setImageIndex(index);
   };
 
   useEffect(() => {
@@ -21,6 +24,7 @@ const MansoryGallery = ({ screenshots }) => {
         setLoading(true)
         const arrayOfImg = screenshots;
         const image = arrayOfImg[arrayOfImg.length - arrayOfImg.length];
+        console.log(arrayOfImg)
         setFirstImage(image);
       }
     };
@@ -79,7 +83,7 @@ const MansoryGallery = ({ screenshots }) => {
           )}
           {images && <div className="gallery--2">{renderImages()}</div>}
           {showModal && (
-            <Modal toggleModal={toggleModal} selectedImage={selectedImage} />
+            <Modal toggleModal={toggleModal} imageIndex= {imageIndex} selectedImage={selectedImage} />
           )}
         </div>
       )}

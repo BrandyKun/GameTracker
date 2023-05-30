@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState,useLayoutEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { changeImageSize } from "./Service";
 import { GameContext } from "../context/GameContext";
@@ -49,6 +49,30 @@ const SearchResult = () => {
     filterTheResults();
   }, [filter, searchResults]);
 
+  useLayoutEffect(() => {
+    const filter = document.querySelector('.filter-container');
+    if(window.innerWidth < 768)
+    {
+      filter.style.display = 'none'
+    }
+  
+    return () => {
+     
+    };
+  }, [])
+
+  const openFilter = (e) => {
+    e.preventDefault();
+    const filter = document.querySelector('.filter-container');
+    const body = document.querySelector('body');
+    console.log(body);
+    if(filter.style.display == 'none')
+    {
+      body.style.overflow = 'hidden';
+      filter.style.display = 'block';
+    }
+  
+  }
   // const filterResults = (e) => {
   //   //To Do
   //   let boolName = e.target.id;
@@ -102,25 +126,11 @@ const SearchResult = () => {
 
         <div className="filters-container">
           <button
-            className="filter-btn filter-btn-game"
-            id="isGame"
-            onClick={filterResults}
-          >
-            Games
-          </button>
-          <button
-            className="filter-btn filter-btn-platform"
-            id="isPlatform"
-            onClick={filterResults}
-          >
-            Platforms
-          </button>
-          <button
             className="filter-btn filter-btn-character"
             id="isCharacter"
-            onClick={filterResults}
+            onClick={openFilter}
           >
-            Characters
+            Filter
           </button>
         </div>
         <div className="results-container">

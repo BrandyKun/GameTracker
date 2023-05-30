@@ -47,7 +47,7 @@ const NavBarMenu = () => {
     const searchValue = searchBox.value;
     const results = await search(searchValue);
     if (results) setLoading(false);
-    document.body.style.overflow = "unset";
+    document.body.style.overflow = "initial";
     navigate("/search", { state: { result: results, search: searchValue } });
   };
   const keyDownHandler = (e) => {
@@ -71,7 +71,7 @@ const NavBarMenu = () => {
     } else {
       nav.classList.add("closed");
       menu.style.visibility = "hidden";
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "initial";
       if (menu.classList.contains("closed") && navPosition < 50) {
         nav.classList.remove("scrolled-down");
       }
@@ -111,7 +111,10 @@ const NavBarMenu = () => {
               <div className="nav-icon" onClick={toggleMenu}>
                 navigation
               </div>
-              <div id={isMobile ? 'mobile': 'desktop'} className="navbar-links">
+              <div
+                id={isMobile ? "mobile" : "desktop"}
+                className="navbar-links"
+              >
                 <div className="searchbox-container">
                   <SearchInput
                     btnId={"desktop"}

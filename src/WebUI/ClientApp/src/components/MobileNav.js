@@ -44,7 +44,7 @@ const MobileNav = () => {
       }
     } else {
       nav.classList.add("closed");
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "initial";
       if (menu.classList.contains("close") && navPosition < 50) {
         nav.classList.remove("scrolled-down");
       }
