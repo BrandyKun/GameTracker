@@ -44,7 +44,8 @@ export const GameProvider = ({ children }) => {
   const [screenshots, setScreenshots] = useState();
   const [genreFilters, setGenreFilters] = useState();
   const [imageIndex, setImageIndex] = useState(false);
-
+  const [showModal, setModal] = useState(false);
+  const [selectedImage, setImageClicked] = useState();
 
   useEffect(() => {
     if (searchResults) {
@@ -63,11 +64,11 @@ export const GameProvider = ({ children }) => {
     //if filter has e.text = remove it if not add it. then filter the searchResults based if isgame etch and return that
     if (!filterToSet.includes(boolName)) {
       filterToSet.push(boolName);
-    //   classToToggle.classList.add("active");
+      //   classToToggle.classList.add("active");
     } else {
       let foundIndex = filterToSet.indexOf(boolName);
       if (foundIndex > -1) filterToSet.splice(foundIndex, 1);
-    //   classToToggle.classList.remove("active");
+      //   classToToggle.classList.remove("active");
     }
     SetFilter(filterToSet);
     console.log(filter);
@@ -80,14 +81,20 @@ export const GameProvider = ({ children }) => {
     //if filter has e.text = remove it if not add it. then filter the searchResults based if isgame etch and return that
     if (!filterToSet.includes(boolName)) {
       filterToSet.push(boolName);
-    //   classToToggle.classList.add("active");
+      //   classToToggle.classList.add("active");
     } else {
       let foundIndex = filterToSet.indexOf(boolName);
       if (foundIndex > -1) filterToSet.splice(foundIndex, 1);
-    //   classToToggle.classList.remove("active");
+      //   classToToggle.classList.remove("active");
     }
     SetFilter(filterToSet);
     console.log(filter);
+  };
+
+  const toggleModal = (image, index) => {
+    setImageClicked(image);
+    setModal(!showModal);
+    setImageIndex(index);
   };
 
   const value = {
@@ -97,6 +104,8 @@ export const GameProvider = ({ children }) => {
     filter,
     imageIndex,
     screenshots,
+    showModal,
+    selectedImage,
     setSearchResults,
     setPlatformFilters,
     setGenreFilters,
@@ -104,6 +113,9 @@ export const GameProvider = ({ children }) => {
     filterResults,
     setImageIndex,
     setScreenshots,
+    setModal,
+    setImageClicked,
+    toggleModal,
   };
   return <GameContext.Provider value={value}> {children}</GameContext.Provider>;
 };

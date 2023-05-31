@@ -12,6 +12,7 @@ import "swiper/css/navigation";
 import { Navigation, Pagination } from "swiper";
 import { useParams } from "react-router-dom";
 import Loader from "./ReUsable/Loader";
+import Modal from "./Modal";
 
 const Game = ({}) => {
   const [game, setGame] = useState();
@@ -21,7 +22,14 @@ const Game = ({}) => {
   const [backGroundImage, setBackGroundImage] = useState();
   const [storyLine, setStory] = useState();
   const { gameId } = useParams();
-  const {screenshots, setScreenshots} = useContext(GameContext)
+  const {
+    screenshots,
+    setScreenshots,
+    toggleModal,
+    imageIndex,
+    selectedImage,
+    showModal,
+  } = useContext(GameContext);
 
   useEffect(() => {
     if (gameId) {
@@ -34,7 +42,7 @@ const Game = ({}) => {
       setLoading(true);
       if (id) {
         const endpoint = `game/games/${id}`;
-        const response = await getByIdAsync(endpoint,id);
+        const response = await getByIdAsync(endpoint, id);
         // ...
         setGame(response);
       }
@@ -171,7 +179,10 @@ const Game = ({}) => {
                             </tr>
                           </tbody>
                         </table>
-                        <a className="website-link" src={game.websites?.values[0].url}>
+                        <a
+                          className="website-link"
+                          src={game.websites?.values[0].url}
+                        >
                           {game.name}
                         </a>
                       </div>
@@ -215,7 +226,8 @@ const Game = ({}) => {
                       {game.videos?.values?.map((vr) => {
                         return (
                           <SwiperSlide key={vr.id}>
-                            <iframe className="youtube-iframe"
+                            <iframe
+                              className="youtube-iframe"
                               src={`https://www.youtube.com/embed/${vr.videoId}?color=white"`}
                             ></iframe>
                           </SwiperSlide>
@@ -225,6 +237,13 @@ const Game = ({}) => {
                   </div>
                 </div>
               </div>
+              {showModal && (
+                <Modal
+                  toggleModal={toggleModal}
+                  imageIndex={imageIndex}
+                  selectedImage={selectedImage}
+                />
+              )}
             </div>
           )}
         </>

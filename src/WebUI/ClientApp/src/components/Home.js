@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import HomeCarousell from "./HomeCarousell";
 import HomeColumns from "./HomeColumns";
 import HomeInfo from "./HomeInfo";
@@ -7,6 +7,8 @@ import { getAsyncNoParams } from "./Service";
 import Loader from "./ReUsable/Loader";
 import { AnimationOnScroll } from "react-animation-on-scroll";
 import "animate.css/animate.min.css";
+import Modal from "./Modal";
+import { GameContext } from "../context/GameContext";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);

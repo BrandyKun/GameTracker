@@ -8,15 +8,7 @@ const MansoryGallery = ({ screenshots }) => {
   const [firstImage, setFirstImage] = useState();
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState();
-  const [selectedImage, setImageClicked] = useState();
-  const [showModal, setModal] = useState(false);
-  const {imageIndex, setImageIndex} = useContext(GameContext)
-
-  const toggleModal = (image, index) => {
-    setImageClicked(image);
-    setModal(!showModal);
-    setImageIndex(index);
-  };
+  const {imageIndex,toggleModal,showModal } = useContext(GameContext)
 
   useEffect(() => {
     const getImg = () => {
@@ -82,9 +74,7 @@ const MansoryGallery = ({ screenshots }) => {
             </div>
           )}
           {images && <div className="gallery--2">{renderImages()}</div>}
-          {showModal && (
-            <Modal toggleModal={toggleModal} imageIndex= {imageIndex} selectedImage={selectedImage} />
-          )}
+         
         </div>
       )}
     </>
