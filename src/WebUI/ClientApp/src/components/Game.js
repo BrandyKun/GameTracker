@@ -58,6 +58,7 @@ const Game = ({}) => {
       const limit = "20";
       const date = "";
       const response = await getAsync(endpoint, query, date, limit);
+      console.log(screenshots)
       setScreenshots(response);
     }
     fetchScreenshoots();

@@ -120,10 +120,13 @@
         }
         .website-link{
           text-decoration: underline;
-          color: $color-primary-dark;
+          color: $color-tertiary-dark;
+          width: 100%;
+          display: flex;
+          justify-content: center;
           &:hover{
             cursor: pointer;
-            color: $color-primary-light;
+            color: $color-tertiary-light;
           }
         }
       }

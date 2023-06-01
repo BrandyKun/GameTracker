@@ -124,15 +124,15 @@ const SearchResult = () => {
           Results for: " {state.state.search.toUpperCase()} "
         </h3>
 
-        <div className="filters-container">
+        {/* <div className="filters-container">
           <button
             className="filter-btn filter-btn-character"
             id="isCharacter"
             onClick={openFilter}
           >
             Filter
-          </button>
-        </div>
+          </button> 
+        </div>*/}
         <div className="results-container">
           <SearchFilter />
           <div className="search-results">
