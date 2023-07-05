@@ -5,7 +5,7 @@ import { changeImageSize } from "./Service";
 const CarouselCard = ({ game }) => {
   return (
     <div className="game-box">
-      <Link to= {"/games/"+game.id}>
+      <Link to= {"/games/"+ game.id}>
         <img
           className="game-cover"
           src={changeImageSize(game.cover?.value.url, "t_720p")}

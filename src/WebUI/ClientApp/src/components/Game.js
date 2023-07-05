@@ -9,12 +9,12 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 // import required modules
-import { Navigation, Pagination } from "swiper";
+import { Navigation } from "swiper";
 import { useParams } from "react-router-dom";
 import Loader from "./ReUsable/Loader";
 import Modal from "./Modal";
 
-const Game = ({}) => {
+const Game = () => {
   const [game, setGame] = useState();
   const [showMore, setShowMore] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,14 +52,16 @@ const Game = ({}) => {
 
   useEffect(() => {
     async function fetchScreenshoots() {
-      // console.log(games, "this are the game");
-      const endpoint = `game/screenshots/${id}`;
-      const query = `fields *, game.*; where game=${id};`;
-      const limit = "20";
-      const date = "";
-      const response = await getAsync(endpoint, query, date, limit);
-      console.log(screenshots)
-      setScreenshots(response);
+      if (game) {
+        // console.log(games, "this are the game");
+        const endpoint = `game/screenshots/${game.id}`;
+        const query = `fields *, game.*; where game=${game.id};`;
+        const limit = "20";
+        const date = "";
+        const response = await getAsync(endpoint, query, date, limit);
+        console.log(screenshots);
+        setScreenshots(response);
+      }
     }
     fetchScreenshoots();
   }, [game]);
@@ -90,9 +92,9 @@ const Game = ({}) => {
   useEffect(() => {
     const getDescription = () => {
       let story = "";
-      if (game?.storyline != null && game?.storyline != undefined) {
+      if (game?.storyline !== null && game?.storyline !== undefined) {
         story = game?.storyline;
-      } else if (game?.summary != null && game?.summary != undefined) {
+      } else if (game?.summary !== null && game?.summary !== undefined) {
         story = game?.summary;
       } else {
         story = "no description available at the moment";
@@ -183,6 +185,7 @@ const Game = ({}) => {
                         <a
                           className="website-link"
                           src={game.websites?.values[0].url}
+                          href={game.websites?.values[0].url}
                         >
                           {game.name}
                         </a>
