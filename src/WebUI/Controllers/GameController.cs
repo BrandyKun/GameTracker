@@ -1,3 +1,6 @@
+using System.Net;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using Application;
 using Application.Dtos;
 using AutoMapper;
@@ -143,7 +146,7 @@ public class GameController : ControllerBase
         // }
 
         return platform.FirstOrDefault();
-   } 
+    }
 
     /// <summary>
     ///return Platform family
@@ -170,19 +173,19 @@ public class GameController : ControllerBase
         DateTime currentDate = DateTime.UtcNow;
         DateTimeOffset pastSixMonthsDate = currentDate.AddMonths(-2);
         DateTimeOffset beforeMonthsDate = currentDate.AddMonths(2);
-        var dateInMilliseconds = pastSixMonthsDate.ToUnixTimeMilliseconds();
-        var beforeInMilliseconds = beforeMonthsDate.ToUnixTimeMilliseconds();
+        var dateInMilliseconds = pastSixMonthsDate.ToUnixTimeSeconds();
+        var beforeInMilliseconds = beforeMonthsDate.ToUnixTimeSeconds();
 
         //1st calling games from ps4/ps5
-        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where (total_rating_count > 5  & first_release_date >= {dateInMilliseconds} & first_release_date < {beforeInMilliseconds})& category =0 & platforms= (167,48); sort total_rating_count;";
+        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where (total_rating_count > 5  & first_release_date >= {dateInMilliseconds} & first_release_date < {beforeInMilliseconds}) & category =0 & platforms= (167,48); sort total_rating_count;";
         IEnumerable<Game> psGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, psQuery, 10);
         popularGames = popularGames.Concat(psGames);
 
-        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*;where (total_rating_count > 5  & first_release_date >= {dateInMilliseconds} & first_release_date < {beforeInMilliseconds})& category =0 & platforms= (45,165); sort total_rating_count;";
+        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*;where (total_rating_count > 5  & first_release_date >= {dateInMilliseconds} & first_release_date < {beforeInMilliseconds}) & category =0 & platforms= (45,165); sort total_rating_count;";
         IEnumerable<Game> xboxGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, xboxQuery, 10);
         popularGames = popularGames.Concat(xboxGames);
 
-        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where (total_rating_count > 5  & first_release_date >= {dateInMilliseconds} & first_release_date < {beforeInMilliseconds})& category =0 &  platforms= (130); sort total_rating_count;";
+        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where (total_rating_count > 5  & first_release_date >= {dateInMilliseconds} & first_release_date < {beforeInMilliseconds}) & category =0 &  platforms= (130); sort total_rating_count;";
         IEnumerable<Game> nintendoGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, nintendoQuery, 10);
         popularGames = popularGames.Concat(nintendoGames);
 
@@ -205,6 +208,13 @@ public class GameController : ControllerBase
         return resultType.OrderByDescending(x => x.PublishedAt).ThenBy(x => x.Name);
     }
 
+    /// <summary>
+    /// private method that filters the results based on what they are
+    /// and flags them
+    /// </summary>
+    /// <param name="results"> search received from user input</param>
+    /// <returns>IEnumerable of SearchToReturn</returns>
+    /// <exception cref="Exception"></exception>
     private async Task<IEnumerable<SearchResultsToReturnDto>> SortAndFilterSearchResult(IEnumerable<Search> results)
     {
 
@@ -280,5 +290,23 @@ public class GameController : ControllerBase
             }
         }
         return convertedResults.OrderByDescending(x => x.PublishedAt);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns> <summary>
+    /// 
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPost, Route("character/{id}")]
+    public async Task<Character> GetCharacterAsync([FromBody] RequestBodyDto request)
+    {
+        var character = await GetAsync<Character>(IGDBClient.Endpoints.Characters, request.Query, request.Limit);
+
+        return character?.FirstOrDefault();
     }
 }

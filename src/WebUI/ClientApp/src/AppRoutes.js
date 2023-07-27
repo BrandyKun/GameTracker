@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import SearchResult from "./components/SearchResult";
 import Platform from "./components/Platform";
 import SearchFilter from "./components/SearchFilter";
+import Character from "./components/Character";
 
 const AppRoutes = [
   {
@@ -39,6 +40,10 @@ const AppRoutes = [
   {
     path: '/search',
     element: <SearchResult/>
+  },
+  {
+    path: '/characters/:characterId',
+    element: <Character/>
   }
 ];
 
