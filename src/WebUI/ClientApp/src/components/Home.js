@@ -9,6 +9,8 @@ import { AnimationOnScroll } from "react-animation-on-scroll";
 import "animate.css/animate.min.css";
 import Modal from "./Modal";
 import { GameContext } from "../context/GameContext";
+import BatchAnimation from "./ReUsable/BatchAnimation";
+import CarouselCard from "./CarouselCard";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -51,23 +53,41 @@ const Home = () => {
         <Loader />
       ) : (
         <>
-          <div className="main">
-            <nav className="filters"></nav>
-            <div className="games-container">
-              <h2> POPULAR GAMES</h2>
-              <HomeCarousell gameList={gameList} />
-            </div>
-            <AnimationOnScroll animateIn="animate__fadeInUp">
-              <HomeInfo />
-            </AnimationOnScroll>
-            {/* <AnimationOnScroll animateIn="animate__fadeInUp">
-              <Platforms />
-            </AnimationOnScroll> */}
-            <AnimationOnScroll animateIn="animate__fadeInUp">
-              <HomeColumns recentGames={recent} upcomingGames={upcoming} />
-            </AnimationOnScroll>
-          </div>
-        </>
+      <div className="main">
+        <nav className="filters"></nav>
+        <div className="games-container">
+          <h2> POPULAR GAMES</h2>
+          <HomeCarousell gameList={gameList} />
+        </div>
+        <div  style={{
+        height: "auto",
+        width: "100%",
+        maxWidth:'85%',
+        margin: '0 auto',
+        overflow: "hidden",
+        display: 'flex',
+        flexWrap: 'wrap',
+      justifyContent: 'space-between'
+      }} >
+          {gameList?.map((game, index) => (
+            <BatchAnimation  className={'test'} index ={index}
+              children={<CarouselCard key={game.id} game={game} />}
+            />
+          ))}
+          ;
+        </div>
+
+        <BatchAnimation children={
+          <HomeInfo /> } >
+        </BatchAnimation>
+        {/* <BatchAnimation children={
+              <Platforms /> } >
+            </BatchAnimation> */}
+        <BatchAnimation children={
+          <HomeColumns recentGames={recent} upcomingGames={upcoming} /> } >
+        </BatchAnimation>
+      </div>
+      </>
       )}
     </>
   );

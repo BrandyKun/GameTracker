@@ -7,6 +7,7 @@ import SearchResult from "./components/SearchResult";
 import Platform from "./components/Platform";
 import SearchFilter from "./components/SearchFilter";
 import Character from "./components/Character";
+import Games from "./components/Games";
 
 const AppRoutes = [
   {
@@ -20,6 +21,10 @@ const AppRoutes = [
   {
     path: '/fetch-data',
     element: <FetchData />
+  },
+  {
+    path: '/games',
+    element: <Games />
   },
   {
     path: '/games/:gameId',

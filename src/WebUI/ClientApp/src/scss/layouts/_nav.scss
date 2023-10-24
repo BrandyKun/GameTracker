@@ -1,8 +1,9 @@
 header {
   display: block;
-  background: inherit;
+  position: absolute;
+  width: 100%;
   nav {
-    position: absolute;
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -17,14 +18,14 @@ header {
       height: $nav-height;
       z-index: 98;
       animation: change 1s ease-in-out forwards;
-
+''
       .menu-icon {
         transform: translateY(20px);
         transition: all 1s ease-in-out forwards;
         @media (max-width: 768px) {
           transform: translateY(0);
         }
-      }
+      } 
 
       .navbar-logo {
         @extend .menu-icon;
