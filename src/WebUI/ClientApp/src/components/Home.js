@@ -69,12 +69,12 @@ const Home = () => {
         flexWrap: 'wrap',
       justifyContent: 'space-between'
       }} >
-          {gameList?.map((game, index) => (
+          {/* {gameList?.map((game, index) => (
             <BatchAnimation  className={'test'} index ={index}
               children={<CarouselCard key={game.id} game={game} />}
             />
           ))}
-          ;
+          ; */}
         </div>
 
         <BatchAnimation children={
