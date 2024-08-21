@@ -33,14 +33,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             };
         });
 
-builder.Services.AddCors( op => {
-    op.AddPolicy(name: "NextPolicy", 
-    policy => {
-        policy.WithOrigins("https://localhost:44469")
-                .AllowAnyHeader()
-                .AllowAnyOrigin();
-    });
-});
+// builder.Services.AddCors( op => {
+//     op.AddPolicy(name: "NextPolicy", 
+//     policy => {
+//         policy.WithOrigins("https://localhost:44469")
+//                 .AllowAnyHeader()
+//                 .AllowAnyOrigin();
+//     });
+// });
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -67,7 +67,7 @@ app.UseSwaggerUi3(settings =>
 });
 app.UseRouting();
 
-app.UseCors("NextPolicy");
+// app.UseCors("NextPolicy");
 
 //defines what type of auth we want to use
 app.UseAuthentication();

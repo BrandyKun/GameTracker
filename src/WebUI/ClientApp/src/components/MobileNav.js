@@ -33,6 +33,8 @@ const MobileNav = () => {
     const nav = document.querySelector("nav");
     const menu = document.querySelector("navbar-links");
 
+    if (!nav || !menu) return;
+    
     const navPosition = event.clientY;
 
     if (toggle) {

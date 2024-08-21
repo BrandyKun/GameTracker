@@ -66,7 +66,7 @@ const SearchResult = () => {
     const filter = document.querySelector('.filter-container');
     const body = document.querySelector('body');
     console.log(body);
-    if(filter.style.display == 'none')
+    if(filter.style.display === 'none')
     {
       body.style.overflow = 'hidden';
       filter.style.display = 'block';

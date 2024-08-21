@@ -58,6 +58,8 @@ const NavBarMenu = () => {
     const nav = document.querySelector("nav");
     const menu = document.querySelector("div#mobile.navbar-links");
 
+    if (!nav || !menu) return;
+    
     const navPosition = event.clientY;
 
     if (toggle) {

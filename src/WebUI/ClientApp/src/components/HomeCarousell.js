@@ -1,18 +1,16 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { getAsyncNoParams } from "./Service";
-
+import React, { useEffect, useLayoutEffect, useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper";
-
+import SwiperCore from 'swiper/core';
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import CarouselCard from "./CarouselCard";
-import Loader from "./ReUsable/Loader";
 
 const HomeCarousell = ({ gameList }) => {
-  const [size, setSize] = useState(475);
-  const [games, setGames] = useState();
+  const [size, setSize] = useState(window.innerWidth);
+  const [games, setGames] = useState(gameList || []);
+  const swiperRef = useRef(null);  // Ref for the Swiper instance
 
   useEffect(() => {
     if (gameList) setGames(gameList);
@@ -21,7 +19,11 @@ const HomeCarousell = ({ gameList }) => {
   useLayoutEffect(() => {
     function updateWidth() {
       setSize(window.innerWidth);
+      if (swiperRef.current) {
+        swiperRef.current.swiper.update(); // Force Swiper to update
+      }
     }
+
     window.addEventListener("resize", updateWidth);
     updateWidth();
 
@@ -29,24 +31,27 @@ const HomeCarousell = ({ gameList }) => {
       window.removeEventListener("resize", updateWidth);
     };
   }, []);
-  function getSlidestoDisplay() {
-    var slides;
 
-    if (size > 0) slides = 1;
-    if (size > 480) slides = 2;
-    if (size > 768) slides = 3;
-    if (size > 1024) slides = 4;
-    if (size > 1125) slides = 5;
-    if (size > 1400) slides = 6;
+  const getSlidestoDisplay = () => {
+    if (size > 1125) return 5;
+    if (size > 1024) return 4;
+    if (size > 768) return 3;
+    if (size > 480) return 2;
+    return 1;
+  };
 
-    return slides;
-  }
+  useEffect(() => {
+    if (swiperRef.current) {
+      swiperRef.current.swiper.update(); // Update Swiper on game list change
+    }
+  }, [games]);
+
   return (
-    <div className="slider">
+    <div className="slider-container" >
       <Swiper
-        effect={"coverflow"}
+        ref={swiperRef}  // Attach ref to the Swiper component
+        effect="coverflow"
         grabCursor={true}
-        centeredSlides={true}
         slidesPerView={getSlidestoDisplay()}
         coverflowEffect={{
           rotate: 50,
@@ -58,9 +63,11 @@ const HomeCarousell = ({ gameList }) => {
         modules={[EffectCoverflow, Pagination]}
         className="mySwiper"
         loop={true}
+        observer={true}
+        observeParents={true}
       >
-        {games?.map((game) => (
-          <SwiperSlide key={game.id}>
+        {games.map((game) => (
+          <SwiperSlide key={game.id} className="swiper-slide-centered">
             <CarouselCard key={game.id} game={game} />
           </SwiperSlide>
         ))}
