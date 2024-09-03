@@ -1,99 +1,35 @@
 .platform {
   &-container {
-    width: 100%;
-    height: 500px;
-    margin: 200px 0;
+    height: 200vh; // Two times the viewport height for scrolling
     position: relative;
-    display: flex;
 
-//     &--width {
-//       max-width: 114rem;
-//       position: relative;
-//       width: 70%;
-//       // overflow: hidden;
-//       margin: 0 auto;
+    &-main {
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      background-color: black; // Assuming you want a black background
+    }
 
-//       .img-blob {
-//         &--1 {
-//           top: -10px;
-//           left: -100px;
-//         }
-//         &--2 {
-//           top: -156px;
-//           left: 482px;
-//         }
-//         &--3 {
-//           top: -60px;
-//           right: -140px;
-//         }
-//       }
-//     }
-//     .blob-img-container {
-//       width: 14.75rem;
-//       height: 14.75rem;
-//       position: relative;
-//     }
-//   }
-//   &--blobs {
-//     width: 42rem;
-//     position: absolute;
-//     animation: bouge 8s infinite alternate-reverse;
-//   }
-//   &-blob--image {
-//     border-radius: 50%;
-//     width: 350px;
-//     height: 350px;
-//     object-fit: cover;
-//     position: relative;
-//     animation: bouge 8s infinite alternate-reverse;
-//   }
-// }
-// .blob-logo {
-//   border-radius: 50%;
-//   width: 350px;
-//   height: 350px;
-//   object-fit: cover;
-//   position: relative;
-//   &--1 {
-//     top: 127px;
-//     left: 19px;
-//   }
-//   &--2 {
-//     top: -31px;
-//     left: 322px;
-//   }
-//   &--3 {
-//     top: 94px;
-//     right: -634px;
-&-main{
-  width:100%;
-  height: calc(200dvh - $nav-height);
-  background-color: black;
-  position: relative;
-  .platform-container--section-1{
-    position: sticky;
-    top:  $nav-height;
-    width: 100%;
-    height: calc(100vh - $nav-height);
-    border: 5px solid red;
-    background-color: orange;
-    z-index: 1;
+    &--section {
+      flex: 1;
+      margin: 0 10px;
+      height: 100%;
+      background-color: rgba(254, 1, 1, 0.1); // Subtle background
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+    }
   }
-  .platform-container--section-2{
-    width: 100%;
-    position: relative;
-    height: 100dvh;
-    border: 5px solid red;
-    background-color: blue;
-    z-index: 10;
-  }
-}
 
- }
-}
-
-@media (max-width: 992px) {
-  .platform-container {
-    display: none;
+  @media (max-width: 992px) {
+    .platform-container {
+      display: none;
+    }
   }
 }

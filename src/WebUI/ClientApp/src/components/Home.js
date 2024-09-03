@@ -80,7 +80,7 @@ const Home = () => {
         <BatchAnimation children={
           <HomeInfo /> } >
         </BatchAnimation>
-              {/* <Platforms />  */}
+              <Platforms /> 
         <BatchAnimation children={
           <HomeColumns recentGames={recent} upcomingGames={upcoming} /> } >
         </BatchAnimation>
