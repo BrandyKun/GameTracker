@@ -41,7 +41,6 @@ builder.WebHost.UseSentry(o =>
     // of transactions for tracing.
     // We recommend adjusting this value in production
     o.TracesSampleRate = 1.0;
-    // SentrySdk.CaptureMessage("Hello Sentry");
 });
 // builder.Services.AddCors( op => {
 //     op.AddPolicy(name: "NextPolicy", 
@@ -71,7 +70,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseOpenApi();
-app.UseSwaggerUi3(settings =>
+app.UseSwaggerUi(settings =>
 {
     settings.Path = "/api";
 });
@@ -88,5 +87,7 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");
+
+SentrySdk.CaptureMessage("Hello Sentry");
 
 app.Run();
