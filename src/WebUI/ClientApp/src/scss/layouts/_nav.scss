@@ -16,7 +16,7 @@ header {
     &.scrolled-down {
       position: fixed !important;
       height: $nav-height;
-      z-index: 98;
+      z-index: 9998; // Decrease this value
       animation: change 1s ease-in-out forwards;
       .menu-icon {
         transform: translateY(20px);

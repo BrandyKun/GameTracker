@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import MansoryGallery from "./MansoryGallery";
 import { changeImageSize, getAsync, getByIdAsync } from "./Service";
 import { GameContext } from "../context/GameContext";
@@ -15,12 +15,13 @@ import Loader from "./ReUsable/Loader";
 import Modal from "./Modal";
 
 const Game = () => {
-  const [game, setGame] = useState();
+  const [game, setGame] = useState(null);
   const [showMore, setShowMore] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [id, setGameId] = useState();
-  const [backGroundImage, setBackGroundImage] = useState();
-  const [storyLine, setStory] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [id, setGameId] = useState(null);
+  const [backGroundImage, setBackGroundImage] = useState("");
+  const [storyLine, setStory] = useState("");
   const { gameId } = useParams();
   const {
     screenshots,
@@ -37,34 +38,48 @@ const Game = () => {
     }
   }, [gameId]);
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      if (id) {
+  const fetchGameData = useCallback(async () => {
+    if (id) {
+      try {
+        setLoading(true);
+        setError(null);
         const endpoint = `game/games/${id}`;
         const response = await getByIdAsync(endpoint, id);
-        // ...
         setGame(response);
+        setScreenshots([]); // Clear screenshots when fetching new game data
+      } catch (err) {
+        setError("Failed to fetch game data");
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     }
-    fetchData();
-  }, [id]);
+  }, [id, setScreenshots]);
 
-  useEffect(() => {
-    async function fetchScreenshoots() {
-      if (game) {
-        // console.log(games, "this are the game");
+  const fetchScreenshots = useCallback(async () => {
+    if (game && game.id) {
+      try {
         const endpoint = `game/screenshots/${game.id}`;
         const query = `fields *, game.*; where game=${game.id};`;
         const limit = "20";
         const date = "";
         const response = await getAsync(endpoint, query, date, limit);
-        console.log(screenshots);
         setScreenshots(response);
+      } catch (err) {
+        console.error("Failed to fetch screenshots:", err);
       }
     }
-    fetchScreenshoots();
-  }, [game]);
+  }, [game, setScreenshots]);
+
+  useEffect(() => {
+    fetchGameData();
+  }, [fetchGameData]);
+
+  useEffect(() => {
+    if (game) {
+      fetchScreenshots();
+    }
+  }, [game, fetchScreenshots]);
 
   useEffect(() => {
     const getRandomImage = () => {
@@ -111,146 +126,148 @@ const Game = () => {
     return slides;
   }
 
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!game) {
+    return <div>No game data available</div>;
+  }
+
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          {game && (
-            <div className="initial">
-              <div className="contenitore">
-                <div
-                  className="pagescreen"
-                  style={{
-                    backgroundImage: "url(" + `${backGroundImage}` + ")",
-                  }}
-                ></div>
-              </div>
-              <div className="info-contenitore">
-                <div className="info-box">
-                  <div className="first-col">
-                    <div className="info-col">
-                      <div className="img-container">
-                        <img
-                          src={changeImageSize(game.cover.value.url, "t_720p")}
-                          alt=""
-                          className="card-info"
-                        />
-                      </div>
-                      <div className="info-box__random">
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td className="info-title"> Release Date: </td>
-                              <td>
-                                {" "}
-                                {new Date(game.firstReleaseDate).toDateString()}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="info-title">Genres:</td>
-                              <td>
-                                <ul>
-                                  {game.genres?.values.map((item) => (
-                                    <li key={item.id}> {item.name}</li>
-                                  ))}
-                                </ul>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="info-title">Platforms:</td>
-                              <td>
-                                <ul>
-                                  {game.platforms?.values.map((item) => (
-                                    <li key={item.id}> {item.name}</li>
-                                  ))}
-                                </ul>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="info-title">Perspectives:</td>
-                              <td>
-                                <ul>
-                                  {game.playerPerspectives?.values.map(
-                                    (item) => (
-                                      <li key={item.id}> {item.name}</li>
-                                    )
-                                  )}
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <a
-                          className="website-link"
-                          src={game.websites?.values[0].url}
-                          href={game.websites?.values[0].url}
-                        >
-                          {game.name}
-                        </a>
-                      </div>
-                      <div className="info-box"></div>
-                    </div>
+      {game && (
+        <div className="initial">
+          <div className="contenitore">
+            <div
+              className="pagescreen"
+              style={{
+                backgroundImage: "url(" + `${backGroundImage}` + ")",
+              }}
+            ></div>
+          </div>
+          <div className="info-contenitore">
+            <div className="info-box">
+              <div className="first-col">
+                <div className="info-col">
+                  <div className="img-container">
+                    <img
+                      src={changeImageSize(game.cover.value.url, "t_720p")}
+                      alt=""
+                      className="card-info"
+                    />
                   </div>
-                  <div className="second-col">
-                    <div className="main-bo">
-                      <h2> {game.name} </h2>
-                    </div>
-                    <div className="main-bo desc">
-                      <p style={{ textOverflow: showMore ? "" : "ellipsis" }}>
-                        {showMore
-                          ? storyLine
-                          : `${storyLine.substring(0, 500)}...`}
-                      </p>
-                      <span onClick={() => setShowMore(!showMore)}>
-                        {showMore ? "Show less" : "Show More"}
-                      </span>
-                    </div>
-                    <div className="main-bo">
-                      {screenshots ? (
-                        <MansoryGallery screenshots={screenshots} />
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                    <div className="main-bo"></div>
-                  </div>
-                </div>
-                <div className="info-box__videos">
-                  <div className="videos">
-                    <Swiper
-                      slidesPerView={getSlides()}
-                      loop={true}
-                      navigation={true}
-                      modules={[Navigation]}
-                      className="mySwiper"
-                      spaceBetween={5}
+                  <div className="info-box__random">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td className="info-title"> Release Date: </td>
+                          <td>
+                            {" "}
+                            {new Date(game.firstReleaseDate).toDateString()}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="info-title">Genres:</td>
+                          <td>
+                            <ul>
+                              {game.genres?.values.map((item) => (
+                                <li key={item.id}> {item.name}</li>
+                              ))}
+                            </ul>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="info-title">Platforms:</td>
+                          <td>
+                            <ul>
+                              {game.platforms?.values.map((item) => (
+                                <li key={item.id}> {item.name}</li>
+                              ))}
+                            </ul>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="info-title">Perspectives:</td>
+                          <td>
+                            <ul>
+                              {game.playerPerspectives?.values.map((item) => (
+                                <li key={item.id}> {item.name}</li>
+                              ))}
+                            </ul>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <a
+                      className="website-link"
+                      src={game.websites?.values[0].url}
+                      href={game.websites?.values[0].url}
                     >
-                      {game.videos?.values?.map((vr) => {
-                        return (
-                          <SwiperSlide key={vr.id}>
-                            <iframe
-                              className="youtube-iframe"
-                              src={`https://www.youtube.com/embed/${vr.videoId}?color=white"`}
-                            ></iframe>
-                          </SwiperSlide>
-                        );
-                      })}
-                    </Swiper>
+                      {game.name}
+                    </a>
                   </div>
+                  <div className="info-box"></div>
                 </div>
               </div>
-              {showModal && (
-                <Modal
-                  toggleModal={toggleModal}
-                  imageIndex={imageIndex}
-                  selectedImage={selectedImage}
-                />
-              )}
+              <div className="second-col">
+                <div className="main-bo">
+                  <h2> {game.name} </h2>
+                </div>
+                <div className="main-bo desc">
+                  <p style={{ textOverflow: showMore ? "" : "ellipsis" }}>
+                    {showMore ? storyLine : `${storyLine.substring(0, 500)}...`}
+                  </p>
+                  <span onClick={() => setShowMore(!showMore)}>
+                    {showMore ? "Show less" : "Show More"}
+                  </span>
+                </div>
+                <div className="main-bo">
+                  {screenshots && screenshots.length > 0 ? (
+                    <MansoryGallery screenshots={screenshots} />
+                  ) : (
+                    <p>No screenshots available</p>
+                  )}
+                </div>
+                <div className="main-bo"></div>
+              </div>
             </div>
+            <div className="info-box__videos">
+              <div className="videos">
+                <Swiper
+                  slidesPerView={getSlides()}
+                  loop={true}
+                  navigation={true}
+                  modules={[Navigation]}
+                  className="mySwiper"
+                  spaceBetween={5}
+                >
+                  {game.videos?.values?.map((vr) => {
+                    return (
+                      <SwiperSlide key={vr.id}>
+                        <iframe
+                          className="youtube-iframe"
+                          src={`https://www.youtube.com/embed/${vr.videoId}?color=white"`}
+                        ></iframe>
+                      </SwiperSlide>
+                    );
+                  })}
+                </Swiper>
+              </div>
+            </div>
+          </div>
+          {showModal && (
+            <Modal
+              toggleModal={toggleModal}
+              imageIndex={imageIndex}
+              selectedImage={selectedImage}
+            />
           )}
-        </>
+        </div>
       )}
     </>
   );

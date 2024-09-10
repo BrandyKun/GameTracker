@@ -21,7 +21,7 @@ const MansoryGallery = ({ screenshots }) => {
       }
     };
     getImg();
-  }, []);
+  }, [screenshots]);
 
   useEffect(() => {
     const getOtherImg = () => {
