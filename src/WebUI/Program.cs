@@ -32,7 +32,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 ValidateAudience = false
             };
         });
-
+builder.WebHost.UseSentry(o =>
+{
+    o.Dsn = "https://c6bbcbdbc4d8b55e7f1f3433e753e6d1@o4507886508507136.ingest.de.sentry.io/4507886512963664";
+    // When configuring for the first time, to see what the SDK is doing:
+    o.Debug = true;
+    // Set TracesSampleRate to 1.0 to capture 100%
+    // of transactions for tracing.
+    // We recommend adjusting this value in production
+    o.TracesSampleRate = 1.0;
+});
 // builder.Services.AddCors( op => {
 //     op.AddPolicy(name: "NextPolicy", 
 //     policy => {
@@ -61,7 +70,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseOpenApi();
-app.UseSwaggerUi3(settings =>
+app.UseSwaggerUi(settings =>
 {
     settings.Path = "/api";
 });
@@ -78,5 +87,7 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");
+
+SentrySdk.CaptureMessage("Hello Sentry");
 
 app.Run();
