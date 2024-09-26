@@ -1,96 +1,59 @@
-import React, { useRef } from "react";
-import { FaPlaystation, FaXbox } from "react-icons/fa";
-import {
-  SiPlaystation4,
-  SiPlaystation2,
-  SiPlaystation,
-  SiPlaystation3,
-  SiPlaystation5,
-  SiPlaystationvita,
-  SiNintendo3Ds,
-  SiNintendogamecube,
-  SiNintendoswitch,
-  SiNintendonetwork,
-} from "react-icons/si";
+import React, { useEffect, useRef, useState } from "react";
 import { useScroll, motion, useTransform } from "framer-motion";
+import { getAsyncNoParams } from "./Service";
+import Platform from "./Platform";
 
 const Platforms = () => {
   const containerRef = useRef(null);
+  const [platforms, setPlatforms] = useState([]);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  const maincontianerOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-  const section1Opacity = useTransform(scrollYProgress, [0, 0.35], [0, 1]);
-  const section2Opacity = useTransform(scrollYProgress, [0.35, 0.65], [0, 1]);
-  const section3Opacity = useTransform(scrollYProgress, [0.65, 1], [0, 1]);
+  useEffect(() => {
+    const fetchPlatforms = async () => {
+      const endpoint = 'game/platformFamily';
+      const response = await getAsyncNoParams(endpoint);
+      const filteredPlatforms = response.filter(platform => 
+        ['PlayStation', 'Xbox', 'Nintendo'].includes(platform.name)
+      );
+      setPlatforms(filteredPlatforms);
+    };
+    fetchPlatforms();
+  }, []);
 
-  const section1Y = useTransform(scrollYProgress, [0, 0.35], ["50%", "0%"]);
-  const section2Y = useTransform(scrollYProgress, [0.35, 0.65], ["50%", "0%"]);
-  const section3Y = useTransform(scrollYProgress, [0.65, 1], ["50%", "0%"]);
+  // Adjust the opacity and y-transform ranges
+  const maincontainerOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
+  const section1Opacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
+  const section2Opacity = useTransform(scrollYProgress, [0.25, 0.5], [0, 1]);
+  const section3Opacity = useTransform(scrollYProgress, [0.5, 0.75], [0, 1]);
+
+  const section1Y = useTransform(scrollYProgress, [0, 0.25], ["50%", "0%"]);
+  const section2Y = useTransform(scrollYProgress, [0.25, 0.5], ["50%", "0%"]);
+  const section3Y = useTransform(scrollYProgress, [0.5, 0.75], ["50%", "0%"]);
+
+  // Add a new transform for the entire container
+  const containerY = useTransform(scrollYProgress, [0.75, 1], ["0%", "-100%"]);
 
   return (
     <div ref={containerRef} className="platform-container">
       <motion.div
         className="platform-container-main"
-        style={{ opacity: maincontianerOpacity }}
+        style={{ 
+          opacity: maincontainerOpacity,
+          y: containerY
+        }}
       >
-        {/* <div> Fin any game from your favourite consoles</div> */}
-        <motion.div
-          className="platform-container--section"
-          style={{
-            opacity: section1Opacity,
-            y: section1Y,
-            background: "green",
-          }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          <div className="icons">
-            <FaXbox className="icons-logo" />
-          </div>
-          <div className="icons-subs">
-          </div>
-        </motion.div>
-        <motion.div
-          className="platform-container--section"
-          style={{ opacity: section2Opacity, y: section2Y, background: "blue" }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          <div className="icons">
-            <FaPlaystation className="icons-logo" />
-          </div>
-          <div className="icons-subs">
-            <SiPlaystation className="icons-subs-logo" />
-            <SiPlaystation2 className="icons-subs-logo" />
-            <SiPlaystation3 className="icons-subs-logo" />
-            <SiPlaystation4 className="icons-subs-logo" />
-            <SiPlaystation5 className="icons-subs-logo" />
-            <SiPlaystationvita className="icons-subs-logo" />
-          </div>
-        </motion.div>
-        <motion.div
-          className="platform-container--section"
-          style={{
-            opacity: section3Opacity,
-            y: section3Y,
-            background: "#CC2131",
-          }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          <div className="icons">
-            <img
-              className="nintendo-logo"
-              src="/images/RigthNintendo.svg"
-              alt="nintendo logo"
-            />
-          </div>
-          <div className="icons-subs">
-            <SiNintendo3Ds className="icons-subs-logo" />
-            <SiNintendogamecube className="icons-subs-logo" />
-            <SiNintendoswitch className="icons-subs-logo" />
-          </div>
-        </motion.div>
+        {platforms.map((platform, index) => (
+          <Platform
+            key={platform.id}
+            platform={platform}
+            opacity={[section1Opacity, section2Opacity, section3Opacity][index]}
+            yTransform={[section1Y, section2Y, section3Y][index]}
+            index={index}
+          />
+        ))}
       </motion.div>
     </div>
   );

@@ -6,7 +6,7 @@ const Footer = () => {
       <footer className="top">
         {/* <img src="logo.svg" /> */}
         Some Logo
-        <div class="links">
+        <div className="links">
           <div>
             <h2>Platform</h2>
             <a>Directus Core</a>
@@ -25,17 +25,17 @@ const Footer = () => {
           </div>
         </div>
       </footer>
-      <footer class="bottom">
-        <div class="legal">
+      <footer className="bottom">
+        <div className="legal">
           <span> © 2023 All rights reserved </span>
           <a> License </a>
           <a> Terms </a>
           <a> Privacy </a>
         </div>
-        <div class="links">
-          <a class="fa-brands fa-github"></a>
-          <a class="fa-brands fa-linkedin"></a>
-          <a class="fa-brands fa-docker"></a>
+        <div className="links">
+          <a className="fa-brands fa-github"></a>
+          <a className="fa-brands fa-linkedin"></a>
+          <a className="fa-brands fa-docker"></a>
         </div>
       </footer>
     </div>

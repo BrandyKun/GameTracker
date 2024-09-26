@@ -1,12 +1,11 @@
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 using Application;
 using Application.Dtos;
 using AutoMapper;
+using Gaming.Application.Dtos;
 using IGDB;
 using IGDB.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace WebUI.Controllers;
 
@@ -157,7 +156,7 @@ public class GameController : ControllerBase
     {
         string query = "fields name, slug;";
         string sort = "sort id;";
-        return await GetAsync<PlatformFamily>(IGDBClient.Endpoints.Platforms, query, 500, sort);
+        return await GetAsync<PlatformFamily>(IGDBClient.Endpoints.PlatformFamilies, query, 10, sort);
     }
 
     /// <summary>
@@ -308,5 +307,47 @@ public class GameController : ControllerBase
         var character = await GetAsync<Character>(IGDBClient.Endpoints.Characters, request.Query, request.Limit);
 
         return character?.FirstOrDefault();
+    }
+
+    /// <summary>
+    /// retrieve a nunmber of games based on the platform family
+    /// </summary>
+    /// <param name="request">request dto </param>
+    /// <returns>Ienumerable of games</returns>
+    /// <exception cref="Exception"></exception> 
+    [HttpPost, Route("platformGames")]
+    public async Task<IEnumerable<PlatformGameResultsDto>> GetPlatformGamesByPlatformFamilyId([FromBody] RequestBodyDto request)
+    {
+        try
+        {
+            //get platform family first 
+            var platforms = await GetAsync<Platform>(IGDBClient.Endpoints.Platforms, request.Query, 100);
+
+            var arrayOfPlatforms = string.Join(",", platforms.Select(x => x.Id.ToString()));
+            var query = $"fields *, cover.*; where platforms = ({arrayOfPlatforms});";
+
+            var gamePlatform = await GetAsync<Game>(IGDBClient.Endpoints.Games, query, 200);
+
+            var mappedResults = _mapper.Map<IEnumerable<Game>, IEnumerable<PlatformGameResultsDto>>(gamePlatform);
+
+            // var gameIds = string.Join(",", mappedResults.Select(x => x.Id));
+            // var covers = await GetAsync<Cover>(IGDBClient.Endpoints.Covers, query: $"fields name, cover.*; where id = ({gameIds});");
+
+            foreach (var result in mappedResults)
+            {
+                var cover = result.Cover?.Value?.Url;
+                if ((cover != null) && (cover != null))
+                {
+                    result.ImageUrl = cover;
+                }
+            }
+
+            return mappedResults;
+
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 }

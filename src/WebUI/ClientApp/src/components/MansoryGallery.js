@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { changeImageSize } from "./Service";
-import Modal from "./Modal";
 import { GameContext } from "../context/GameContext";
 
 const MansoryGallery = ({ screenshots }) => {
@@ -12,7 +11,7 @@ const MansoryGallery = ({ screenshots }) => {
 
   useEffect(() => {
     const getImg = () => {
-      if (screenshots != null && screenshots != undefined) {
+      if (screenshots != null && screenshots !== undefined) {
         setLoading(true)
         const arrayOfImg = screenshots;
         const image = arrayOfImg[arrayOfImg.length - arrayOfImg.length];

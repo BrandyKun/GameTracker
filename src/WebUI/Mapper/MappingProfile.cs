@@ -1,5 +1,6 @@
 using Application.Dtos;
 using AutoMapper;
+using Gaming.Application.Dtos;
 
 namespace WebUI.Mapper
 {
@@ -11,6 +12,8 @@ namespace WebUI.Mapper
                 .ForMember(dto => dto.IsGame, opt => opt.MapFrom(d => d.Game != null))
                 .ForMember(dto => dto.IsPlatform, opt => opt.MapFrom(d => d.Platform != null))
                 .ForMember(dto => dto.IsCharacter, opt => opt.MapFrom(d => d.Character != null));
+
+            CreateMap<IGDB.Models.Game, PlatformGameResultsDto>();
         }
     }
 }

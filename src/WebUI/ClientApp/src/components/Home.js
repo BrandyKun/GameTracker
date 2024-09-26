@@ -5,12 +5,9 @@ import HomeInfo from "./HomeInfo";
 import Platforms from "./Platforms";
 import { getAsyncNoParams } from "./Service";
 import Loader from "./ReUsable/Loader";
-import { AnimationOnScroll } from "react-animation-on-scroll";
 import "animate.css/animate.min.css";
-import Modal from "./Modal";
 import { GameContext } from "../context/GameContext";
 import BatchAnimation from "./ReUsable/BatchAnimation";
-import CarouselCard from "./CarouselCard";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
