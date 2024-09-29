@@ -26,12 +26,22 @@ public class GameController : ControllerBase
     //change if limti is 0 we remove teh limit from quesry and return all teh results
     private async Task<List<T>> GetAsync<T>(string endpoint, string query = "", int limit = 150, string sorts = "")
     {
-        var builtQuery = string.IsNullOrEmpty(query) ? $"fields *; limit {limit};" : $"{query} limit {limit};";
+        try
+        {
+            var builtQuery = string.IsNullOrEmpty(query) ? $"fields *; limit {limit};" : $"{query} limit {limit};";
 
-        string sort = string.IsNullOrEmpty(sorts) ? "" : sorts;
-        builtQuery += sort;
-        var model = await _client.QueryAsync<T>(endpoint, builtQuery);
-        return model.ToList();
+            string sort = string.IsNullOrEmpty(sorts) ? "" : sorts;
+
+            builtQuery += sort;
+
+            var model = await _client.QueryAsync<T>(endpoint, builtQuery);
+            
+            return model.ToList();
+        }
+        catch (HttpRequestException ex)
+        {
+            throw;
+        }
     }
 
     /// <summary>

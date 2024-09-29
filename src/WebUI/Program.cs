@@ -8,9 +8,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Infrastructure.Services;
 using Application.Interfaces;
+using Gaming.Domain.Entities.Appsettings;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var sentrySettings = builder.Configuration.GetSection("Sentry");
+builder.Services.Configure<SentrySettings>(sentrySettings);
 // Add services to the container.
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -34,13 +37,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         });
 builder.WebHost.UseSentry(o =>
 {
-    o.Dsn = "https://c6bbcbdbc4d8b55e7f1f3433e753e6d1@o4507886508507136.ingest.de.sentry.io/4507886512963664";
+    o.Dsn = sentrySettings.;
     // When configuring for the first time, to see what the SDK is doing:
     o.Debug = true;
     // Set TracesSampleRate to 1.0 to capture 100%
     // of transactions for tracing.
     // We recommend adjusting this value in production
     o.TracesSampleRate = 1.0;
+    o.MaxBreadcrumbs = 50;
 });
 // builder.Services.AddCors( op => {
 //     op.AddPolicy(name: "NextPolicy", 

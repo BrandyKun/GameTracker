@@ -1,15 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { GameContext } from "../context/GameContext";
 import SearchFilter from "./SearchFilter";
 import { changeImageSize, getAsync } from "./Service";
+import Loader from "./ReUsable/Loader";
 
 const SearchResult = () => {
   const { searchResults, setSearchResults } = useContext(GameContext);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const fetchResults = async () => {
+      setLoading(true);
       if (location.state) {
         if (location.state.type === "platform") {
           // Fetch games for the platform
@@ -23,12 +26,14 @@ const SearchResult = () => {
           setSearchResults(location.state.result);
         }
       }
+      setLoading(false)
     };
     fetchResults();
   }, [location, setSearchResults]);
 
   return (
     <>
+    {!loading ? (
       <div className="searchContainer">
         <h3 className="resultTitle">
           {location.state?.type === "platform"
@@ -64,7 +69,7 @@ const SearchResult = () => {
             })}
           </div>
         </div>
-      </div>
+    </div>): (<Loader/>)} 
     </>
   );
 };

@@ -67,7 +67,7 @@ const Platform = ({ platform, opacity, yTransform, index }) => {
           <>
             <SiNintendo3Ds className="icons-subs-logo" />
             <SiNintendogamecube className="icons-subs-logo" />
-            <SiNintendoswitch className="icons-subs-logo" />
+            <SiNintendoswitch className="icons-subs-logo nintendo-logo" />
           </>
         );
       default:
