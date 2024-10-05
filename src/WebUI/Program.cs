@@ -12,8 +12,7 @@ using Gaming.Domain.Entities.Appsettings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var sentrySettings = builder.Configuration.GetSection("Sentry");
-builder.Services.Configure<SentrySettings>(sentrySettings);
+var sentrySettings = builder.Configuration.GetSection("Sentry").Get<SentrySettings>();
 // Add services to the container.
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -37,23 +36,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         });
 builder.WebHost.UseSentry(o =>
 {
-    o.Dsn = sentrySettings.;
+    o.Dsn = sentrySettings?.Dns;
     // When configuring for the first time, to see what the SDK is doing:
-    o.Debug = true;
+    o.Debug = sentrySettings.Debug;
     // Set TracesSampleRate to 1.0 to capture 100%
     // of transactions for tracing.
     // We recommend adjusting this value in production
-    o.TracesSampleRate = 1.0;
-    o.MaxBreadcrumbs = 50;
+    o.TracesSampleRate = sentrySettings.TracesSampleRate;
+    o.MaxBreadcrumbs =sentrySettings.MaxBreadCrumb;
 });
-// builder.Services.AddCors( op => {
-//     op.AddPolicy(name: "NextPolicy", 
-//     policy => {
-//         policy.WithOrigins("https://localhost:44469")
-//                 .AllowAnyHeader()
-//                 .AllowAnyOrigin();
-//     });
-// });
 
 builder.Services.AddAutoMapper(typeof(Program));
 

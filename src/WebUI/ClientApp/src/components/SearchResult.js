@@ -63,6 +63,8 @@ const SearchResult = () => {
                       src={changeImageSize(searchItem.imageUrl, "t_1080p")}
                       alt={searchItem.name}
                     />
+                    <div className="overlay" /> {/* New overlay div */}
+                    <span className="hover-text">{searchItem.name}</span> {/* New text element */}
                   </div>
                 </Link>
               );
