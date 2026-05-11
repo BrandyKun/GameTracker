@@ -5,8 +5,6 @@ import HomeInfo from "./HomeInfo";
 import Platforms from "./Platforms";
 import { getAsyncNoParams } from "./Service";
 import Loader from "./ReUsable/Loader";
-import { AnimationOnScroll } from "react-animation-on-scroll";
-import "animate.css/animate.min.css";
 import Modal from "./Modal";
 import { GameContext } from "../context/GameContext";
 import BatchAnimation from "./ReUsable/BatchAnimation";
@@ -21,37 +19,47 @@ const Home = () => {
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      // console.log(games, "this are the game");
-      const endpoint = "game/popular";
-      // You can await here
-      const response = await getAsyncNoParams(endpoint);
-      // ...
-      setGames(response);
+      try {
+        const response = await getAsyncNoParams("game/popular");
+        setGames(response);
+      } catch (e) {
+        console.error("popular:", e);
+      }
     }
     fetchData();
   }, []);
 
   useEffect(() => {
     async function fetchUpcoming() {
-      const response = await getAsyncNoParams("game/awaiting");
-      setUpcoming(response);
+      try {
+        const response = await getAsyncNoParams("game/awaiting");
+        setUpcoming(response);
+      } catch (e) {
+        console.error("awaiting:", e);
+      }
     }
     fetchUpcoming();
   }, []);
+
   useEffect(() => {
     async function fetchRecent() {
-      const response = await getAsyncNoParams("game/justReleased"); //change endpoint
-      setRecent(response);
-      setLoading(false);
+      try {
+        const response = await getAsyncNoParams("game/justReleased");
+        setRecent(response);
+      } catch (e) {
+        console.error("justReleased:", e);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchRecent();
   }, []);
 
   return (
     <>
-      {loading ? (
+      {/* {loading ? (
         <Loader />
-      ) : (
+      ) : ( */}
         <>
       <div className="main">
         <nav className="filters"></nav>
@@ -86,7 +94,7 @@ const Home = () => {
         </BatchAnimation>
       </div>
       </>
-      )}
+      {/* )} */}
     </>
   );
 };

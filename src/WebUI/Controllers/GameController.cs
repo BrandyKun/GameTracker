@@ -17,22 +17,30 @@ public class GameController : ControllerBase
     private readonly IConfiguration _config;
     private readonly IGDBClient _client;
     private readonly IMapper _mapper;
+    private readonly ILogger<GameController> _logger;
 
-    public GameController(IConfiguration config, IMapper mapper)
+    public GameController(IConfiguration config, IMapper mapper, ILogger<GameController> logger)
     {
         _mapper = mapper;
         _config = config;
+        _logger = logger;
         _client = new IGDBClient(_config.GetValue<string>("IGDB_CLIENT_ID"), _config.GetValue<string>("IGDB_CLIENT_SECRET"));
     }
-    //change if limti is 0 we remove teh limit from quesry and return all teh results
     private async Task<List<T>> GetAsync<T>(string endpoint, string query = "", int limit = 150, string sorts = "")
     {
         var builtQuery = string.IsNullOrEmpty(query) ? $"fields *; limit {limit};" : $"{query} limit {limit};";
+        builtQuery += string.IsNullOrEmpty(sorts) ? "" : sorts;
 
-        string sort = string.IsNullOrEmpty(sorts) ? "" : sorts;
-        builtQuery += sort;
-        var model = await _client.QueryAsync<T>(endpoint, builtQuery);
-        return model.ToList();
+        try
+        {
+            var model = await _client.QueryAsync<T>(endpoint, builtQuery);
+            return model?.ToList() ?? new List<T>();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "IGDB QueryAsync failed — endpoint: {Endpoint}, query: {Query}", endpoint, builtQuery);
+            return new List<T>();
+        }
     }
 
     /// <summary>
@@ -167,29 +175,21 @@ public class GameController : ControllerBase
     [HttpPost, Route("popular")]
     public async Task<IEnumerable<Game>> GetMostPopular()
     {
-        IEnumerable<Game> popularGames = new List<Game>();
+        // Step 1: Get top game IDs by IGDB page visits (popularity_type = 1)
+        string popularQuery = "fields game_id, value; where popularity_type = 1; sort value desc;";
+        var popularEntries = await GetAsync<PopularityPrimitiveDto>("popularity_primitives", popularQuery, 50);
 
-        //calculating date in milliseconds to get the popular games from th past 6 months
-        DateTime currentDate = DateTime.UtcNow;
-        DateTimeOffset pastSixMonthsDate = currentDate.AddMonths(-2);
-        DateTimeOffset beforeMonthsDate = currentDate.AddMonths(2);
-        var dateInMilliseconds = pastSixMonthsDate.ToUnixTimeSeconds();
-        var beforeInMilliseconds = beforeMonthsDate.ToUnixTimeSeconds();
+        var gameIds = string.Join(",", popularEntries
+            .Where(p => p.GameId.HasValue)
+            .Select(p => p.GameId));
 
-        //1st calling games from ps4/ps5
-        string psQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where (total_rating_count > 5  & first_release_date >= {dateInMilliseconds} & first_release_date < {beforeInMilliseconds}) & category =0 & platforms= (167,48); sort total_rating_count;";
-        IEnumerable<Game> psGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, psQuery, 10);
-        popularGames = popularGames.Concat(psGames);
+        if (string.IsNullOrEmpty(gameIds))
+            return Enumerable.Empty<Game>();
 
-        string xboxQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*;where (total_rating_count > 5  & first_release_date >= {dateInMilliseconds} & first_release_date < {beforeInMilliseconds}) & category =0 & platforms= (45,165); sort total_rating_count;";
-        IEnumerable<Game> xboxGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, xboxQuery, 10);
-        popularGames = popularGames.Concat(xboxGames);
-
-        string nintendoQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,  hypes,artworks.url,platforms.*; where (total_rating_count > 5  & first_release_date >= {dateInMilliseconds} & first_release_date < {beforeInMilliseconds}) & category =0 &  platforms= (130); sort total_rating_count;";
-        IEnumerable<Game> nintendoGames = await GetAsync<Game>(IGDBClient.Endpoints.Games, nintendoQuery, 10);
-        popularGames = popularGames.Concat(nintendoGames);
-
-        return popularGames.GroupBy(x => x.Id).Select(y => y.FirstOrDefault());
+        // Step 2: Fetch full game data filtered to major console/PC platforms
+        // PS5=167, PS4=48, Xbox Series=165, Xbox One=45, Switch=130, PC=6
+        string gamesQuery = $"fields name,cover.*, rating,release_dates.*,aggregated_rating,hypes,artworks.url,platforms.*; where id = ({gameIds}) & category = 0 & platforms = (167,48,165,45,130,6);";
+        return await GetAsync<Game>(IGDBClient.Endpoints.Games, gamesQuery, 20);
     }
 
     /// <summary>

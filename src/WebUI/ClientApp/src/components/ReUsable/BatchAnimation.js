@@ -11,7 +11,7 @@ const BatchAnimation = ({ children, index, className}) => {
     if (isView) {
       mainControls.start("visible");
     }
-  }, [isView]);
+  }, [isView, mainControls]);
 
   return (
     <div

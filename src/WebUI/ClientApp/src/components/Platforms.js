@@ -18,7 +18,7 @@ const Platforms = () => {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"],
+    offset: ["start end", "end end"],
   });
 
   const maincontianerOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
@@ -44,7 +44,6 @@ const Platforms = () => {
             y: section1Y,
             background: "green",
           }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <div className="icons">
             <FaXbox className="icons-logo" />
@@ -55,7 +54,6 @@ const Platforms = () => {
         <motion.div
           className="platform-container--section"
           style={{ opacity: section2Opacity, y: section2Y, background: "blue" }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <div className="icons">
             <FaPlaystation className="icons-logo" />
@@ -76,7 +74,6 @@ const Platforms = () => {
             y: section3Y,
             background: "#CC2131",
           }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <div className="icons">
             <img

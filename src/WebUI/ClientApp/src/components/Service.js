@@ -44,15 +44,17 @@ export const search = async (searchParam) => {
 };
 
 export const getAsyncNoParams = async (endpoint) => {
-  const res = await fetch(endpoint, {
+  const response = await fetch(endpoint, {
     method: "POST",
     headers: {
       Accept: "application/json, text/plain",
-      "Content-Type": "application/json;charset=UTF-8",
     },
-    body: "",
-  }).then((response) => response.json());
-  return res;
+  });
+  if (!response.ok) {
+    console.error(`[${endpoint}] ${response.status} ${response.statusText}`);
+    return null;
+  }
+  return response.json();
 };
 
 export const changeImageSize = (url, size) => {
